@@ -1,0 +1,2040 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Arsitektur Disaster Intelligence Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
+      * { box-sizing: border-box; }
+      :root {
+        --bg: #f4f5f2;
+        --surface: #ffffff;
+        --surface-2: #eceee9;
+        --ink: #181d1a;
+        --ink-2: #3d4741;
+        --muted: #68736b;
+        --line: #dde1da;
+        --accent: #bc4517;
+        --accent-ink: #9c370f;
+        --accent-soft: #fae9df;
+        --blue: #1d6fb8;
+        --blue-soft: #e2eef8;
+        --teal: #0c7a66;
+        --teal-soft: #ddf0ea;
+        --amber: #a86e08;
+        --amber-soft: #f7ecd2;
+        --code-bg: #0d130f;
+        --code-ink: #d9e2da;
+        --radius: 10px;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d100e;
+          --surface: #151a17;
+          --surface-2: #1b211d;
+          --ink: #e9ede9;
+          --ink-2: #c3ccc4;
+          --muted: #93a096;
+          --line: #28312a;
+          --accent: #f07f4e;
+          --accent-ink: #f59a72;
+          --accent-soft: #2c1c13;
+          --blue: #6db2e8;
+          --blue-soft: #16283a;
+          --teal: #4cc3ab;
+          --teal-soft: #10302a;
+          --amber: #e2b34a;
+          --amber-soft: #322712;
+          --code-bg: #090d0a;
+          color-scheme: dark;
+        }
+      }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "IBM Plex Sans", system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px 96px; }
+      a { color: var(--accent-ink); }
+      code, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+      p { margin: 0 0 14px; }
+      ul, ol { margin: 0 0 14px; padding-left: 22px; }
+      li { margin-bottom: 6px; }
+      li::marker { color: var(--accent); }
+
+      /* ---------- Header ---------- */
+      header.doc-head { padding: 44px 0 8px; }
+      .kicker {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+        color: var(--accent-ink); font-weight: 600; margin-bottom: 14px;
+        display: flex; align-items: center; gap: 10px;
+      }
+      .kicker::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+      h1 { font-size: clamp(30px, 5.4vw, 44px); line-height: 1.12; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 16px; }
+      .lede { font-size: 17.5px; color: var(--ink-2); max-width: 760px; margin-bottom: 22px; }
+      .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
+      .chip {
+        font-family: "IBM Plex Mono", monospace; font-size: 12.5px;
+        border: 1px solid var(--line); background: var(--surface);
+        padding: 5px 11px; border-radius: 999px; color: var(--ink-2);
+        display: inline-flex; align-items: center; gap: 7px;
+      }
+      .chip .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+      .dot-blue { background: var(--blue); } .dot-teal { background: var(--teal); } .dot-accent { background: var(--accent); } .dot-amber { background: var(--amber); }
+
+      .pipeline-strip {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 8px;
+      }
+      .pipe-step {
+        background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 14px 16px; position: relative;
+      }
+      .pipe-step .n { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--muted); letter-spacing: .1em; }
+      .pipe-step h3 { margin: 4px 0 4px; font-size: 15.5px; font-weight: 600; }
+      .pipe-step p { font-size: 13.5px; color: var(--muted); margin: 0; line-height: 1.5; }
+      .pipe-step::before { content: ""; position: absolute; top: 0; left: 16px; right: 16px; height: 3px; border-radius: 0 0 3px 3px; background: var(--pc, var(--accent)); }
+
+      /* ---------- Nav — sticky satu baris + dropdown ---------- */
+      nav.toc {
+        position: sticky; top: 0; z-index: 50; background: var(--bg);
+        border-bottom: 1px solid var(--line); margin: 20px -20px 0; padding: 0 20px;
+        height: 54px; display: flex; align-items: center; gap: 12px; flex-wrap: nowrap;
+      }
+      .toc-current {
+        flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        font-size: 14px; font-weight: 600; color: var(--ink);
+      }
+      .toc-toggle {
+        flex: none; display: inline-flex; align-items: center; gap: 8px;
+        min-height: 38px; padding: 7px 14px; border-radius: 999px;
+        border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+        font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+      }
+      .toc-toggle:hover { background: var(--surface-2); }
+      .toc-toggle .chev { transition: transform .18s ease; flex: none; }
+      .toc-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+      .toc-panel {
+        position: absolute; top: calc(100% + 8px); left: 20px; right: 20px;
+        background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        padding: 8px; box-shadow: 0 16px 40px rgba(0,0,0,.14);
+        display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px;
+        max-height: min(70vh, 420px); overflow-y: auto;
+      }
+      .toc-panel[hidden] { display: none; }
+      .toc-panel a {
+        color: var(--ink-2); text-decoration: none; font-size: 14px; font-weight: 500;
+        padding: 10px 12px; border-radius: 8px; min-height: 40px; display: flex; align-items: center;
+      }
+      .toc-panel a:hover { background: var(--surface-2); color: var(--ink); }
+      .toc-panel a.active { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; }
+
+      /* ---------- Sections ---------- */
+      section { padding-top: 56px; scroll-margin-top: 70px; }
+      .sec-head { margin-bottom: 8px; }
+      .sec-num { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--accent-ink); letter-spacing: .12em; font-weight: 600; }
+      h2 { font-size: clamp(23px, 3.6vw, 30px); font-weight: 700; letter-spacing: -0.01em; margin: 6px 0 10px; line-height: 1.2; }
+      h3.sub { font-size: 18px; font-weight: 600; margin: 28px 0 8px; }
+      .sec-intro { color: var(--ink-2); max-width: 780px; }
+      .tag { font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600; letter-spacing: .06em; padding: 2px 8px; border-radius: 999px; vertical-align: middle; }
+      .tag-lg { background: var(--blue-soft); color: var(--blue); }
+      .tag-li { background: var(--teal-soft); color: var(--teal); }
+      .tag-core { background: var(--accent-soft); color: var(--accent-ink); }
+
+      /* ---------- Architecture layers ---------- */
+      .layer-stack { display: grid; gap: 10px; margin-top: 22px; }
+      .layer {
+        border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface);
+        padding: 16px 18px; display: grid; grid-template-columns: 168px 1fr; gap: 18px; align-items: start;
+      }
+      .layer-name { font-weight: 600; font-size: 15px; }
+      .layer-name small { display: block; font-family: "IBM Plex Mono", monospace; font-weight: 400; font-size: 11.5px; color: var(--muted); margin-top: 3px; letter-spacing: .04em; }
+      .layer-items { display: flex; flex-wrap: wrap; gap: 8px; }
+      .comp {
+        border: 1px solid var(--line); background: var(--bg); border-radius: 8px;
+        padding: 8px 12px; font-size: 13.5px; line-height: 1.45;
+      }
+      .comp b { font-weight: 600; display: block; font-size: 13.5px; }
+      .comp span { color: var(--muted); font-size: 12.5px; }
+      .layer-arrow { text-align: center; color: var(--muted); font-size: 15px; line-height: 1; }
+
+      /* ---------- Diagram ---------- */
+      .diagram-layout { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 18px; margin-top: 22px; align-items: start; }
+      .diagram-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; overflow: hidden; }
+      .diagram-box svg { width: 100%; height: auto; display: block; }
+      .node-detail {
+        background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 20px;
+      }
+      .node-detail .nd-tag { margin-bottom: 10px; display: inline-block; }
+      .node-detail h3 { margin: 0 0 8px; font-size: 19px; font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+      .node-detail p { font-size: 14.5px; color: var(--ink-2); }
+      .node-detail dl { margin: 14px 0 0; display: grid; gap: 10px; }
+      .node-detail dt { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+      .node-detail dd { margin: 2px 0 0; font-size: 14px; }
+      .node-detail dd code { font-size: 12.5px; background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+      .hint { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+      svg .gnode { cursor: pointer; }
+      svg .gnode rect, svg .gnode polygon { transition: stroke-width .15s, filter .15s; }
+      svg .gnode:hover rect, svg .gnode:hover polygon { filter: brightness(1.06); }
+      svg .gnode.active rect, svg .gnode.active polygon { stroke: var(--accent); stroke-width: 2.6; }
+      svg text { font-family: "IBM Plex Mono", monospace; }
+
+      /* ---------- Tables ---------- */
+      .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin-top: 16px; }
+      table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+      th { text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 12px 16px; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+      td { padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-2); }
+      tr:last-child td { border-bottom: none; }
+      td code, th code { font-size: 12.5px; }
+      td .fname { color: var(--ink); font-weight: 500; font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+      td .ftype { color: var(--blue); font-family: "IBM Plex Mono", monospace; font-size: 12.5px; white-space: nowrap; }
+
+      /* ---------- Code blocks & tabs ---------- */
+      .code-shell { border: 1px solid #223028; border-radius: var(--radius); background: var(--code-bg); overflow: hidden; margin-top: 18px; }
+      .code-head {
+        display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        padding: 10px 14px; border-bottom: 1px solid #223028; background: rgba(255,255,255,.03);
+      }
+      .code-head .fname { color: #e8efe9; font-family: "IBM Plex Mono", monospace; font-size: 13px; font-weight: 500; }
+      .code-head .fdesc { color: #8fa294; font-size: 12.5px; }
+      .copy-btn {
+        margin-left: auto; background: #1a241d; color: #cfe0d2; border: 1px solid #2e4034;
+        border-radius: 7px; font-family: "IBM Plex Mono", monospace; font-size: 12px;
+        padding: 6px 14px; cursor: pointer; min-height: 36px;
+      }
+      .copy-btn:hover { background: #243428; }
+      .copy-btn.copied { color: #7fd79b; border-color: #356245; }
+      pre.code {
+        margin: 0; padding: 18px; overflow-x: auto; max-height: 640px; overflow-y: auto;
+        font-family: "IBM Plex Mono", monospace; font-size: 12.8px; line-height: 1.62; color: var(--code-ink);
+        tab-size: 4;
+      }
+      pre.code code { font-family: inherit; }
+      .tok-kw { color: #f08a54; } .tok-str { color: #a9cc8e; } .tok-com { color: #71816f; font-style: italic; }
+      .tok-num { color: #e6c26e; } .tok-dec { color: #d9a0e0; } .tok-fn { color: #82bfe8; }
+      .tok-cls { color: #6fd3bd; } .tok-key { color: #82bfe8; } .tok-bool { color: #e6c26e; }
+
+      .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+      .tab-btn {
+        font-family: "IBM Plex Mono", monospace; font-size: 12.8px; padding: 8px 14px;
+        border: 1px solid var(--line); background: var(--surface); color: var(--ink-2);
+        border-radius: 8px; cursor: pointer; min-height: 38px;
+      }
+      .tab-btn:hover { border-color: var(--muted); }
+      .tab-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); font-weight: 600; }
+      .tab-pane { display: none; }
+      .tab-pane.active { display: block; }
+
+      /* file tree + code layout */
+      .code-layout { display: grid; grid-template-columns: 218px minmax(0, 1fr); gap: 0; margin-top: 18px; border: 1px solid #223028; border-radius: var(--radius); overflow: hidden; background: var(--code-bg); }
+      .file-tree { background: #0a0f0b; border-right: 1px solid #223028; padding: 14px 10px; overflow-y: auto; max-height: 720px; }
+      .file-tree .ft-title { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .1em; color: #71816f; text-transform: uppercase; padding: 2px 8px 10px; }
+      .file-btn {
+        display: block; width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+        font-family: "IBM Plex Mono", monospace; font-size: 12.8px; color: #a9bba9;
+        padding: 8px 10px; border-radius: 6px; min-height: 38px; white-space: nowrap;
+      }
+      .file-btn small { display: block; font-size: 11px; color: #63755f; white-space: normal; line-height: 1.4; margin-top: 2px; }
+      .file-btn:hover { background: #142016; color: #e8efe9; }
+      .file-btn.active { background: #1d2f1e; color: #fff; }
+      .file-btn.active small { color: #9db894; }
+      .code-main { min-width: 0; display: flex; flex-direction: column; }
+      .code-main .code-head { border-bottom: 1px solid #223028; }
+      .code-main pre.code { flex: 1; max-height: 664px; }
+      .module-pane { display: none; flex-direction: column; min-height: 0; flex: 1; }
+      .module-pane.active { display: flex; }
+
+      /* ---------- Retry strategy ---------- */
+      .strat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+      .strat {
+        background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px;
+      }
+      .strat h3 { margin: 0 0 6px; font-size: 16px; font-weight: 600; display: flex; gap: 10px; align-items: baseline; }
+      .strat h3 .snum { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-size: 13px; }
+      .strat p { font-size: 14.5px; color: var(--ink-2); margin: 0; }
+      .strat p code { font-size: 12.5px; background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+      .callout {
+        border: 1px solid var(--amber); background: var(--amber-soft); border-radius: var(--radius);
+        padding: 16px 20px; margin-top: 20px; font-size: 14.5px; color: var(--ink-2);
+      }
+      .callout b { color: var(--ink); }
+
+      .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+      .mini-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+      .mini-card h3 { margin: 0 0 8px; font-size: 15.5px; font-weight: 600; }
+      .mini-card p, .mini-card li { font-size: 14.5px; color: var(--ink-2); }
+      .mini-card ul { margin-bottom: 0; }
+
+      footer.doc-foot { margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13.5px; display: flex; flex-wrap: wrap; gap: 8px 22px; justify-content: space-between; }
+
+      @media (max-width: 900px) {
+        .pipeline-strip { grid-template-columns: repeat(2, 1fr); }
+        .diagram-layout { grid-template-columns: 1fr; }
+        .strat-grid, .two-col { grid-template-columns: 1fr; }
+        .layer { grid-template-columns: 1fr; gap: 10px; }
+        .code-layout { grid-template-columns: 1fr; }
+        .file-tree { border-right: none; border-bottom: 1px solid #223028; max-height: none; display: flex; flex-wrap: wrap; gap: 4px; }
+        .file-tree .ft-title { width: 100%; }
+        .file-btn { width: auto; }
+        .file-btn small { display: none; }
+      }
+      @media (max-width: 520px) {
+        .pipeline-strip { grid-template-columns: 1fr; }
+        .wrap { padding: 0 14px 72px; }
+        nav.toc { margin-left: -14px; margin-right: -14px; padding-left: 14px; padding-right: 14px; }
+        .toc-panel { left: 14px; right: 14px; grid-template-columns: 1fr; }
+        pre.code { font-size: 12px; padding: 14px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        * { transition: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+
+      <header class="doc-head">
+        <div class="kicker">Dokumen Arsitektur Implementasi</div>
+        <h1>Disaster Intelligence Agent</h1>
+        <p class="lede">Sistem agen yang mengubah dokumen dan laporan kebencanaan mentah — siaran pers BNPB/BMKG, laporan lapangan, berita — menjadi laporan situasi (situation report) terstruktur dan terverifikasi. <b>LangGraph</b> bertindak sebagai orchestrator state-machine, <b>LlamaIndex Workflows</b> sebagai mesin ekstraksi dokumen, dan lapisan resilience khusus menangani timeout serta halusinasi LLM.</p>
+        <div class="meta-row">
+          <span class="chip"><span class="dot dot-blue"></span>LangGraph · orchestrator</span>
+          <span class="chip"><span class="dot dot-teal"></span>LlamaIndex Workflows · extractor</span>
+          <span class="chip"><span class="dot dot-accent"></span>Pydantic v2 · validasi skema</span>
+          <span class="chip"><span class="dot dot-amber"></span>Tenacity · retry &amp; backoff</span>
+          <span class="chip">Python 3.11+</span>
+        </div>
+        <div class="pipeline-strip">
+          <div class="pipe-step" style="--pc: var(--blue)"><div class="n">TAHAP 01</div><h3>Ingest</h3><p>Dokumen masuk dari file, URL, atau feed; dinormalisasi menjadi teks + metadata sumber.</p></div>
+          <div class="pipe-step" style="--pc: var(--teal)"><div class="n">TAHAP 02</div><h3>Ekstraksi</h3><p>LlamaIndex Workflow mem-parsing dokumen dan mengekstrak entitas bencana ke skema Pydantic.</p></div>
+          <div class="pipe-step" style="--pc: var(--amber)"><div class="n">TAHAP 03</div><h3>Verifikasi</h3><p>Setiap klaim hasil ekstraksi dicek grounding-nya ke teks sumber; yang tak berdasar ditolak.</p></div>
+          <div class="pipe-step" style="--pc: var(--accent)"><div class="n">TAHAP 04</div><h3>Laporan</h3><p>State final dirender menjadi situation report JSON + ringkasan naratif siap distribusi.</p></div>
+        </div>
+      </header>
+
+      <nav class="toc" aria-label="Daftar isi">
+        <span class="toc-current" id="tocCurrent">Arsitektur Sistem</span>
+        <button class="toc-toggle" id="tocToggle" type="button" aria-expanded="false" aria-controls="tocPanel" aria-haspopup="true">
+          Isi
+          <svg class="chev" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="toc-panel" id="tocPanel" hidden>
+          <a href="#arsitektur" data-toc-link>Arsitektur Sistem</a>
+          <a href="#diagram-state" data-toc-link>Diagram Alur State</a>
+          <a href="#skema-state" data-toc-link>Skema State</a>
+          <a href="#skema-json" data-toc-link>Skema Data JSON</a>
+          <a href="#kode" data-toc-link>Kode Python</a>
+          <a href="#retry" data-toc-link>Retry &amp; Anti-Halusinasi</a>
+          <a href="#menjalankan" data-toc-link>Menjalankan</a>
+        </div>
+      </nav>
+
+      <!-- ================= 01 ARSITEKTUR ================= -->
+      <section id="arsitektur">
+        <div class="sec-head">
+          <div class="sec-num">01 — ARSITEKTUR SISTEM</div>
+          <h2>Lima lapisan, dua framework, satu state</h2>
+          <p class="sec-intro">Pemisahan tanggung jawabnya tegas: <b>LlamaIndex Workflows</b> hanya mengurus <i>document understanding</i> — mengubah dokumen menjadi data terstruktur lewat workflow berbasis event. <b>LangGraph</b> mengurus <i>control flow</i> — urutan langkah, percabangan, loop perbaikan, dan checkpoint state. Keduanya berkomunikasi lewat satu kontrak: objek <code>ExtractionResult</code> Pydantic yang ditulis ke <code>AgentState</code>.</p>
+        </div>
+
+        <div class="layer-stack">
+          <div class="layer">
+            <div class="layer-name">Sumber Data<small>INPUT LAYER</small></div>
+            <div class="layer-items">
+              <div class="comp"><b>Feed resmi</b><span>BMKG (gempa/cuaca), BNPB, PVMBG</span></div>
+              <div class="comp"><b>Dokumen</b><span>PDF laporan lapangan, siaran pers, DOCX</span></div>
+              <div class="comp"><b>Teks bebas</b><span>Berita, laporan warga, transkrip radio</span></div>
+            </div>
+          </div>
+          <div class="layer-arrow">▼</div>
+          <div class="layer">
+            <div class="layer-name">Ekstraksi Dokumen <span class="tag tag-li">LlamaIndex</span><small>WORKFLOWS · EVENT-DRIVEN</small></div>
+            <div class="layer-items">
+              <div class="comp"><b>SimpleDirectoryReader / PDFReader</b><span>Parsing multi-format</span></div>
+              <div class="comp"><b>ExtractionWorkflow</b><span>Step: prepare → extract → validate</span></div>
+              <div class="comp"><b>Structured LLM</b><span>Output dipaksa ke skema Pydantic</span></div>
+            </div>
+          </div>
+          <div class="layer-arrow">▼</div>
+          <div class="layer">
+            <div class="layer-name">Orkestrasi <span class="tag tag-lg">LangGraph</span><small>STATEGRAPH · CHECKPOINTER</small></div>
+            <div class="layer-items">
+              <div class="comp"><b>AgentState (TypedDict)</b><span>Satu sumber kebenaran per run</span></div>
+              <div class="comp"><b>Nodes + Conditional Edges</b><span>Routing validasi, verifikasi, fallback</span></div>
+              <div class="comp"><b>MemorySaver / SqliteSaver</b><span>Checkpoint untuk resume &amp; audit trail</span></div>
+            </div>
+          </div>
+          <div class="layer-arrow">▼</div>
+          <div class="layer">
+            <div class="layer-name">Resilience <span class="tag tag-core">Tenacity</span><small>CROSS-CUTTING</small></div>
+            <div class="layer-items">
+              <div class="comp"><b>Retry + exponential backoff</b><span>Timeout, rate-limit, koneksi putus</span></div>
+              <div class="comp"><b>Grounding validator</b><span>Anti-halusinasi berbasis kutipan sumber</span></div>
+              <div class="comp"><b>Fallback chain</b><span>Model cadangan → ekstraksi rule-based → human review</span></div>
+            </div>
+          </div>
+          <div class="layer-arrow">▼</div>
+          <div class="layer">
+            <div class="layer-name">Keluaran<small>OUTPUT LAYER</small></div>
+            <div class="layer-items">
+              <div class="comp"><b>SituationReport JSON</b><span>Kontrak data untuk dashboard/API</span></div>
+              <div class="comp"><b>Ringkasan naratif</b><span>Bahasa operasional untuk responder</span></div>
+              <div class="comp"><b>Antrian human review</b><span>Kasus gagal verifikasi → operator</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="mini-card">
+            <h3>Kenapa LangGraph untuk orkestrasi?</h3>
+            <ul>
+              <li>Alur kebencanaan bersifat <b>non-linear</b>: ekstraksi bisa gagal, perlu loop perbaikan, dan kadang harus berhenti menunggu manusia — graph dengan conditional edge mengekspresikan ini lebih jujur daripada chain lurus.</li>
+              <li>State eksplisit + checkpointer membuat setiap run bisa di-<i>resume</i>, di-replay, dan diaudit — penting saat laporan dipakai untuk keputusan evakuasi.</li>
+              <li><code>interrupt()</code> memberi jalur human-in-the-loop tanpa memutus proses.</li>
+            </ul>
+          </div>
+          <div class="mini-card">
+            <h3>Kenapa LlamaIndex Workflows untuk ekstraksi?</h3>
+            <ul>
+              <li>Reader bawaan menangani PDF/DOCX/teks dengan satu antarmuka; workflow berbasis event membuat langkah parsing → ekstraksi → validasi mudah diuji per step.</li>
+              <li><code>llm.as_structured_llm(Schema)</code> memaksa output LLM mengikuti skema Pydantic — kegagalan skema terdeteksi sebagai exception, bukan teks bebas yang harus di-parse manual.</li>
+              <li>Workflow berjalan <i>di dalam</i> satu node LangGraph, jadi kompleksitas ekstraksi tidak bocor ke graph utama.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 02 DIAGRAM STATE ================= -->
+      <section id="diagram-state">
+        <div class="sec-head">
+          <div class="sec-num">02 — DIAGRAM ALUR STATE</div>
+          <h2>State machine LangGraph: alur utama, loop perbaikan, jalur fallback</h2>
+          <p class="sec-intro">Setiap kotak adalah node LangGraph; setiap label pada garis putus-putus adalah keputusan conditional edge yang membaca <code>AgentState</code>. Klik node pada diagram untuk melihat tanggung jawab, input/output, dan perilaku kegagalannya.</p>
+        </div>
+
+        <div class="diagram-layout">
+          <div class="diagram-box">
+            <svg viewBox="0 0 720 860" role="img" aria-label="Diagram alur state LangGraph Disaster Intelligence Agent">
+              <defs>
+                <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"></path>
+                </marker>
+                <marker id="arrA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+                </marker>
+              </defs>
+              <style>
+                .box { fill: var(--surface); stroke: var(--line); stroke-width: 1.4; }
+                .box-lg { fill: var(--blue-soft); stroke: var(--blue); }
+                .box-li { fill: var(--teal-soft); stroke: var(--teal); }
+                .box-core { fill: var(--accent-soft); stroke: var(--accent); }
+                .box-amber { fill: var(--amber-soft); stroke: var(--amber); }
+                .t { fill: var(--ink); font-size: 13.5px; font-weight: 600; }
+                .ts { fill: var(--muted); font-size: 10.5px; }
+                .edge { stroke: var(--muted); stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+                .edge-d { stroke: var(--muted); stroke-width: 1.5; fill: none; stroke-dasharray: 5 4; marker-end: url(#arr); }
+                .edge-a { stroke: var(--accent); stroke-width: 1.5; fill: none; stroke-dasharray: 5 4; marker-end: url(#arrA); }
+                .elab { fill: var(--muted); font-size: 11px; }
+                .elab-a { fill: var(--accent-ink); font-size: 11px; font-weight: 600; }
+              </style>
+
+              <!-- START -->
+              <g class="gnode" data-node="start">
+                <rect class="box box-core" x="285" y="8" width="150" height="34" rx="17"></rect>
+                <text class="t" x="360" y="30" text-anchor="middle">▶ START</text>
+              </g>
+              <path class="edge" d="M360,42 L360,62"></path>
+
+              <!-- ingest -->
+              <g class="gnode" data-node="ingest">
+                <rect class="box box-lg" x="225" y="64" width="270" height="52" rx="8"></rect>
+                <text class="t" x="360" y="87" text-anchor="middle">ingest_documents</text>
+                <text class="ts" x="360" y="104" text-anchor="middle">normalisasi sumber → state.documents</text>
+              </g>
+              <path class="edge" d="M360,116 L360,136"></path>
+
+              <!-- extract -->
+              <g class="gnode" data-node="extract">
+                <rect class="box box-li" x="225" y="138" width="270" height="52" rx="8"></rect>
+                <text class="t" x="360" y="161" text-anchor="middle">run_extraction</text>
+                <text class="ts" x="360" y="178" text-anchor="middle">LlamaIndex Workflow · retry di sini</text>
+              </g>
+              <!-- fallback branch from extract -->
+              <path class="edge-a" d="M495,164 L600,164 L600,240"></path>
+              <text class="elab-a" x="503" y="156">LLM gagal total</text>
+              <g class="gnode" data-node="fallback">
+                <rect class="box box-core" x="508" y="242" width="196" height="52" rx="8"></rect>
+                <text class="t" x="606" y="265" text-anchor="middle">fallback_extraction</text>
+                <text class="ts" x="606" y="282" text-anchor="middle">rule-based regex parser</text>
+              </g>
+              <path class="edge" d="M360,190 L360,210"></path>
+
+              <!-- validate diamond -->
+              <g class="gnode" data-node="validate">
+                <polygon class="box box-amber" points="360,212 478,256 360,300 242,256"></polygon>
+                <text class="t" x="360" y="252" text-anchor="middle">validate_extraction</text>
+                <text class="ts" x="360" y="269" text-anchor="middle">skema Pydantic valid?</text>
+              </g>
+              <!-- repair loop -->
+              <path class="edge-a" d="M242,256 L96,256 L96,164 L223,164"></path>
+              <text class="elab-a" x="104" y="246">tidak · repair_count &lt; 3</text>
+              <text class="elab" x="104" y="150">repair: prompt + pesan error</text>
+              <!-- too many repairs -> human -->
+              <path class="edge-a" d="M360,300 L360,330 L606,330 L606,296"></path>
+              <text class="elab-a" x="470" y="322">tidak · repair_count ≥ 3</text>
+              <path class="edge" d="M360,300 L360,352"></path>
+              <text class="elab" x="368" y="348">ya</text>
+
+              <!-- enrich -->
+              <g class="gnode" data-node="enrich">
+                <rect class="box box-lg" x="225" y="354" width="270" height="52" rx="8"></rect>
+                <text class="t" x="360" y="377" text-anchor="middle">enrich_context</text>
+                <text class="ts" x="360" y="394" text-anchor="middle">geocoding · data cuaca · konteks wilayah</text>
+              </g>
+              <path class="edge" d="M360,406 L360,426"></path>
+
+              <!-- assess -->
+              <g class="gnode" data-node="assess">
+                <rect class="box box-lg" x="225" y="428" width="270" height="52" rx="8"></rect>
+                <text class="t" x="360" y="451" text-anchor="middle">assess_impact</text>
+                <text class="ts" x="360" y="468" text-anchor="middle">skor dampak &amp; tingkat keparahan</text>
+              </g>
+              <path class="edge" d="M360,480 L360,500"></path>
+
+              <!-- verify diamond -->
+              <g class="gnode" data-node="verify">
+                <polygon class="box box-amber" points="360,502 478,546 360,590 242,546"></polygon>
+                <text class="t" x="360" y="542" text-anchor="middle">verify_grounding</text>
+                <text class="ts" x="360" y="559" text-anchor="middle">semua klaim ber-grounding?</text>
+              </g>
+              <path class="edge-a" d="M478,546 L606,546 L606,296"></path>
+              <text class="elab-a" x="486" y="538">tidak · ada halusinasi</text>
+              <path class="edge" d="M360,590 L360,640"></path>
+              <text class="elab" x="368" y="620">ya</text>
+
+              <!-- human review -->
+              <g class="gnode" data-node="human">
+                <rect class="box box-core" x="508" y="640" width="196" height="52" rx="8"></rect>
+                <text class="t" x="606" y="663" text-anchor="middle">human_review</text>
+                <text class="ts" x="606" y="680" text-anchor="middle">interrupt() → operator</text>
+              </g>
+              <path class="edge-a" d="M606,590 L606,638"></path>
+
+              <!-- report -->
+              <g class="gnode" data-node="report">
+                <rect class="box box-lg" x="225" y="642" width="270" height="52" rx="8"></rect>
+                <text class="t" x="360" y="665" text-anchor="middle">generate_report</text>
+                <text class="ts" x="360" y="682" text-anchor="middle">SituationReport JSON + naratif</text>
+              </g>
+              <path class="edge" d="M606,692 L606,745 L437,745"></path>
+              <text class="elab" x="614" y="722">hasil review operator</text>
+              <path class="edge" d="M360,694 L360,726"></path>
+
+              <!-- END -->
+              <g class="gnode" data-node="end">
+                <rect class="box box-core" x="285" y="728" width="150" height="34" rx="17"></rect>
+                <text class="t" x="360" y="750" text-anchor="middle">■ END</text>
+              </g>
+
+              <!-- legend -->
+              <g>
+                <rect x="16" y="790" width="14" height="14" rx="3" class="box-lg" style="fill: var(--blue-soft); stroke: var(--blue)"></rect>
+                <text class="elab" x="36" y="801">Node LangGraph</text>
+                <rect x="160" y="790" width="14" height="14" rx="3" style="fill: var(--teal-soft); stroke: var(--teal)"></rect>
+                <text class="elab" x="180" y="801">Node LlamaIndex</text>
+                <rect x="316" y="790" width="14" height="14" rx="3" style="fill: var(--amber-soft); stroke: var(--amber)"></rect>
+                <text class="elab" x="336" y="801">Keputusan (conditional edge)</text>
+                <rect x="540" y="790" width="14" height="14" rx="3" style="fill: var(--accent-soft); stroke: var(--accent)"></rect>
+                <text class="elab" x="560" y="801">Fallback / terminal</text>
+              </g>
+            </svg>
+          </div>
+
+          <aside class="node-detail" id="nodeDetail" aria-live="polite">
+            <span class="tag tag-lg nd-tag" id="ndTag">LANGGRAPH NODE</span>
+            <h3 id="ndName">ingest_documents</h3>
+            <p id="ndDesc">Membaca semua sumber yang diberikan (path file, URL, atau teks mentah), mengekstrak teks bersih, dan mencatat metadata provenance: nama sumber, waktu ambil, dan hash konten untuk audit.</p>
+            <dl>
+              <div><dt>Membaca state</dt><dd id="ndIn"><code>raw_sources</code></dd></div>
+              <div><dt>Menulis state</dt><dd id="ndOut"><code>documents[]</code>, <code>status="ingested"</code></dd></div>
+              <div><dt>Perilaku gagal</dt><dd id="ndFail">Sumber yang gagal dibaca dicatat di <code>errors[]</code> dan dilewati; run hanya gagal bila nol dokumen berhasil dibaca.</dd></div>
+            </dl>
+            <p class="hint">Klik node lain pada diagram untuk melihat detailnya.</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ================= 03 SKEMA STATE ================= -->
+      <section id="skema-state">
+        <div class="sec-head">
+          <div class="sec-num">03 — SKEMA STATE LANGGRAPH</div>
+          <h2>AgentState: kontrak tunggal antar-node</h2>
+          <p class="sec-intro">Semua node membaca dan menulis satu <code>TypedDict</code> ini. Field dirancang agar setiap keputusan routing bisa diambil hanya dari state: jumlah percobaan perbaikan, daftar error, dan hasil verifikasi semuanya persisten — sehingga checkpointer bisa me-<i>resume</i> run dari titik mana pun.</p>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Field</th><th>Tipe</th><th>Ditulis oleh</th><th>Keterangan</th></tr></thead>
+            <tbody>
+              <tr><td><span class="fname">run_id</span></td><td><span class="ftype">str</span></td><td>main</td><td>UUID per eksekusi; kunci thread checkpointer (<code>thread_id</code>).</td></tr>
+              <tr><td><span class="fname">raw_sources</span></td><td><span class="ftype">list[str]</span></td><td>main</td><td>Path file / URL / teks mentah yang diberikan saat run dimulai.</td></tr>
+              <tr><td><span class="fname">documents</span></td><td><span class="ftype">list[SourceDocument]</span></td><td>ingest_documents</td><td>Teks bersih + provenance (sumber, hash, waktu ambil).</td></tr>
+              <tr><td><span class="fname">extraction</span></td><td><span class="ftype">ExtractionResult | None</span></td><td>run_extraction / fallback</td><td>Hasil ekstraksi terstruktur dari LlamaIndex Workflow.</td></tr>
+              <tr><td><span class="fname">validation_errors</span></td><td><span class="ftype">list[str]</span></td><td>validate_extraction</td><td>Pesan error Pydantic; diumpankan kembali ke prompt saat repair.</td></tr>
+              <tr><td><span class="fname">repair_count</span></td><td><span class="ftype">int</span></td><td>validate_extraction</td><td>Penghitung loop perbaikan; batas keras <code>MAX_REPAIRS = 3</code>.</td></tr>
+              <tr><td><span class="fname">llm_attempts</span></td><td><span class="ftype">int</span></td><td>resilience layer</td><td>Total percobaan panggilan LLM (termasuk retry timeout) — untuk observabilitas biaya.</td></tr>
+              <tr><td><span class="fname">enrichment</span></td><td><span class="ftype">EnrichmentData | None</span></td><td>enrich_context</td><td>Koordinat geocoding, cuaca terkini, konteks administratif wilayah.</td></tr>
+              <tr><td><span class="fname">assessment</span></td><td><span class="ftype">ImpactAssessment | None</span></td><td>assess_impact</td><td>Skor dampak 0–100, level keparahan, estimasi populasi terdampak.</td></tr>
+              <tr><td><span class="fname">grounding</span></td><td><span class="ftype">GroundingReport | None</span></td><td>verify_grounding</td><td>Per-klaim: ter-grounding / tidak, beserta kutipan sumbernya.</td></tr>
+              <tr><td><span class="fname">needs_human_review</span></td><td><span class="ftype">bool</span></td><td>router</td><td>True bila repair habis atau grounding gagal → graph berhenti di <code>interrupt()</code>.</td></tr>
+              <tr><td><span class="fname">report</span></td><td><span class="ftype">SituationReport | None</span></td><td>generate_report</td><td>Output final sesuai skema JSON di bagian 04.</td></tr>
+              <tr><td><span class="fname">errors</span></td><td><span class="ftype">Annotated[list[str], add]</span></td><td>semua node</td><td>Log error terakumulasi (reducer <code>operator.add</code>) — tidak pernah menimpa error sebelumnya.</td></tr>
+              <tr><td><span class="fname">status</span></td><td><span class="ftype">Literal[...]</span></td><td>semua node</td><td><code>ingested → extracted → validated → enriched → assessed → verified → reported / needs_review / failed</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="hint">Definisi lengkapnya ada di modul <code>state.py</code> pada bagian Kode Python — termasuk reducer dan nilai default via <code>TotalState</code> factory di <code>main.py</code>.</p>
+      </section>
+
+      <!-- ================= 04 SKEMA JSON ================= -->
+      <section id="skema-json">
+        <div class="sec-head">
+          <div class="sec-num">04 — SKEMA DATA JSON</div>
+          <h2>Tiga kontrak data: input, ekstraksi, laporan</h2>
+          <p class="sec-intro">Ketiga skema di bawah adalah Pydantic model yang sama yang dipakai kode di bagian 05 — contoh payload-nya riil mengikuti strukturnya. Field <code>evidence_quote</code> adalah kunci anti-halusinasi: LLM wajib mengutip potongan teks sumber untuk setiap klaim faktual, dan validator memeriksa kutipan itu benar-benar ada di dokumen.</p>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Skema JSON">
+          <button class="tab-btn active" data-tab="json-input" role="tab">1 · Input — RawSource</button>
+          <button class="tab-btn" data-tab="json-extract" role="tab">2 · Ekstraksi — ExtractionResult</button>
+          <button class="tab-btn" data-tab="json-report" role="tab">3 · Output — SituationReport</button>
+          <button class="tab-btn" data-tab="json-schema" role="tab">JSON Schema (formal)</button>
+        </div>
+
+        <div class="tab-pane active" data-pane="json-input">
+          <div class="code-shell">
+            <div class="code-head"><span class="fname">input_payload.json</span><span class="fdesc">Satu item dari raw_sources — yang diterima graph saat run dimulai</span><button class="copy-btn" type="button">Salin</button></div>
+            <pre class="code"><code data-lang="json">{
+  "source_type": "official_release",
+  "source_name": "BNPB — Siaran Pers",
+  "source_url": "https://bnpb.go.id/berita/contoh-rilis",
+  "retrieved_at": "2026-11-11T08:15:00+09:00",
+  "content": "Banjir bandang menerjang Kecamatan Tanah Datar, Sumatera Barat, pada Selasa (10/11) pukul 23.40 WIB. Sebanyak 1.240 jiwa mengungsi ke 6 titik pengungsian. Korban meninggal dunia tercatat 12 orang, 34 luka-luka, dan 8 orang masih dalam pencarian. Akses jalan nasional Padang–Bukittinggi terputus akibat material longsor di dua titik.",
+  "declared_locale": "id-ID"
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="tab-pane" data-pane="json-extract">
+          <div class="code-shell">
+            <div class="code-head"><span class="fname">extraction_result.json</span><span class="fdesc">Output LlamaIndex Workflow — setiap klaim membawa evidence_quote</span><button class="copy-btn" type="button">Salin</button></div>
+            <pre class="code"><code data-lang="json">{
+  "event": {
+    "disaster_type": "flood",
+    "title": "Banjir Bandang Tanah Datar",
+    "occurred_at": "2026-11-10T23:40:00+09:00",
+    "province": "Sumatera Barat",
+    "regency": "Tanah Datar",
+    "district": "Tanah Datar",
+    "latitude": null,
+    "longitude": null
+  },
+  "casualties": {
+    "deaths": 12,
+    "injured": 34,
+    "missing": 8,
+    "displaced": 1240,
+    "evidence_quote": "Korban meninggal dunia tercatat 12 orang, 34 luka-luka, dan 8 orang masih dalam pencarian. Sebanyak 1.240 jiwa mengungsi"
+  },
+  "infrastructure_damage": [
+    {
+      "asset": "Jalan nasional Padang–Bukittinggi",
+      "damage_level": "cut_off",
+      "evidence_quote": "Akses jalan nasional Padang–Bukittinggi terputus akibat material longsor di dua titik"
+    }
+  ],
+  "evacuation_points": 6,
+  "needs": ["logistik pengungsi", "pencarian korban", "pembersihan material longsor"],
+  "extraction_confidence": 0.91,
+  "extractor": "llama_index_workflow",
+  "model_used": "primary"
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="tab-pane" data-pane="json-report">
+          <div class="code-shell">
+            <div class="code-head"><span class="fname">situation_report.json</span><span class="fdesc">Output final graph — kontrak untuk dashboard, API, dan distribusi responder</span><button class="copy-btn" type="button">Salin</button></div>
+            <pre class="code"><code data-lang="json">{
+  "report_id": "SITREP-2026-1111-0042",
+  "run_id": "9f2c1a44-7b1e-4e2a-9c55-01d3f7a2b811",
+  "generated_at": "2026-11-11T08:17:42+09:00",
+  "status": "verified",
+  "headline": "Banjir Bandang Tanah Datar: 12 Meninggal, 1.240 Mengungsi, Akses Nasional Terputus",
+  "event": { "...": "sama seperti ExtractionResult.event, kini dilengkapi latitude/longitude hasil geocoding" },
+  "impact": {
+    "severity_level": "high",
+    "impact_score": 78,
+    "affected_population_estimate": 1240,
+    "rationale": "Korban jiwa dua digit, pengungsi &gt; 1.000 jiwa, dan putusnya akses jalan nasional menaikkan skor ke kategori tinggi."
+  },
+  "grounding": {
+    "total_claims": 9,
+    "grounded_claims": 9,
+    "ungrounded_claims": [],
+    "grounding_rate": 1.0
+  },
+  "recommended_actions": [
+    "Prioritaskan operasi pencarian 8 korban hilang sebelum cuaca memburuk",
+    "Kirim logistik ke 6 titik pengungsian; buka jalur alternatif selain Padang–Bukittinggi",
+    "Tetapkan status tanggap darurat tingkat kabupaten"
+  ],
+  "sources": [
+    { "name": "BNPB — Siaran Pers", "url": "https://bnpb.go.id/berita/contoh-rilis", "content_hash": "sha256:8f3e…" }
+  ],
+  "narrative_summary": "Banjir bandang melanda Kecamatan Tanah Datar, Sumatera Barat, Selasa malam pukul 23.40 WIB. Dua belas orang meninggal dunia, 34 luka-luka, 8 masih dicari, dan 1.240 jiwa mengungsi ke enam titik pengungsian. Seluruh klaim dalam laporan ini terverifikasi terhadap teks sumber."
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="tab-pane" data-pane="json-schema">
+          <div class="code-shell">
+            <div class="code-head"><span class="fname">ExtractionResult — JSON Schema</span><span class="fdesc">Dihasilkan otomatis: ExtractionResult.model_json_schema()</span><button class="copy-btn" type="button">Salin</button></div>
+            <pre class="code"><code data-lang="json">{
+  "$defs": {
+    "CasualtyReport": {
+      "properties": {
+        "deaths":    { "type": "integer", "minimum": 0 },
+        "injured":   { "type": "integer", "minimum": 0 },
+        "missing":   { "type": "integer", "minimum": 0 },
+        "displaced": { "type": "integer", "minimum": 0 },
+        "evidence_quote": {
+          "type": "string",
+          "description": "Kutipan verbatim dari teks sumber yang mendukung angka-angka di atas. WAJIB ada di dokumen sumber."
+        }
+      },
+      "required": ["deaths", "injured", "missing", "displaced", "evidence_quote"],
+      "type": "object"
+    },
+    "DisasterEvent": {
+      "properties": {
+        "disaster_type": { "enum": ["earthquake", "flood", "landslide", "volcano", "tsunami", "wildfire", "drought", "storm", "other"] },
+        "title":       { "type": "string", "minLength": 5 },
+        "occurred_at": { "type": ["string", "null"], "format": "date-time" },
+        "province":    { "type": "string" },
+        "regency":     { "type": ["string", "null"] },
+        "district":    { "type": ["string", "null"] },
+        "latitude":    { "type": ["number", "null"], "minimum": -90, "maximum": 90 },
+        "longitude":   { "type": ["number", "null"], "minimum": -180, "maximum": 180 }
+      },
+      "required": ["disaster_type", "title", "province"],
+      "type": "object"
+    }
+  },
+  "properties": {
+    "event": { "$ref": "#/$defs/DisasterEvent" },
+    "casualties": { "$ref": "#/$defs/CasualtyReport" },
+    "evacuation_points": { "type": ["integer", "null"], "minimum": 0 },
+    "needs": { "type": "array", "items": { "type": "string" } },
+    "extraction_confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+    "extractor": { "enum": ["llama_index_workflow", "rule_based_fallback"] },
+    "model_used": { "enum": ["primary", "fallback", "none"] }
+  },
+  "required": ["event", "casualties", "extraction_confidence", "extractor", "model_used"],
+  "title": "ExtractionResult",
+  "type": "object"
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 05 KODE PYTHON ================= -->
+      <section id="kode">
+        <div class="sec-head">
+          <div class="sec-num">05 — KODE PYTHON MODULAR</div>
+          <h2>Implementasi lengkap: 9 modul + requirements</h2>
+          <p class="sec-intro">Pilih file di panel kiri. Setiap modul punya satu tanggung jawab dan bisa diuji terpisah: ganti provider LLM cukup di <code>config.py</code>; ganti strategi retry cukup di <code>resilience.py</code>; graph tidak berubah. Penanganan timeout &amp; halusinasi terkonsentrasi di <code>resilience.py</code> dan node <code>verify_grounding</code>.</p>
+        </div>
+
+        <div class="code-layout">
+          <div class="file-tree" role="tablist" aria-label="Daftar file modul">
+            <div class="ft-title">disaster_intel/</div>
+            <button class="file-btn active" data-file="requirements" role="tab">requirements.txt<small>Dependensi terkunci per peran</small></button>
+            <button class="file-btn" data-file="config" role="tab">config.py<small>Settings &amp; ambang batas</small></button>
+            <button class="file-btn" data-file="schemas" role="tab">schemas.py<small>Model Pydantic (kontrak data)</small></button>
+            <button class="file-btn" data-file="state" role="tab">state.py<small>AgentState LangGraph</small></button>
+            <button class="file-btn" data-file="resilience" role="tab">resilience.py<small>Retry timeout + validator grounding</small></button>
+            <button class="file-btn" data-file="workflow" role="tab">extractor/workflow.py<small>LlamaIndex Workflow</small></button>
+            <button class="file-btn" data-file="fallback" role="tab">fallback.py<small>Ekstraktor rule-based darurat</small></button>
+            <button class="file-btn" data-file="nodes" role="tab">nodes.py<small>Node + routing LangGraph</small></button>
+            <button class="file-btn" data-file="graph" role="tab">graph.py<small>Rakit StateGraph + checkpointer</small></button>
+            <button class="file-btn" data-file="main" role="tab">main.py<small>Entrypoint eksekusi</small></button>
+          </div>
+
+          <div class="code-main">
+
+            <div class="module-pane active" data-mod="requirements">
+              <div class="code-head"><span class="fname">requirements.txt</span><span class="fdesc">Instal: pip install -r requirements.txt</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="text">langgraph&gt;=0.2.60          # orchestrator: StateGraph, conditional edges, checkpointer
+langgraph-checkpoint-sqlite&gt;=2.0  # checkpointer persisten (opsional, ganti MemorySaver)
+llama-index-core&gt;=0.12       # Workflow berbasis event + structured LLM
+llama-index-llms-openai&gt;=0.3 # provider LLM (tukar dengan llms-anthropic / ollama bila perlu)
+llama-index-readers-file&gt;=0.4  # reader PDF / DOCX / teks
+pydantic&gt;=2.9               # skema &amp; validasi data
+pydantic-settings&gt;=2.6      # konfigurasi dari environment / .env
+tenacity&gt;=9.0               # retry: exponential backoff + jitter
+openai&gt;=1.55                # exception types untuk klasifikasi error retryable
+python-dotenv&gt;=1.0</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="config">
+              <div class="code-head"><span class="fname">config.py</span><span class="fdesc">Satu-satunya tempat ambang batas &amp; kredensial dibaca</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""Konfigurasi terpusat Disaster Intelligence Agent.
+
+Semua nilai dapat dioverride lewat environment variable berprefix DIA_,
+mis. DIA_LLM_TIMEOUT_S=45. Tidak ada modul lain yang membaca os.environ.
+"""
+from functools import lru_cache
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", env_prefix="DIA_")
+
+    # --- LLM ---
+    llm_primary: str = "gpt-4o"          # model utama ekstraksi &amp; penilaian
+    llm_fallback: str = "gpt-4o-mini"    # model cadangan bila primary gagal total
+    llm_api_key: str = ""                # DIA_LLM_API_KEY
+    llm_temperature: float = 0.0         # 0 = deterministik, kurangi variasi halusinasi
+
+    # --- Resilience: timeout &amp; retry ---
+    llm_timeout_s: float = 30.0          # batas keras per panggilan LLM (asyncio.wait_for)
+    llm_max_retries: int = 4             # percobaan ulang untuk error retryable
+    retry_base_delay_s: float = 1.0      # backoff awal; digandakan tiap percobaan
+    retry_max_delay_s: float = 30.0      # plafon backoff (jitter ditambahkan tenacity)
+
+    # --- Loop perbaikan &amp; verifikasi (routing LangGraph) ---
+    max_repairs: int = 3                 # maks loop validate -> repair sebelum human review
+    min_grounding_rate: float = 0.8      # &lt; 80% klaim ter-grounding => human review
+    min_confidence: float = 0.55         # confidence ekstraksi di bawah ini => repair
+
+
+@lru_cache
+def get_settings() -&gt; Settings:
+    """Singleton settings; lru_cache agar .env hanya dibaca sekali."""
+    return Settings()</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="schemas">
+              <div class="code-head"><span class="fname">schemas.py</span><span class="fdesc">Kontrak data Pydantic — dipakai LLM terstruktur, validator, dan output JSON</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""Skema data (Pydantic v2) — kontrak tunggal antar semua lapisan.
+
+Prinsip anti-halusinasi tertanam di skema: setiap kelompok klaim faktual
+WAJIB menyertakan evidence_quote, kutipan verbatim dari dokumen sumber.
+Kutipan ini yang diverifikasi resilience.verify_grounding().
+"""
+from datetime import datetime
+from enum import Enum
+from typing import Literal
+
+from pydantic import BaseModel, Field
+
+
+class DisasterType(str, Enum):
+    EARTHQUAKE = "earthquake"
+    FLOOD = "flood"
+    LANDSLIDE = "landslide"
+    VOLCANO = "volcano"
+    TSUNAMI = "tsunami"
+    WILDFIRE = "wildfire"
+    DROUGHT = "drought"
+    STORM = "storm"
+    OTHER = "other"
+
+
+class SourceDocument(BaseModel):
+    """Dokumen sumber yang sudah dinormalisasi oleh node ingest."""
+
+    name: str
+    url: str | None = None
+    text: str
+    content_hash: str                       # sha256 teks, untuk audit trail
+    retrieved_at: datetime
+
+
+class DisasterEvent(BaseModel):
+    disaster_type: DisasterType
+    title: str = Field(min_length=5)
+    occurred_at: datetime | None = None
+    province: str
+    regency: str | None = None
+    district: str | None = None
+    latitude: float | None = Field(default=None, ge=-90, le=90)
+    longitude: float | None = Field(default=None, ge=-180, le=180)
+
+
+class CasualtyReport(BaseModel):
+    deaths: int = Field(ge=0)
+    injured: int = Field(ge=0)
+    missing: int = Field(ge=0)
+    displaced: int = Field(ge=0)
+    evidence_quote: str = Field(
+        description="Kutipan verbatim dari teks sumber yang mendukung "
+                    "angka-angka korban di atas."
+    )
+
+
+class InfrastructureDamage(BaseModel):
+    asset: str
+    damage_level: Literal["light", "moderate", "heavy", "destroyed", "cut_off"]
+    evidence_quote: str
+
+
+class ExtractionResult(BaseModel):
+    """Output LlamaIndex Workflow; ditulis ke AgentState['extraction']."""
+
+    event: DisasterEvent
+    casualties: CasualtyReport
+    infrastructure_damage: list[InfrastructureDamage] = []
+    evacuation_points: int | None = Field(default=None, ge=0)
+    needs: list[str] = []
+    extraction_confidence: float = Field(ge=0.0, le=1.0)
+    extractor: Literal["llama_index_workflow", "rule_based_fallback"]
+    model_used: Literal["primary", "fallback", "none"]
+
+
+class EnrichmentData(BaseModel):
+    latitude: float | None = None
+    longitude: float | None = None
+    admin_region: str | None = None
+    weather_summary: str | None = None      # mis. dari API BMKG
+    notes: list[str] = []
+
+
+class ImpactAssessment(BaseModel):
+    severity_level: Literal["low", "moderate", "high", "critical"]
+    impact_score: int = Field(ge=0, le=100)
+    affected_population_estimate: int = Field(ge=0)
+    rationale: str
+
+
+class ClaimCheck(BaseModel):
+    claim: str
+    grounded: bool
+    quote_found: str | None = None
+
+
+class GroundingReport(BaseModel):
+    checks: list[ClaimCheck]
+    total_claims: int
+    grounded_claims: int
+
+    @property
+    def grounding_rate(self) -&gt; float:
+        return self.grounded_claims / self.total_claims if self.total_claims else 0.0
+
+    @property
+    def ungrounded(self) -&gt; list[str]:
+        return [c.claim for c in self.checks if not c.grounded]
+
+
+class SituationReport(BaseModel):
+    """Output final graph — kontrak JSON untuk konsumen hilir."""
+
+    report_id: str
+    run_id: str
+    generated_at: datetime
+    status: Literal["verified", "needs_review", "fallback_extraction"]
+    headline: str
+    event: DisasterEvent
+    casualties: CasualtyReport
+    impact: ImpactAssessment
+    grounding: GroundingReport
+    recommended_actions: list[str]
+    sources: list[SourceDocument]
+    narrative_summary: str</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="state">
+              <div class="code-head"><span class="fname">state.py</span><span class="fdesc">AgentState — TypedDict yang dibawa ke seluruh graph</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""State LangGraph: satu TypedDict yang dibaca/ditulis semua node.
+
+- Field biasa: last-write-wins (node terakhir menentukan nilai).
+- Field 'errors': reducer operator.add agar log error terakumulasi,
+  tidak pernah ditimpa node lain — penting untuk audit kegagalan.
+- Semua keputusan conditional edge HARUS bisa diambil dari state ini.
+"""
+import operator
+from typing import Annotated, Literal, TypedDict
+
+from schemas import (
+    EnrichmentData,
+    ExtractionResult,
+    GroundingReport,
+    ImpactAssessment,
+    SituationReport,
+    SourceDocument,
+)
+
+Status = Literal[
+    "ingested", "extracted", "validated", "enriched",
+    "assessed", "verified", "reported",
+    "needs_review", "failed",
+]
+
+
+class AgentState(TypedDict):
+    # Input
+    run_id: str
+    raw_sources: list[str]                       # path / URL / teks mentah
+
+    # Tahap ingest &amp; ekstraksi
+    documents: list[SourceDocument]
+    extraction: ExtractionResult | None
+
+    # Kontrol loop perbaikan (validate &lt;-&gt; repair)
+    validation_errors: list[str]                 # diumpankan ke prompt repair
+    repair_count: int
+
+    # Observabilitas panggilan LLM
+    llm_attempts: int                            # termasuk retry timeout
+
+    # Tahap pengayaan &amp; penilaian
+    enrichment: EnrichmentData | None
+    assessment: ImpactAssessment | None
+
+    # Verifikasi anti-halusinasi
+    grounding: GroundingReport | None
+    needs_human_review: bool
+
+    # Output
+    report: SituationReport | None
+
+    # Akumulasi error (reducer: append, bukan replace)
+    errors: Annotated[list[str], operator.add]
+    status: Status
+
+
+def initial_state(run_id: str, raw_sources: list[str]) -&gt; AgentState:
+    """State awal yang konsisten — selalu buat state lewat fungsi ini."""
+    return AgentState(
+        run_id=run_id,
+        raw_sources=raw_sources,
+        documents=[],
+        extraction=None,
+        validation_errors=[],
+        repair_count=0,
+        llm_attempts=0,
+        enrichment=None,
+        assessment=None,
+        grounding=None,
+        needs_human_review=False,
+        report=None,
+        errors=[],
+        status="ingested",
+    )</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="resilience">
+              <div class="code-head"><span class="fname">resilience.py</span><span class="fdesc">Inti pertahanan: retry timeout/rate-limit + verifikasi grounding anti-halusinasi</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""Lapisan resilience: dua musuh, dua pertahanan.
+
+1) KEGAGALAN TRANSIEN (timeout, rate-limit, koneksi putus)
+   - asyncio.wait_for memberi batas keras per panggilan.
+   - Tenacity mengulang HANYA error retryable, dengan exponential
+     backoff + jitter agar tidak menabrak rate-limit secara serempak.
+   - Error non-retryable (auth, request tidak valid) langsung dilempar:
+     mengulanginya hanya membuang waktu &amp; biaya.
+
+2) HALUSINASI (output valid secara skema, tapi tidak berdasar)
+   - Skema saja tidak cukup. verify_grounding() memeriksa bahwa setiap
+     evidence_quote BENAR-BENAR ADA di teks sumber, dan angka korban
+     yang diklaim muncul di dalam kutipannya.
+   - Klaim yang lolos skema tapi gagal grounding tidak diteruskan:
+     graph mengarahkannya ke human review (lihat nodes.route_after_verify).
+"""
+import asyncio
+import logging
+import re
+import unicodedata
+from collections.abc import Awaitable, Callable
+from typing import TypeVar
+
+from openai import (
+    APIConnectionError,
+    APITimeoutError,
+    InternalServerError,
+    RateLimitError,
+)
+from tenacity import (
+    AsyncRetrying,
+    before_sleep_log,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential_jitter,
+)
+
+from config import Settings
+from schemas import ExtractionResult, GroundingReport, ClaimCheck, SourceDocument
+
+logger = logging.getLogger("disaster_intel.resilience")
+
+T = TypeVar("T")
+
+# Error yang layak dicoba lagi. Perhatikan: AuthenticationError dan
+# BadRequestError SENGAJA tidak ada di sini — retry tidak akan menolong.
+RETRYABLE_LLM_ERRORS = (
+    APITimeoutError,
+    APIConnectionError,
+    RateLimitError,
+    InternalServerError,
+    asyncio.TimeoutError,   # dari wait_for di bawah
+)
+
+
+async def call_llm_resilient(
+    factory: Callable[[], Awaitable[T]],
+    *,
+    settings: Settings,
+    on_attempt: Callable[[], None] | None = None,
+) -&gt; T:
+    """Jalankan satu panggilan LLM dengan timeout keras + retry backoff.
+
+    `factory` adalah coroutine factory (bukan coroutine) agar setiap
+    percobaan membuat panggilan BARU, bukan mengulang awaitable yang sama.
+    `on_attempt` dipakai node untuk menaikkan state['llm_attempts'].
+    """
+    retrying = AsyncRetrying(
+        stop=stop_after_attempt(settings.llm_max_retries),
+        wait=wait_exponential_jitter(
+            initial=settings.retry_base_delay_s,
+            max=settings.retry_max_delay_s,
+        ),
+        retry=retry_if_exception_type(RETRYABLE_LLM_ERRORS),
+        before_sleep=before_sleep_log(logger, logging.WARNING),
+        reraise=True,   # setelah percobaan habis, exception asli diteruskan
+    )
+    async for attempt in retrying:
+        with attempt:
+            if on_attempt is not None:
+                on_attempt()
+            return await asyncio.wait_for(
+                factory(),
+                timeout=settings.llm_timeout_s,
+            )
+    raise RuntimeError("unreachable: AsyncRetrying selalu return atau raise")
+
+
+# ---------------------------------------------------------------------------
+# Verifikasi grounding (anti-halusinasi)
+# ---------------------------------------------------------------------------
+
+def _normalize(text: str) -&gt; str:
+    """Samakan bentuk teks: huruf kecil, tanpa diakritik, spasi tunggal,
+    dan pemisah ribuan angka dibuang ("1.240" -&gt; "1240")."""
+    text = unicodedata.normalize("NFKD", text.lower())
+    text = "".join(c for c in text if not unicodedata.combining(c))
+    text = re.sub(r"(\d)\.(\d{3}\b)", r"\1\2", text)   # ribuan gaya id-ID
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def _quote_in_source(quote: str, corpus: str) -&gt; bool:
+    return _normalize(quote) in corpus
+
+
+def _numbers_in(text: str) -&gt; set[int]:
+    return {int(n) for n in re.findall(r"\d[\d.]*", _normalize(text))}
+
+
+def verify_grounding(
+    extraction: ExtractionResult,
+    documents: list[SourceDocument],
+) -&gt; GroundingReport:
+    """Periksa setiap klaim faktual ekstraksi terhadap teks sumber.
+
+    Sebuah klaim dinyatakan ter-grounding bila:
+    1. evidence_quote-nya ditemukan verbatim (setelah normalisasi)
+       di salah satu dokumen sumber, DAN
+    2. khusus angka korban: angka yang diklaim benar-benar muncul
+       di dalam kutipan tersebut (mencegah kutipan asli dipakai
+       untuk menopang angka karangan).
+    """
+    corpus = _normalize(" \n ".join(doc.text for doc in documents))
+    checks: list[ClaimCheck] = []
+
+    # Klaim angka korban
+    cas = extraction.casualties
+    claimed = {
+        "deaths": cas.deaths, "injured": cas.injured,
+        "missing": cas.missing, "displaced": cas.displaced,
+    }
+    quote_ok = _quote_in_source(cas.evidence_quote, corpus)
+    quote_numbers = _numbers_in(cas.evidence_quote)
+    for field, value in claimed.items():
+        grounded = quote_ok and (value == 0 or value in quote_numbers)
+        checks.append(ClaimCheck(
+            claim=f"casualties.{field} = {value}",
+            grounded=grounded,
+            quote_found=cas.evidence_quote if grounded else None,
+        ))
+
+    # Klaim kerusakan infrastruktur
+    for dmg in extraction.infrastructure_damage:
+        grounded = _quote_in_source(dmg.evidence_quote, corpus)
+        checks.append(ClaimCheck(
+            claim=f"infrastructure: {dmg.asset} ({dmg.damage_level})",
+            grounded=grounded,
+            quote_found=dmg.evidence_quote if grounded else None,
+        ))
+
+    # Klaim jumlah titik pengungsian
+    if extraction.evacuation_points is not None:
+        grounded = extraction.evacuation_points in _numbers_in(
+            " ".join(doc.text for doc in documents)
+        )
+        checks.append(ClaimCheck(
+            claim=f"evacuation_points = {extraction.evacuation_points}",
+            grounded=grounded,
+        ))
+
+    return GroundingReport(
+        checks=checks,
+        total_claims=len(checks),
+        grounded_claims=sum(1 for c in checks if c.grounded),
+    )</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="workflow">
+              <div class="code-head"><span class="fname">extractor/workflow.py</span><span class="fdesc">LlamaIndex Workflow: prepare → extract → validate, berjalan di dalam satu node LangGraph</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""Ekstraksi dokumen dengan LlamaIndex Workflows.
+
+Workflow ini TIDAK tahu apa-apa tentang LangGraph. Ia menerima daftar
+SourceDocument dan mengembalikan ExtractionResult — atau melempar
+ExtractionFailed setelah strategi internalnya habis:
+
+  percobaan 1..N : model primary, dibungkus call_llm_resilient()
+  percobaan N+1  : model fallback (lebih murah/berbeda provider)
+  tetap gagal    : raise ExtractionFailed -&gt; node LangGraph beralih
+                   ke fallback rule-based (fallback.py)
+
+Mode repair: bila LangGraph mengirim validation_errors dari putaran
+sebelumnya, error tersebut disisipkan ke prompt agar LLM memperbaiki
+kesalahan spesifiknya, bukan mengulang dari nol.
+"""
+import hashlib
+from datetime import datetime, timezone
+
+from llama_index.core.workflow import Event, StartEvent, StopEvent, Workflow, step
+from llama_index.llms.openai import OpenAI
+
+from config import Settings
+from resilience import call_llm_resilient
+from schemas import ExtractionResult, SourceDocument
+
+EXTRACTION_INSTRUCTION = """Anda adalah analis data kebencanaan.
+Ekstrak informasi kejadian bencana dari dokumen berikut ke skema yang
+diberikan. Aturan ketat:
+- Hanya tulis fakta yang ADA di dokumen. Jangan mengarang angka.
+- Untuk setiap kelompok klaim, isi evidence_quote dengan kutipan
+  PERSIS dari dokumen (verbatim) yang mendukung klaim tersebut.
+- Bila suatu angka tidak disebutkan, isi 0 (korban) atau null.
+- extraction_confidence: nilai kejujuran Anda atas kelengkapan ekstraksi.
+"""
+
+
+class ExtractionFailed(RuntimeError):
+    """Kedua model gagal menghasilkan ExtractionResult yang valid."""
+
+
+class PreparedEvent(Event):
+    combined_text: str
+    feedback: str | None = None          # pesan error repair dari LangGraph
+
+
+class ExtractedEvent(Event):
+    result: ExtractionResult
+    model_used: str
+
+
+class ExtractionWorkflow(Workflow):
+    def __init__(self, settings: Settings, **kwargs):
+        super().__init__(**kwargs)
+        self.settings = settings
+
+    def _llm(self, model: str) -&gt; OpenAI:
+        return OpenAI(
+            model=model,
+            api_key=self.settings.llm_api_key,
+            temperature=self.settings.llm_temperature,
+            timeout=self.settings.llm_timeout_s,
+        )
+
+    @step
+    async def prepare(self, ev: StartEvent) -&gt; PreparedEvent:
+        documents: list[SourceDocument] = ev.get("documents", [])
+        combined = "\n\n--- DOKUMEN ---\n\n".join(
+            f"[{doc.name}]\n{doc.text}" for doc in documents
+        )
+        return PreparedEvent(
+            combined_text=combined,
+            feedback=ev.get("feedback"),   # None pada putaran pertama
+        )
+
+    @step
+    async def extract(self, ev: PreparedEvent) -&gt; ExtractedEvent:
+        prompt = EXTRACTION_INSTRUCTION
+        if ev.feedback:
+            prompt += (
+                "\n\nPERBAIKI EKSTRAKSI SEBELUMNYA. Kesalahan validasi:\n"
+                f"{ev.feedback}\nHasilkan ulang ekstraksi yang memperbaikinya."
+            )
+        prompt += f"\n\nDOKUMEN:\n{ev.combined_text}"
+
+        last_error: Exception | None = None
+        for model_name, label in (
+            (self.settings.llm_primary, "primary"),
+            (self.settings.llm_fallback, "fallback"),
+        ):
+            structured_llm = self._llm(model_name).as_structured_llm(ExtractionResult)
+            try:
+                result = await call_llm_resilient(
+                    lambda: structured_llm.acomplete(prompt),
+                    settings=self.settings,
+                )
+                parsed: ExtractionResult = result.raw  # sudah divalidasi Pydantic
+                parsed = parsed.model_copy(update={
+                    "extractor": "llama_index_workflow",
+                    "model_used": label,
+                })
+                return ExtractedEvent(result=parsed, model_used=label)
+            except Exception as exc:  # timeout habis, skema gagal, dsb.
+                last_error = exc
+                continue              # turun ke model berikutnya
+
+        raise ExtractionFailed(f"Semua model gagal mengekstrak: {last_error}")
+
+    @step
+    async def validate(self, ev: ExtractedEvent) -&gt; StopEvent:
+        # Validasi kedua di sisi workflow: confidence terlalu rendah
+        # dianggap ekstraksi tidak layak dan dilempar sebagai kegagalan
+        # agar node LangGraph dapat memutuskan repair / fallback.
+        if ev.result.extraction_confidence &lt; self.settings.min_confidence:
+            raise ExtractionFailed(
+                f"Confidence {ev.result.extraction_confidence:.2f} di bawah "
+                f"ambang {self.settings.min_confidence}"
+            )
+        return StopEvent(result=ev.result)
+
+
+def hash_text(text: str) -&gt; str:
+    return "sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def make_document(name: str, text: str, url: str | None = None) -&gt; SourceDocument:
+    return SourceDocument(
+        name=name, url=url, text=text,
+        content_hash=hash_text(text),
+        retrieved_at=datetime.now(timezone.utc),
+    )</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="fallback">
+              <div class="code-head"><span class="fname">fallback.py</span><span class="fdesc">Ekstraktor deterministik berbasis regex — jaring pengaman terakhir sebelum manusia</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""Ekstraksi rule-based (tanpa LLM) — jaring pengaman terakhir.
+
+Dipakai hanya bila seluruh rantai LLM gagal (timeout beruntun, provider
+down). Karena regex tidak bisa "berhalusinasi" — ia hanya menemukan pola
+yang benar-benar tertulis — hasilnya selalu ter-grounding secara
+konstruksi, dengan confidence rendah yang jujur (0.4) dan daftar 'needs'
+kosong. Laporan tetap bisa terbit; statusnya ditandai fallback.
+"""
+import re
+
+from schemas import (
+    CasualtyReport,
+    DisasterEvent,
+    DisasterType,
+    ExtractionResult,
+    SourceDocument,
+)
+
+_TYPE_KEYWORDS: list[tuple[DisasterType, tuple[str, ...]]] = [
+    (DisasterType.EARTHQUAKE, ("gempa", "tektonik", "magnitudo")),
+    (DisasterType.FLOOD, ("banjir", "luapan sungai")),
+    (DisasterType.LANDSLIDE, ("longsor", "tanah bergerak")),
+    (DisasterType.VOLCANO, ("erupsi", "gunung api", "letusan")),
+    (DisasterType.TSUNAMI, ("tsunami",)),
+    (DisasterType.WILDFIRE, ("kebakaran hutan", "karhutla")),
+    (DisasterType.STORM, ("badai", "angin kencang", "puting beliung")),
+]
+
+
+def _first_int(pattern: str, text: str) -&gt; int:
+    m = re.search(pattern, text, re.IGNORECASE)
+    if not m:
+        return 0
+    return int(m.group(1).replace(".", "").replace(",", ""))
+
+
+def _sentence_around(needle: str, text: str) -&gt; str:
+    for sentence in re.split(r"(?&lt;=[.!?])\s+", text):
+        if needle.lower() in sentence.lower():
+            return sentence.strip()
+    return text[:200]
+
+
+def extract_rule_based(documents: list[SourceDocument]) -&gt; ExtractionResult:
+    text = " \n ".join(doc.text for doc in documents)
+    low = text.lower()
+
+    disaster_type = DisasterType.OTHER
+    for dtype, keywords in _TYPE_KEYWORDS:
+        if any(k in low for k in keywords):
+            disaster_type = dtype
+            break
+
+    deaths = _first_int(r"(\d[\d.]*)\s*(?:orang\s+)?(?:meninggal|tewas)", text)
+    injured = _first_int(r"(\d[\d.]*)\s*(?:orang\s+)?luka", text)
+    missing = _first_int(r"(\d[\d.]*)\s*(?:orang\s+)?(?:masih\s+)?(?:dalam pencarian|hilang)", text)
+    displaced = _first_int(r"(\d[\d.]*)\s*(?:jiwa|orang|kk)?\s*mengungsi", text)
+    evac = _first_int(r"(\d[\d.]*)\s*titik pengungsian", text)
+
+    casualties = CasualtyReport(
+        deaths=deaths, injured=injured, missing=missing, displaced=displaced,
+        evidence_quote=_sentence_around("meninggal", text),
+    )
+
+    return ExtractionResult(
+        event=DisasterEvent(
+            disaster_type=disaster_type,
+            title=f"Kejadian {disaster_type.value} (ekstraksi darurat)",
+            province="Tidak diketahui",
+        ),
+        casualties=casualties,
+        evacuation_points=evac or None,
+        needs=[],
+        extraction_confidence=0.4,   # rendah &amp; jujur: hasil regex kasar
+        extractor="rule_based_fallback",
+        model_used="none",
+    )</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="nodes">
+              <div class="code-head"><span class="fname">nodes.py</span><span class="fdesc">Satu fungsi async per node + fungsi routing murni untuk conditional edges</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""Node-node LangGraph.
+
+Konvensi: setiap node adalah fungsi async murni terhadap state —
+membaca field yang ia butuhkan, mengembalikan dict pembaruan parsial.
+Fungsi routing (route_*) tidak mengubah state; ia hanya membaca state
+dan mengembalikan nama node berikutnya, sehingga mudah di-unit-test.
+"""
+from datetime import datetime, timezone
+from pathlib import Path
+from uuid import uuid4
+
+from langgraph.types import interrupt
+
+from config import get_settings
+from extractor.workflow import ExtractionFailed, ExtractionWorkflow, make_document
+from fallback import extract_rule_based
+from resilience import verify_grounding
+from schemas import EnrichmentData, ImpactAssessment, SituationReport
+from state import AgentState
+
+
+# --- Ingest ------------------------------------------------------------------
+
+async def ingest_documents(state: AgentState) -&gt; dict:
+    documents, errors = [], []
+    for source in state["raw_sources"]:
+        try:
+            if source.startswith(("http://", "https://")):
+                # Ambil via HTTP client pilihan Anda; di sini disederhanakan
+                # sebagai placeholder fetch teks.
+                raise NotImplementedError("fetch URL: gunakan httpx di produksi")
+            path = Path(source)
+            if path.exists():
+                documents.append(make_document(path.name, path.read_text("utf-8")))
+            else:  # bukan path &amp; bukan URL =&gt; perlakukan sebagai teks mentah
+                documents.append(make_document("teks-mentah", source))
+        except Exception as exc:
+            errors.append(f"ingest gagal untuk {source[:60]}: {exc}")
+    if not documents:
+        return {"errors": errors + ["Tidak ada dokumen yang berhasil dibaca"],
+                "status": "failed"}
+    return {"documents": documents, "errors": errors, "status": "ingested"}
+
+
+# --- Ekstraksi (LlamaIndex di dalam node) ------------------------------------
+
+async def run_extraction(state: AgentState) -&gt; dict:
+    settings = get_settings()
+    workflow = ExtractionWorkflow(settings=settings, timeout=120, verbose=False)
+    feedback = "\n".join(state["validation_errors"]) or None
+    try:
+        result = await workflow.run(
+            documents=state["documents"],
+            feedback=feedback,               # mode repair: putaran &gt; 1
+        )
+        return {"extraction": result, "validation_errors": [],
+                "status": "extracted"}
+    except ExtractionFailed as exc:
+        return {"errors": [f"Ekstraksi LLM gagal total: {exc}"],
+                "status": "extracted"}      # extraction tetap None -&gt; routing fallback
+
+
+async def fallback_extraction(state: AgentState) -&gt; dict:
+    result = extract_rule_based(state["documents"])
+    return {"extraction": result, "status": "extracted",
+            "errors": ["Menggunakan ekstraksi rule-based (LLM tidak tersedia)"]}
+
+
+# --- Validasi -----------------------------------------------------------------
+
+async def validate_extraction(state: AgentState) -&gt; dict:
+    """ExtractionResult sudah tervalidasi Pydantic oleh structured LLM,
+    jadi node ini memeriksa kelengkapan operasional + menghitung repair."""
+    ext = state["extraction"]
+    problems: list[str] = []
+    if ext is None:
+        problems.append("extraction kosong")
+    else:
+        if not ext.event.province or ext.event.province == "Tidak diketahui":
+            problems.append("field event.province belum terisi dari dokumen")
+        if ext.casualties.evidence_quote.strip() == "":
+            problems.append("casualties.evidence_quote kosong")
+    if problems:
+        return {"validation_errors": problems,
+                "repair_count": state["repair_count"] + 1,
+                "status": "extracted"}
+    return {"validation_errors": [], "status": "validated"}
+
+
+# --- Pengayaan &amp; penilaian ------------------------------------------------------
+
+async def enrich_context(state: AgentState) -&gt; dict:
+    """Tempat memanggil tool eksternal (geocoding, API cuaca BMKG, dsb).
+    Setiap tool sebaiknya juga dibungkus call_llm_resilient()-style retry
+    bila ia memanggil layanan jaringan yang fluktuatif."""
+    ext = state["extraction"]
+    enrichment = EnrichmentData(
+        latitude=ext.event.latitude,
+        longitude=ext.event.longitude,
+        admin_region=ext.event.province,
+        notes=["Geocoding &amp; cuaca: sambungkan provider Anda di node ini"],
+    )
+    return {"enrichment": enrichment, "status": "enriched"}
+
+
+async def assess_impact(state: AgentState) -&gt; dict:
+    """Penilaian dampak deterministik (bukan LLM) agar skor dapat
+    direproduksi dan diaudit: bobot transparan, bukan tebakan model."""
+    cas = state["extraction"].casualties
+    score = min(100,
+                cas.deaths * 4 + cas.missing * 3
+                + min(cas.displaced // 100, 25)
+                + min(cas.injured // 10, 15))
+    level = ("critical" if score &gt;= 80 else "high" if score &gt;= 55
+             else "moderate" if score &gt;= 30 else "low")
+    assessment = ImpactAssessment(
+        severity_level=level,
+        impact_score=score,
+        affected_population_estimate=cas.displaced + cas.injured + cas.missing,
+        rationale=(
+            f"Skor {score}/100 dari {cas.deaths} meninggal, {cas.missing} hilang, "
+            f"{cas.injured} luka, {cas.displaced} mengungsi (rumus bobot tetap)."
+        ),
+    )
+    return {"assessment": assessment, "status": "assessed"}
+
+
+# --- Verifikasi grounding -------------------------------------------------------
+
+async def verify_grounding_node(state: AgentState) -&gt; dict:
+    report = verify_grounding(state["extraction"], state["documents"])
+    settings = get_settings()
+    needs_review = report.grounding_rate &lt; settings.min_grounding_rate
+    return {"grounding": report, "needs_human_review": needs_review,
+            "status": "verified"}
+
+
+# --- Human review (human-in-the-loop) -------------------------------------------
+
+async def human_review(state: AgentState) -&gt; dict:
+    """Graph berhenti di sini (interrupt) dan menunggu operator.
+    Operator menerima state ringkas, lalu membalas keputusan:
+    {"action": "approve"} / {"action": "reject", "reason": "..."}.
+    Eksekusi dilanjutkan lewat Command(resume=...) dari pemanggil."""
+    decision = interrupt({
+        "reason": "Ekstraksi tidak lolos validasi/verifikasi otomatis",
+        "ungrounded_claims": state["grounding"].ungrounded if state["grounding"] else [],
+        "validation_errors": state["validation_errors"],
+        "extraction": state["extraction"].model_dump() if state["extraction"] else None,
+    })
+    if decision.get("action") == "approve":
+        return {"needs_human_review": False, "status": "verified"}
+    return {"errors": [f"Ditolak operator: {decision.get('reason', '-')}"],
+            "status": "failed"}
+
+
+# --- Laporan ---------------------------------------------------------------------
+
+async def generate_report(state: AgentState) -&gt; dict:
+    ext, asm, grounding = state["extraction"], state["assessment"], state["grounding"]
+    status = ("fallback_extraction" if ext.extractor == "rule_based_fallback"
+              else "needs_review" if state["needs_human_review"] else "verified")
+    report = SituationReport(
+        report_id=f"SITREP-{datetime.now():%Y-%m%d}-{uuid4().hex[:4].upper()}",
+        run_id=state["run_id"],
+        generated_at=datetime.now(timezone.utc),
+        status=status,
+        headline=(f"{ext.event.title}: {ext.casualties.deaths} meninggal, "
+                  f"{ext.casualties.displaced} mengungsi"),
+        event=ext.event,
+        casualties=ext.casualties,
+        impact=asm,
+        grounding=grounding,
+        recommended_actions=[
+            "Prioritaskan pencarian korban hilang dan kebutuhan logistik pengungsi",
+            "Verifikasi ulang angka korban ke posko setempat sebelum publikasi eksternal",
+        ],
+        sources=state["documents"],
+        narrative_summary=(
+            f"{ext.event.title} di {ext.event.province}. "
+            f"{ext.casualties.deaths} orang meninggal, {ext.casualties.injured} luka-luka, "
+            f"{ext.casualties.missing} dalam pencarian, {ext.casualties.displaced} mengungsi. "
+            f"Tingkat keparahan: {asm.severity_level} (skor {asm.impact_score}/100). "
+            f"Grounding klaim: {grounding.grounded_claims}/{grounding.total_claims} terverifikasi."
+        ),
+    )
+    return {"report": report, "status": "reported"}
+
+
+# --- Routing (conditional edges) ---------------------------------------------------
+
+def route_after_extraction(state: AgentState) -&gt; str:
+    """LLM gagal total (extraction None) -&gt; jaring pengaman rule-based."""
+    return "validate" if state["extraction"] is not None else "fallback"
+
+
+def route_after_validation(state: AgentState) -&gt; str:
+    """Ada error &amp; jatah repair masih ada -&gt; kembali ke ekstraksi dengan
+    feedback. Jatah habis -&gt; manusia yang memutuskan."""
+    settings = get_settings()
+    if state["validation_errors"]:
+        if state["repair_count"] &lt; settings.max_repairs:
+            return "repair"
+        return "human_review"
+    return "enrich"
+
+
+def route_after_verify(state: AgentState) -&gt; str:
+    """Grounding di bawah ambang -&gt; jangan terbitkan otomatis."""
+    return "human_review" if state["needs_human_review"] else "report"</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="graph">
+              <div class="code-head"><span class="fname">graph.py</span><span class="fdesc">Perakitan StateGraph: node, edge lurus, edge kondisional, checkpointer</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""Rakit graph dari nodes.py menjadi executable LangGraph.
+
+Struktur graph persis mengikuti diagram di dokumen arsitektur:
+  START -&gt; ingest -&gt; extract -&gt; (fallback?) -&gt; validate
+        -&gt; (repair loop | human_review | enrich)
+        -&gt; assess -&gt; verify -&gt; (human_review | report) -&gt; END
+"""
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import END, START, StateGraph
+
+import nodes
+from state import AgentState
+
+
+def build_graph(checkpointer=None):
+    builder = StateGraph(AgentState)
+
+    # Daftarkan node
+    builder.add_node("ingest", nodes.ingest_documents)
+    builder.add_node("extract", nodes.run_extraction)
+    builder.add_node("fallback", nodes.fallback_extraction)
+    builder.add_node("validate", nodes.validate_extraction)
+    builder.add_node("enrich", nodes.enrich_context)
+    builder.add_node("assess", nodes.assess_impact)
+    builder.add_node("verify", nodes.verify_grounding_node)
+    builder.add_node("human_review", nodes.human_review)
+    builder.add_node("report", nodes.generate_report)
+
+    # Edge lurus
+    builder.add_edge(START, "ingest")
+    builder.add_edge("ingest", "extract")
+    builder.add_edge("fallback", "validate")
+    builder.add_edge("enrich", "assess")
+    builder.add_edge("assess", "verify")
+    builder.add_edge("report", END)
+
+    # Edge kondisional — "{nama_state: node_tujuan}"
+    builder.add_conditional_edges(
+        "extract", nodes.route_after_extraction,
+        {"validate": "validate", "fallback": "fallback"},
+    )
+    builder.add_conditional_edges(
+        "validate", nodes.route_after_validation,
+        {"repair": "extract", "human_review": "human_review", "enrich": "enrich"},
+    )
+    builder.add_conditional_edges(
+        "verify", nodes.route_after_verify,
+        {"human_review": "human_review", "report": "report"},
+    )
+    # Hasil review operator: approve -&gt; terbitkan; reject -&gt; selesai (failed)
+    builder.add_conditional_edges(
+        "human_review",
+        lambda s: "report" if s["status"] != "failed" else END,
+        {"report": "report", END: END},
+    )
+
+    # MemorySaver: state per thread_id tersimpan, run dapat di-resume
+    # setelah interrupt human_review. Untuk produksi multi-proses,
+    # ganti dengan SqliteSaver / PostgresSaver.
+    return builder.compile(checkpointer=checkpointer or MemorySaver())</code></pre>
+            </div>
+
+            <div class="module-pane" data-mod="main">
+              <div class="code-head"><span class="fname">main.py</span><span class="fdesc">Entrypoint: buat state awal, jalankan graph, tangani interrupt, cetak laporan JSON</span><button class="copy-btn" type="button">Salin</button></div>
+              <pre class="code"><code data-lang="python">"""Entrypoint eksekusi.
+
+Contoh:
+    python main.py laporan_banjir.txt rilis_bnpb.pdf
+
+Graph di-invoke dengan thread_id = run_id agar checkpointer dapat
+melanjutkan run yang sama setelah operator menjawab interrupt.
+"""
+import asyncio
+import sys
+from uuid import uuid4
+
+from langgraph.types import Command
+
+from graph import build_graph
+from state import initial_state
+
+
+async def run(raw_sources: list[str]) -&gt; dict:
+    run_id = str(uuid4())
+    app = build_graph()
+    config = {"configurable": {"thread_id": run_id}}
+
+    final_state = await app.ainvoke(
+        initial_state(run_id, raw_sources), config=config
+    )
+
+    # Graph berhenti di interrupt()? -&gt; tampilkan payload ke operator
+    # dan tunggu keputusan (di produksi: kirim ke UI antrian review).
+    while "__interrupt__" in final_state:
+        payload = final_state["__interrupt__"][0].value
+        print("=== HUMAN REVIEW DIPERLUKAN ===")
+        print("Alasan:", payload["reason"])
+        print("Klaim tak ter-grounding:", payload["ungrounded_claims"])
+        answer = input("Setujui laporan? [y/N] ").strip().lower()
+        decision = ({"action": "approve"} if answer == "y"
+                    else {"action": "reject", "reason": "ditolak operator CLI"})
+        final_state = await app.ainvoke(
+            Command(resume=decision), config=config
+        )
+
+    report = final_state.get("report")
+    if report is not None:
+        print(report.model_dump_json(indent=2))
+    else:
+        print("Run selesai tanpa laporan. Status:", final_state["status"])
+        print("Errors:", final_state["errors"])
+    return final_state
+
+
+if __name__ == "__main__":
+    sources = sys.argv[1:]
+    if not sources:
+        print("Pemakaian: python main.py &lt;file/URL/teks&gt; [sumber lain...]")
+        raise SystemExit(2)
+    asyncio.run(run(sources))</code></pre>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 06 RETRY & ANTI-HALUSINASI ================= -->
+      <section id="retry">
+        <div class="sec-head">
+          <div class="sec-num">06 — STRATEGI RESILIENCE</div>
+          <h2>Retry menangani kegagalan transien; grounding menangani kegagalan kebenaran</h2>
+          <p class="sec-intro">Dua kelas kegagalan LLM tidak boleh dicampur. Timeout adalah masalah <i>transport</i> — solusinya mengulang dengan jeda. Halusinasi adalah masalah <i>kebenaran</i> — mengulang panggilan yang sama hanya menghasilkan karangan baru. Arsitektur ini memisahkannya secara eksplisit:</p>
+        </div>
+
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Kegagalan</th><th>Klasifikasi</th><th>Penanganan</th><th>Diimplementasikan di</th></tr></thead>
+            <tbody>
+              <tr><td>LLM timeout</td><td><span class="fname">Retryable</span></td><td><code>asyncio.wait_for</code> 30 dtk → tenacity ulang s.d. 4×, backoff eksponensial + jitter (1→2→4→8 dtk, plafon 30 dtk)</td><td><code>resilience.call_llm_resilient</code></td></tr>
+              <tr><td>Rate limit (HTTP 429)</td><td><span class="fname">Retryable</span></td><td>Sama seperti timeout; jitter mencegah retry serempak dari banyak run</td><td><code>resilience.call_llm_resilient</code></td></tr>
+              <tr><td>Koneksi putus / 5xx provider</td><td><span class="fname">Retryable</span></td><td>Sama seperti timeout</td><td><code>resilience.call_llm_resilient</code></td></tr>
+              <tr><td>Auth gagal / request tidak valid</td><td><span class="fname">Non-retryable</span></td><td>Langsung dilempar (<code>reraise</code>) — retry tidak akan menolong dan hanya menunda kegagalan yang pasti</td><td>Daftar <code>RETRYABLE_LLM_ERRORS</code></td></tr>
+              <tr><td>Output melanggar skema</td><td><span class="fname">Perbaikan terarah</span></td><td>Pesan error Pydantic disimpan di <code>validation_errors</code>, disisipkan ke prompt, ekstraksi diulang — maks 3 putaran</td><td><code>nodes.route_after_validation</code> → <code>workflow.prepare(feedback)</code></td></tr>
+              <tr><td>Confidence ekstraksi rendah</td><td><span class="fname">Perbaikan terarah</span></td><td>Diperlakukan sebagai kegagalan ekstraksi: turun ke model fallback, lalu repair loop</td><td><code>workflow.validate</code> (ambang di <code>config.min_confidence</code>)</td></tr>
+              <tr><td>Klaim tidak ada di sumber (halusinasi)</td><td><span class="fname">Ditolak</span></td><td><code>verify_grounding</code>: kutipan harus ditemukan verbatim &amp; angka harus muncul di kutipan. Grounding &lt; 80% → laporan <b>tidak</b> diterbitkan otomatis</td><td><code>resilience.verify_grounding</code> → <code>nodes.route_after_verify</code></td></tr>
+              <tr><td>Seluruh rantai LLM gagal</td><td><span class="fname">Degradasi</span></td><td>Model primary → model fallback → ekstraktor regex deterministik (tidak bisa berhalusinasi, confidence jujur 0,4) → human review</td><td><code>workflow.extract</code> → <code>fallback.py</code> → <code>human_review</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="strat-grid">
+          <div class="strat"><h3><span class="snum">A</span>Timeout berlapis</h3><p>Timeout ada di dua level: SDK LLM (<code>OpenAI(timeout=30)</code>) dan pembungkus <code>asyncio.wait_for</code> di resilience. Level kedua menangkap kasus SDK menggantung tanpa melempar exception — panggilan dibatalkan paksa, lalu tenacity yang memutuskan lanjut atau berhenti.</p></div>
+          <div class="strat"><h3><span class="snum">B</span>Backoff + jitter, bukan retry membabi buta</h3><p><code>wait_exponential_jitter</code> menggandakan jeda setiap percobaan dan mengacaknya. Retry instan beruntun saat provider sedang rate-limit justru memperburuk keadaan dan membakar kuota; jeda acak menyebar beban percobaan ulang.</p></div>
+          <div class="strat"><h3><span class="snum">C</span>Repair dengan umpan balik, bukan pengulangan buta</h3><p>Saat validasi gagal, yang dikirim ulang bukan prompt yang sama — melainkan prompt + daftar kesalahan spesifik (<code>validation_errors</code>). LLM memperbaiki field yang salah. Batas keras <code>max_repairs = 3</code> mencegah loop tak berujung yang menghabiskan token.</p></div>
+          <div class="strat"><h3><span class="snum">D</span>Grounding sebagai gerbang penerbitan</h3><p>Skema Pydantic hanya menjamin <i>bentuk</i> data, bukan kebenarannya — angka korban "999" lolos skema dengan mudah. Karena itu setiap klaim wajib membawa <code>evidence_quote</code> verbatim, dan node <code>verify_grounding</code> adalah gerbang terakhir sebelum laporan terbit.</p></div>
+          <div class="strat"><h3><span class="snum">E</span>Degradasi berjenjang, bukan kegagalan total</h3><p>Sistem dirancang untuk <i>menurunkan kualitas secara jujur</i>, bukan mati: model cadangan → parser regex → manusia. Setiap penurunan tercatat di state (<code>model_used</code>, <code>extractor</code>, <code>errors[]</code>) dan tercermin di <code>status</code> laporan, sehingga konsumen hilir tahu seberapa besar laporan bisa dipercaya.</p></div>
+          <div class="strat"><h3><span class="snum">F</span>Manusia sebagai simpul graph, bukan pengecualian</h3><p>Kasus yang tidak bisa diputuskan mesin tidak dilempar sebagai exception — ia menjadi node <code>human_review</code> dengan <code>interrupt()</code>. State tersimpan di checkpointer selama menunggu, dan keputusan operator tercatat sebagai bagian dari run yang sama.</p></div>
+        </div>
+
+        <div class="callout"><b>Catatan kejujuran batas:</b> verifikasi grounding di sini bersifat leksikal (pencocokan kutipan &amp; angka setelah normalisasi). Ia menangkap halusinasi angka dan klaim karangan — modus kegagalan paling berbahaya pada laporan bencana — tetapi tidak menilai parafrase semantik yang lolos dengan kutipan asli namun konteks keliru. Untuk kebutuhan itu, tambahkan langkah entailment (LLM-judge kedua dengan model berbeda atau model NLI) di node <code>verify_grounding</code> tanpa mengubah struktur graph.</div>
+      </section>
+
+      <!-- ================= 07 MENJALANKAN ================= -->
+      <section id="menjalankan">
+        <div class="sec-head">
+          <div class="sec-num">07 — MENJALANKAN &amp; MENGEMBANGKAN</div>
+          <h2>Dari nol sampai laporan pertama</h2>
+        </div>
+        <div class="code-shell">
+          <div class="code-head"><span class="fname">terminal</span><span class="fdesc">Setup &amp; eksekusi</span><button class="copy-btn" type="button">Salin</button></div>
+          <pre class="code"><code data-lang="text"># 1. Instal dependensi
+python -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+
+# 2. Konfigurasi (file .env di root proyek)
+#    DIA_LLM_API_KEY=sk-...
+#    DIA_LLM_PRIMARY=gpt-4o
+#    DIA_LLM_TIMEOUT_S=30
+
+# 3. Jalankan dengan satu atau banyak sumber
+python main.py laporan_banjir.txt
+
+# 4. Output: SituationReport JSON dicetak ke stdout;
+#    bila verifikasi gagal, CLI berhenti di prompt human review.</code></pre>
+        </div>
+
+        <div class="two-col">
+          <div class="mini-card">
+            <h3>Jalur pengembangan yang lazim</h3>
+            <ul>
+              <li><b>Provider LLM lain:</b> ganti impor di <code>extractor/workflow.py</code> (<code>llama-index-llms-anthropic</code> / <code>-ollama</code>) dan sesuaikan daftar exception retryable di <code>resilience.py</code> — graph tidak berubah.</li>
+              <li><b>Checkpointer produksi:</b> tukar <code>MemorySaver</code> dengan <code>SqliteSaver</code>/<code>PostgresSaver</code> di <code>graph.build_graph(checkpointer=...)</code> agar antrian human review bertahan lintas restart.</li>
+              <li><b>Tool pengayaan nyata:</b> isi <code>enrich_context</code> dengan geocoding (Nominatim/Places) dan API cuaca BMKG; bungkus panggilan jaringannya dengan pola retry yang sama.</li>
+              <li><b>Streaming ke dashboard:</b> ganti <code>ainvoke</code> dengan <code>astream_events</code> di <code>main.py</code> untuk menampilkan progres per node secara real-time.</li>
+            </ul>
+          </div>
+          <div class="mini-card">
+            <h3>Yang sengaja tidak dilakukan desain ini</h3>
+            <ul>
+              <li><b>Bukan</b> sistem pemantauan real-time: graph berjalan per batch dokumen. Untuk feed kontinu, bungkus <code>run()</code> dengan scheduler/queue di luar graph.</li>
+              <li>Penilaian dampak memakai rumus bobot tetap yang transparan — bukan LLM — agar skor antar-kejadian dapat dibandingkan dan diaudit.</li>
+              <li>Angka korban tidak pernah "diperhalus" model: yang tidak ada di dokumen tetap 0/null, dan ketidakpastian ditandai lewat <code>status</code> serta antrian review.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer class="doc-foot">
+        <span>Disaster Intelligence Agent — arsitektur implementasi v1.0</span>
+        <span>LangGraph · LlamaIndex Workflows · Pydantic v2 · Tenacity</span>
+      </footer>
+    </div>
+
+    <script>
+      // ---------- Syntax highlighting (ringan, tanpa dependensi) ----------
+      function escapeHtml(s) {
+        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+      function highlightPython(code) {
+        var pattern = /("""[\s\S]*?"""|'''[\s\S]*?''')|(#[^\n]*)|((?:f|r|b)?"(?:\\.|[^"\\\n])*"|(?:f|r|b)?'(?:\\.|[^'\\\n])*')|(@[\w.]+)|\b(import|from|as|def|class|return|if|elif|else|for|while|try|except|finally|raise|with|await|async|yield|lambda|pass|break|continue|not|and|or|in|is|None|True|False|global|nonlocal|assert|del)\b|\b(\d+(?:\.\d+)?)\b|\b([A-Z][A-Za-z0-9_]*)\b|(?<=\bdef\s)([a-z_][A-Za-z0-9_]*)|(?<=\bclass\s)([A-Za-z0-9_]+)/g;
+        var out = "", last = 0, m;
+        while ((m = pattern.exec(code)) !== null) {
+          out += escapeHtml(code.slice(last, m.index));
+          var cls = m[1] || m[3] ? "tok-str" : m[2] ? "tok-com" : m[4] ? "tok-dec" : m[5] ? "tok-kw" : m[6] ? "tok-num" : m[7] ? "tok-cls" : "tok-fn";
+          out += '<span class="' + cls + '">' + escapeHtml(m[0]) + "</span>";
+          last = m.index + m[0].length;
+        }
+        out += escapeHtml(code.slice(last));
+        return out;
+      }
+      function highlightJson(code) {
+        var pattern = /("(?:\\.|[^"\\])*")(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g;
+        var out = "", last = 0, m;
+        while ((m = pattern.exec(code)) !== null) {
+          out += escapeHtml(code.slice(last, m.index));
+          if (m[1] !== undefined) {
+            out += m[2] ? '<span class="tok-key">' + escapeHtml(m[1]) + "</span>" + escapeHtml(m[2])
+                        : '<span class="tok-str">' + escapeHtml(m[1]) + "</span>";
+          } else if (m[3] !== undefined) {
+            out += '<span class="tok-bool">' + escapeHtml(m[3]) + "</span>";
+          } else {
+            out += '<span class="tok-num">' + escapeHtml(m[4]) + "</span>";
+          }
+          last = m.index + m[0].length;
+        }
+        out += escapeHtml(code.slice(last));
+        return out;
+      }
+      document.querySelectorAll("code[data-lang]").forEach(function (el) {
+        var lang = el.getAttribute("data-lang");
+        if (lang === "python") el.innerHTML = highlightPython(el.textContent);
+        else if (lang === "json") el.innerHTML = highlightJson(el.textContent);
+      });
+
+      // ---------- Copy buttons ----------
+      document.querySelectorAll(".copy-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var shell = btn.closest(".code-shell, .module-pane, .code-layout");
+          var scope = btn.closest(".module-pane") || btn.closest(".code-shell");
+          var code = scope ? scope.querySelector("pre.code code") : null;
+          if (!code) return;
+          var done = function () {
+            var old = btn.textContent;
+            btn.textContent = "Tersalin ✓";
+            btn.classList.add("copied");
+            setTimeout(function () { btn.textContent = old; btn.classList.remove("copied"); }, 1600);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code.textContent).then(done).catch(done);
+          } else { done(); }
+        });
+      });
+
+      // ---------- JSON schema tabs ----------
+      document.querySelectorAll("[data-tab]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var target = btn.getAttribute("data-tab");
+          document.querySelectorAll("[data-tab]").forEach(function (b) { b.classList.toggle("active", b === btn); });
+          document.querySelectorAll("[data-pane]").forEach(function (p) { p.classList.toggle("active", p.getAttribute("data-pane") === target); });
+        });
+      });
+
+      // ---------- Code module file tree ----------
+      document.querySelectorAll("[data-file]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var target = btn.getAttribute("data-file");
+          document.querySelectorAll("[data-file]").forEach(function (b) { b.classList.toggle("active", b === btn); });
+          document.querySelectorAll("[data-mod]").forEach(function (p) { p.classList.toggle("active", p.getAttribute("data-mod") === target); });
+        });
+      });
+
+      // ---------- Diagram node details ----------
+      var NODE_INFO = {
+        start:   { tag: "TERMINAL", cls: "tag-core", name: "START", desc: "Titik masuk graph. main.py membuat AgentState awal lewat initial_state(run_id, raw_sources) dan meng-invoke graph dengan thread_id = run_id agar checkpointer dapat melacak run ini.", inp: "raw_sources dari argumen CLI", out: "AgentState awal, status=\"ingested\"", fail: "—" },
+        ingest:  { tag: "LANGGRAPH NODE", cls: "tag-lg", name: "ingest_documents", desc: "Membaca semua sumber (path file, URL, atau teks mentah), mengekstrak teks bersih, dan mencatat provenance: nama sumber, hash SHA-256 konten, dan waktu ambil untuk audit trail laporan.", inp: "raw_sources", out: "documents[] (SourceDocument), status=\"ingested\"", fail: "Sumber yang gagal dibaca dicatat di errors[] dan dilewati; run hanya gagal bila nol dokumen berhasil dibaca." },
+        extract: { tag: "LLAMAINDEX WORKFLOW", cls: "tag-li", name: "run_extraction", desc: "Menjalankan ExtractionWorkflow LlamaIndex di dalam node: prepare → extract (structured LLM) → validate. Panggilan LLM dibungkus call_llm_resilient (timeout keras + retry backoff). Pada putaran repair, validation_errors dari putaran sebelumnya disisipkan ke prompt sebagai feedback.", inp: "documents[], validation_errors (mode repair)", out: "extraction (ExtractionResult), status=\"extracted\"", fail: "Timeout/rate-limit: retry internal s.d. 4×. Kedua model gagal: ExtractionFailed → extraction=None → routing ke fallback." },
+        fallback:{ tag: "FALLBACK · TANPA LLM", cls: "tag-core", name: "fallback_extraction", desc: "Ekstraktor deterministik berbasis regex (fallback.py): pola bahasa Indonesia untuk angka meninggal/luka/hilang/mengungsi dan kata kunci jenis bencana. Tidak bisa berhalusinasi karena hanya menemukan yang benar-benar tertulis — dengan confidence jujur 0,4.", inp: "documents[]", out: "extraction (extractor=\"rule_based_fallback\")", fail: "Field yang tidak ditemukan pola regex-nya menjadi 0/null dan province \"Tidak diketahui\", yang akan memicu jalur human review di validasi." },
+        validate:{ tag: "CONDITIONAL EDGE", cls: "tag-core", name: "validate_extraction", desc: "Memeriksa kelengkapan operasional hasil ekstraksi (province terisi, evidence_quote tidak kosong). Keputusan routing: tidak ada error → enrich; ada error & repair_count < 3 → kembali ke run_extraction dengan feedback; jatah repair habis → human_review.", inp: "extraction, repair_count", out: "validation_errors[], repair_count+1 bila gagal", fail: "Loop dibatasi keras oleh config.max_repairs = 3 agar tidak membakar token tanpa batas." },
+        enrich:  { tag: "LANGGRAPH NODE", cls: "tag-lg", name: "enrich_context", desc: "Memperkaya konteks kejadian lewat tool eksternal: geocoding lokasi ke koordinat, data cuaca dari API BMKG, dan konteks administratif wilayah. Hasilnya dipakai penilaian dampak dan rekomendasi aksi.", inp: "extraction.event (lokasi)", out: "enrichment (EnrichmentData), status=\"enriched\"", fail: "Kegagalan tool dicatat di errors[]; pengayaan bersifat best-effort dan tidak menggagalkan run." },
+        assess:  { tag: "LANGGRAPH NODE", cls: "tag-lg", name: "assess_impact", desc: "Menghitung skor dampak 0–100 dan level keparahan dengan rumus bobot TETAP (meninggal ×4, hilang ×3, pengungsi, luka) — sengaja bukan LLM agar skor antar-kejadian dapat dibandingkan, direproduksi, dan diaudit.", inp: "extraction.casualties", out: "assessment (ImpactAssessment), status=\"assessed\"", fail: "Deterministik terhadap input; satu-satunya kegagalan adalah extraction kosong, yang sudah disaring node sebelumnya." },
+        verify:  { tag: "CONDITIONAL EDGE", cls: "tag-core", name: "verify_grounding", desc: "Gerbang anti-halusinasi: resilience.verify_grounding memeriksa setiap evidence_quote benar-benar ada verbatim di dokumen sumber dan angka korban benar-benar muncul di kutipannya. Grounding rate < 0,8 → needs_human_review = True → human_review; lolos → generate_report.", inp: "extraction, documents[]", out: "grounding (GroundingReport), needs_human_review", fail: "Klaim yang gagal tidak dihapus diam-diam — dilaporkan apa adanya di GroundingReport.ungrounded dan menjadi alasan interrupt ke operator." },
+        human:   { tag: "HUMAN-IN-THE-LOOP", cls: "tag-core", name: "human_review", desc: "Graph berhenti dengan interrupt() sambil menampilkan alasan, klaim tak ter-grounding, dan draf ekstraksi ke operator. State tersimpan di checkpointer selama menunggu; operator membalas approve/reject lewat Command(resume=...) pada thread yang sama.", inp: "grounding.ungrounded, validation_errors, extraction", out: "status=\"verified\" (approve) atau \"failed\" (reject)", fail: "Tidak ada timeout paksa: run yang menunggu review tetap dapat dilanjutkan kapan pun selama checkpointer menyimpan thread-nya." },
+        report:  { tag: "LANGGRAPH NODE", cls: "tag-lg", name: "generate_report", desc: "Merakit SituationReport final: headline, event, angka korban, penilaian dampak, ringkasan grounding, rekomendasi aksi, daftar sumber dengan hash, dan narasi ringkas. Status laporan mencerminkan jalurnya: verified / fallback_extraction / needs_review.", inp: "extraction, assessment, grounding, documents[]", out: "report (SituationReport), status=\"reported\"", fail: "Node ini hanya berjalan bila extraction & assessment tersedia; jalur reject operator langsung ke END tanpa laporan." },
+        end:     { tag: "TERMINAL", cls: "tag-core", name: "END", desc: "Run selesai. main.py mencetak SituationReport sebagai JSON ke stdout (atau status + daftar errors bila run berakhir tanpa laporan), dan seluruh state final tetap dapat diambil dari checkpointer berdasarkan thread_id.", inp: "state final", out: "SituationReport JSON / ringkasan kegagalan", fail: "—" }
+      };
+      var detail = document.getElementById("nodeDetail");
+      function selectNode(key) {
+        var info = NODE_INFO[key];
+        if (!info) return;
+        document.querySelectorAll("svg .gnode").forEach(function (g) {
+          g.classList.toggle("active", g.getAttribute("data-node") === key);
+        });
+        var tag = document.getElementById("ndTag");
+        tag.textContent = info.tag;
+        tag.className = "tag nd-tag " + info.cls;
+        document.getElementById("ndName").textContent = info.name;
+        document.getElementById("ndDesc").textContent = info.desc;
+        document.getElementById("ndIn").innerHTML = "";
+        document.getElementById("ndIn").textContent = info.inp;
+        document.getElementById("ndOut").textContent = info.out;
+        document.getElementById("ndFail").textContent = info.fail;
+      }
+      document.querySelectorAll("svg .gnode").forEach(function (g) {
+        g.addEventListener("click", function () { selectNode(g.getAttribute("data-node")); });
+      });
+      selectNode("ingest");
+
+      // ---------- TOC: dropdown satu baris + label bagian aktif ----------
+      (function () {
+        var toggle = document.getElementById("tocToggle");
+        var panel = document.getElementById("tocPanel");
+        var current = document.getElementById("tocCurrent");
+        var nav = toggle ? toggle.closest("nav.toc") : null;
+        if (!toggle || !panel || !current || !nav) return;
+        var links = Array.prototype.slice.call(panel.querySelectorAll("[data-toc-link]"));
+        function closePanel(returnFocus) {
+          panel.hidden = true;
+          toggle.setAttribute("aria-expanded", "false");
+          if (returnFocus) toggle.focus();
+        }
+        function openPanel() {
+          panel.hidden = false;
+          toggle.setAttribute("aria-expanded", "true");
+        }
+        toggle.addEventListener("click", function () {
+          if (panel.hidden) openPanel(); else closePanel(false);
+        });
+        links.forEach(function (link) {
+          link.addEventListener("click", function () { closePanel(false); });
+        });
+        document.addEventListener("click", function (e) {
+          if (!panel.hidden && !nav.contains(e.target)) closePanel(false);
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !panel.hidden) closePanel(true);
+        });
+        function setActive(id, label) {
+          current.textContent = label;
+          links.forEach(function (link) {
+            link.classList.toggle("active", link.getAttribute("href") === "#" + id);
+          });
+        }
+        if (links.length) setActive(links[0].getAttribute("href").slice(1), links[0].textContent.trim());
+        if ("IntersectionObserver" in window) {
+          var visible = {};
+          var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) visible[entry.target.id] = entry.boundingClientRect.top;
+              else delete visible[entry.target.id];
+            });
+            var ids = Object.keys(visible);
+            if (!ids.length) return;
+            ids.sort(function (a, b) { return Math.abs(visible[a]) - Math.abs(visible[b]); });
+            var id = ids[0];
+            var match = links.filter(function (l) { return l.getAttribute("href") === "#" + id; })[0];
+            if (match) setActive(id, match.textContent.trim());
+          }, { rootMargin: "-64px 0px -55% 0px", threshold: 0 });
+          links.forEach(function (link) {
+            var sec = document.getElementById(link.getAttribute("href").slice(1));
+            if (sec) observer.observe(sec);
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
