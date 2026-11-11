@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Thesis MDRR — Benang Merah Riset Disaster Risk &amp; Resilience, University of Canterbury</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
+
+      :root {
+        --bg: #f7f4ee;
+        --surface: #fffdf8;
+        --surface-2: #efe9dd;
+        --ink: #1c2321;
+        --ink-2: #4a554f;
+        --ink-3: #6d7a74;
+        --line: #d8d0bf;
+        --accent: #b3402a;       /* seismic rust */
+        --accent-ink: #8f3120;
+        --teal: #1f5f5b;
+        --teal-soft: #dcebe7;
+        --gold: #a97b1c;
+        --gold-soft: #f3e8cd;
+        --chip-bg: #ece5d5;
+        --bar-track: #e7dfcd;
+        --shadow: 0 1px 2px rgba(28,35,33,.06), 0 8px 24px -12px rgba(28,35,33,.18);
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #14181a;
+          --surface: #1d2224;
+          --surface-2: #262c2e;
+          --ink: #ece7da;
+          --ink-2: #b9bfae;
+          --ink-3: #8d968c;
+          --line: #39413f;
+          --accent: #e0785c;
+          --accent-ink: #f0937c;
+          --teal: #6fbdb4;
+          --teal-soft: #22393a;
+          --gold: #d9ab4e;
+          --gold-soft: #3a3220;
+          --chip-bg: #2b3231;
+          --bar-track: #2c3331;
+          --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+          color-scheme: dark;
+        }
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "IBM Plex Sans", system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px 72px; }
+      h1, h2, h3 { font-family: "IBM Plex Serif", Georgia, serif; line-height: 1.2; margin: 0; }
+      h2 { font-size: clamp(1.5rem, 3.4vw, 2rem); font-weight: 700; }
+      h3 { font-size: 1.12rem; font-weight: 600; }
+      p { margin: 0; }
+      a { color: var(--teal); text-underline-offset: 3px; }
+      a:hover { color: var(--accent-ink); }
+      .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+      /* ---------- Lead ---------- */
+      .lead { padding: 40px 0 8px; border-bottom: 3px double var(--line); }
+      .lead .kicker {
+        font-family: "IBM Plex Mono", monospace; font-size: .78rem; letter-spacing: .14em;
+        text-transform: uppercase; color: var(--accent-ink); margin-bottom: 14px;
+      }
+      .lead h1 { font-size: clamp(1.9rem, 5.2vw, 3rem); font-weight: 700; max-width: 20ch; }
+      .lead h1 em { font-style: italic; color: var(--teal); }
+      .lead .sub { margin-top: 16px; max-width: 68ch; color: var(--ink-2); font-size: 1.05rem; }
+      .lead .meta-line { margin-top: 14px; font-size: .85rem; color: var(--ink-3); font-family: "IBM Plex Mono", monospace; }
+
+      .stats {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 26px 0 6px;
+      }
+      .stat {
+        background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+        padding: 16px 16px 13px; box-shadow: var(--shadow);
+      }
+      .stat .n { font-family: "IBM Plex Serif", serif; font-size: 2rem; font-weight: 700; line-height: 1; color: var(--accent-ink); }
+      .stat .l { margin-top: 7px; font-size: .82rem; color: var(--ink-2); line-height: 1.4; }
+      @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+      /* ---------- Sections ---------- */
+      section { margin-top: 52px; }
+      .sec-head { display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 20px; }
+      .sec-head .num { font-family: "IBM Plex Mono", monospace; color: var(--accent-ink); font-size: .9rem; font-weight: 600; }
+      .sec-head p { color: var(--ink-2); font-size: .95rem; margin-left: auto; text-align: right; max-width: 46ch; }
+      @media (max-width: 700px) { .sec-head { flex-wrap: wrap; } .sec-head p { margin-left: 0; text-align: left; } }
+      .prose { max-width: 72ch; color: var(--ink-2); }
+      .prose + .prose { margin-top: 12px; }
+      .prose strong, .prose b { color: var(--ink); }
+
+      .callout {
+        background: var(--teal-soft); border-radius: 10px; padding: 18px 20px; margin-top: 20px;
+      }
+      .callout h3 { color: var(--teal); margin-bottom: 6px; }
+      .callout p { color: var(--ink-2); font-size: .95rem; }
+      .callout p + p { margin-top: 8px; }
+      .callout strong { color: var(--ink); }
+
+      /* ---------- Charts ---------- */
+      .chart-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; margin-top: 6px; }
+      @media (max-width: 760px) { .chart-grid { grid-template-columns: 1fr; } }
+      .panel {
+        background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        padding: 20px; box-shadow: var(--shadow);
+      }
+      .panel h3 { margin-bottom: 4px; }
+      .panel .cap { font-size: .83rem; color: var(--ink-3); margin-bottom: 16px; }
+      .bar-row { display: grid; grid-template-columns: 128px 1fr 30px; align-items: center; gap: 10px; padding: 5px 0; }
+      .bar-row .bl { font-size: .85rem; color: var(--ink-2); line-height: 1.3; }
+      .bar-row .bv { font-family: "IBM Plex Mono", monospace; font-size: .85rem; font-weight: 600; text-align: right; }
+      .track { height: 14px; background: var(--bar-track); border-radius: 4px; overflow: hidden; }
+      .fill { height: 100%; border-radius: 4px; background: var(--teal); }
+      .fill.rust { background: var(--accent); }
+      .fill.gold { background: var(--gold); }
+      @media (max-width: 480px) { .bar-row { grid-template-columns: 104px 1fr 26px; } }
+      .year-chart { width: 100%; height: auto; display: block; }
+      .year-chart text { font-family: "IBM Plex Mono", monospace; }
+
+      /* ---------- Era timeline ---------- */
+      .eras { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 22px; }
+      @media (max-width: 900px) { .eras { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 520px) { .eras { grid-template-columns: 1fr; } }
+      .era { border-top: 3px solid var(--teal); background: var(--surface); border-radius: 0 0 10px 10px; padding: 16px; box-shadow: var(--shadow); }
+      .era:nth-child(2) { border-top-color: var(--accent); }
+      .era:nth-child(3) { border-top-color: var(--gold); }
+      .era .yr { font-family: "IBM Plex Mono", monospace; font-size: .8rem; font-weight: 600; color: var(--accent-ink); letter-spacing: .06em; }
+      .era h3 { margin: 6px 0 8px; font-size: 1.02rem; }
+      .era p { font-size: .88rem; color: var(--ink-2); line-height: 1.55; }
+
+      .threads { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      @media (max-width: 700px) { .threads { grid-template-columns: 1fr; } }
+      .thread { display: flex; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 15px 17px; }
+      .thread .t-num { font-family: "IBM Plex Serif", serif; font-weight: 700; font-size: 1.3rem; color: var(--gold); line-height: 1.1; }
+      .thread p { font-size: .92rem; color: var(--ink-2); }
+      .thread p strong { color: var(--ink); }
+
+      /* ---------- Catalogue ---------- */
+      .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 8px; }
+      .controls input[type="search"] {
+        flex: 1 1 240px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 8px;
+        background: var(--surface); color: var(--ink); font: inherit; font-size: .95rem;
+      }
+      .controls select {
+        padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px;
+        background: var(--surface); color: var(--ink); font: inherit; font-size: .92rem;
+      }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 14px; }
+      .chip {
+        border: 1px solid var(--line); background: var(--chip-bg); color: var(--ink-2);
+        border-radius: 999px; padding: 7px 15px; font: inherit; font-size: .86rem; cursor: pointer; min-height: 2.25rem;
+      }
+      .chip[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 600; }
+      @media (prefers-color-scheme: dark) { .chip[aria-pressed="true"] { color: #10201e; } }
+      .count-line { font-family: "IBM Plex Mono", monospace; font-size: .83rem; color: var(--ink-3); margin-bottom: 14px; }
+
+      .thesis-list { display: flex; flex-direction: column; gap: 10px; }
+      .thesis {
+        background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+        padding: 16px 18px; box-shadow: var(--shadow);
+      }
+      .thesis .top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; }
+      .thesis .yr { font-family: "IBM Plex Mono", monospace; font-weight: 600; color: var(--accent-ink); font-size: .92rem; }
+      .thesis .author { font-weight: 600; }
+      .badge {
+        font-size: .72rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+        border-radius: 4px; padding: 2px 8px; background: var(--gold-soft); color: var(--gold);
+      }
+      .badge.msc { background: var(--teal-soft); color: var(--teal); }
+      .badge.phd { background: var(--chip-bg); color: var(--ink-2); }
+      .thesis .title { font-family: "IBM Plex Serif", serif; font-size: 1.04rem; font-weight: 600; margin-top: 5px; line-height: 1.35; }
+      .thesis .facts { margin-top: 9px; display: flex; flex-wrap: wrap; gap: 5px 18px; font-size: .86rem; color: var(--ink-2); }
+      .thesis .facts b { color: var(--ink); font-weight: 600; }
+      .thesis .sup { margin-top: 7px; font-size: .86rem; color: var(--ink-2); }
+      .thesis .sup .ok { color: var(--teal); font-weight: 600; }
+      .thesis .sup .unv { color: var(--ink-3); font-style: italic; }
+      .thesis .lnk { margin-top: 7px; font-size: .84rem; }
+      .empty-note { padding: 28px; text-align: center; color: var(--ink-3); border: 1px dashed var(--line); border-radius: 10px; }
+
+      /* ---------- Supervisors ---------- */
+      .sup-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      @media (max-width: 700px) { .sup-grid { grid-template-columns: 1fr; } }
+      .sup-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 17px 19px; box-shadow: var(--shadow); }
+      .sup-card h3 { font-size: 1.05rem; }
+      .sup-card .role { font-size: .82rem; color: var(--ink-3); margin-top: 2px; }
+      .sup-card .works { margin-top: 9px; font-size: .88rem; color: var(--ink-2); }
+      .sup-card .works b { color: var(--teal); font-weight: 600; }
+      .sup-card .spec { margin-top: 8px; font-size: .88rem; color: var(--ink-2); border-top: 1px dashed var(--line); padding-top: 8px; }
+      .schools { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+      @media (max-width: 700px) { .schools { grid-template-columns: 1fr; } }
+      .school { border-radius: 10px; padding: 18px 20px; }
+      .school.a { background: var(--teal-soft); }
+      .school.b { background: var(--gold-soft); }
+      .school h3 { margin-bottom: 6px; }
+      .school p { font-size: .92rem; color: var(--ink-2); }
+      .school p strong { color: var(--ink); }
+
+      /* ---------- Outliers / gaps / recs ---------- */
+      .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      @media (max-width: 900px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+      .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow); }
+      .card .who { font-family: "IBM Plex Mono", monospace; font-size: .8rem; font-weight: 600; color: var(--accent-ink); }
+      .card h3 { font-size: 1rem; margin: 5px 0 6px; }
+      .card p { font-size: .88rem; color: var(--ink-2); }
+
+      .numlist { counter-reset: n; display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--line); }
+      .numlist li {
+        list-style: none; counter-increment: n; display: flex; gap: 16px;
+        padding: 14px 4px; border-bottom: 1px solid var(--line); align-items: baseline;
+      }
+      .numlist li::before {
+        content: counter(n, decimal-leading-zero); font-family: "IBM Plex Mono", monospace;
+        font-weight: 600; color: var(--accent-ink); font-size: .9rem; flex: none; width: 2ch;
+      }
+      .numlist .txt { font-size: .95rem; color: var(--ink-2); }
+      .numlist .txt strong { color: var(--ink); }
+      ul.numlist { margin: 0; padding: 0; }
+
+      .verify-box { background: var(--surface-2); border-radius: 10px; padding: 20px 22px; }
+      .verify-box ul { margin: 10px 0 0; padding-left: 20px; color: var(--ink-2); font-size: .93rem; }
+      .verify-box li + li { margin-top: 7px; }
+      .verify-box strong { color: var(--ink); }
+
+      /* ---------- Info alumni ---------- */
+      .alumni-box {
+        border: 1.5px dashed var(--gold); border-radius: 12px; background: var(--gold-soft);
+        padding: 22px 22px 8px;
+      }
+      .alumni-tag {
+        display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: .74rem; font-weight: 600;
+        letter-spacing: .08em; text-transform: uppercase; background: var(--gold); color: #fff;
+        border-radius: 4px; padding: 3px 9px; margin-bottom: 10px;
+      }
+      @media (prefers-color-scheme: dark) { .alumni-tag { color: #241c08; } }
+      .alumni-box .intro { color: var(--ink-2); font-size: .95rem; max-width: 72ch; }
+      .alumni-box .intro strong { color: var(--ink); }
+      .alumni-list { margin: 16px 0 6px; padding: 0; list-style: none; display: flex; flex-direction: column; }
+      .alumni-list li { padding: 13px 2px; border-top: 1px solid var(--line); font-size: .95rem; color: var(--ink-2); }
+      .alumni-list li strong { color: var(--ink); }
+      .alumni-timeline {
+        display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px;
+      }
+      .alumni-timeline span {
+        font-family: "IBM Plex Mono", monospace; font-size: .78rem; background: var(--surface);
+        border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; color: var(--ink-2);
+      }
+      .alumni-timeline span b { color: var(--accent-ink); font-weight: 600; }
+      .alumni-load { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0 14px; }
+      @media (max-width: 560px) { .alumni-load { grid-template-columns: 1fr; } }
+      .alumni-load .ld { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 13px 15px; }
+      .alumni-load .ld .pts { font-family: "IBM Plex Serif", serif; font-size: 1.5rem; font-weight: 700; color: var(--accent-ink); line-height: 1; }
+      .alumni-load .ld p { font-size: .86rem; color: var(--ink-2); margin-top: 5px; }
+      .alumni-src { font-size: .82rem; color: var(--ink-3); font-family: "IBM Plex Mono", monospace; padding: 10px 2px 14px; }
+
+      footer { margin-top: 56px; border-top: 3px double var(--line); padding-top: 20px; }
+      footer h3 { font-size: .95rem; margin-bottom: 10px; }
+      footer ul { margin: 0; padding-left: 18px; font-size: .86rem; color: var(--ink-2); columns: 2; column-gap: 36px; }
+      @media (max-width: 640px) { footer ul { columns: 1; } }
+      footer li { margin-bottom: 6px; break-inside: avoid; }
+      footer .fine { margin-top: 16px; font-size: .8rem; color: var(--ink-3); }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+
+      <!-- ============ LEAD ============ -->
+      <header class="lead">
+        <p class="kicker">University of Canterbury · Aotearoa New Zealand</p>
+        <h1>Benang merah 40 tesis <em>Disaster Risk &amp; Resilience</em></h1>
+        <p class="sub">
+          Kumpulan tesis program Disaster Risk and Resilience di University of Canterbury (UC) tahun 2018–2026 —
+          27 tesis MSc, 1 disertasi jalur profesional MDRR, dan 12 tesis PhD sebagai konteks program yang sama —
+          beserta pola tema dari tahun ke tahun, kecenderungan dosen pembimbing, tesis-tesis outlier,
+          dan celah riset yang masih kosong.
+        </p>
+        <p class="meta-line">Riset dikumpulkan 11 November 2026 · Sumber: UC Research Repository &amp; Katalog Perpustakaan UC</p>
+        <div class="stats">
+          <div class="stat"><div class="n">27</div><div class="l">tesis <strong>MSc in Disaster Risk and Resilience</strong> terverifikasi (2018–2026)</div></div>
+          <div class="stat"><div class="n">40</div><div class="l">total karya termasuk 1 disertasi MDRR profesional &amp; 12 tesis PhD</div></div>
+          <div class="stat"><div class="n">26/27</div><div class="l">tesis MSc berlokasi studi kasus di Selandia Baru — hanya 1 internasional (Tonga)</div></div>
+          <div class="stat"><div class="n">~3</div><div class="l">tesis MSc per tahun — program kecil; tidak ditemukan lulusan tesis 2015–2017</div></div>
+        </div>
+      </header>
+
+      <!-- ============ PROGRAM ============ -->
+      <section aria-labelledby="h-program">
+        <div class="sec-head"><span class="num">01</span><h2 id="h-program">Dua jalur master yang sering tertukar</h2></div>
+        <p class="prose">
+          Nama “MDRR” sebenarnya menaungi <strong>dua gelar berbeda</strong>, dan perbedaan ini menjelaskan mengapa
+          sebagian lulusan tidak muncul di repositori. <strong>MSc in Disaster Risk and Resilience</strong> adalah jalur
+          riset dengan tesis 120 poin (DRRE690) — inilah 27 tesis yang terdaftar di repositori UC.
+          <strong>Master of Disaster Risk and Resilience (MDRR)</strong> adalah gelar profesional 180 poin
+          (diajarkan bersama UC, Lincoln University, dan GNS Science) dengan disertasi 60 poin (DRRE691)
+          atau jalur coursework penuh — dan disertasi jalur ini umumnya <strong>tidak didepositokan</strong> sebagai tesis.
+        </p>
+        <p class="prose">
+          Karena itu lulusan MDRR terkonfirmasi seperti <strong>Sophie Newsham</strong> (2021, with Distinction),
+          <strong>Lydia Maireriki</strong> (±2019), dan <strong>Mat Darling</strong> (±2019) tidak ditemukan judul karyanya di katalog —
+          ketiganya kemungkinan menempuh jalur profesional atau coursework. Satu-satunya disertasi DRRE691 yang
+          teridentifikasi adalah karya <strong>Joshua Smith (2020)</strong> tentang papan informasi tsunami di Canterbury;
+          menariknya, nama yang sama juga tercatat dengan tesis MSc tahun 2023 — sumber yang ada tidak menjelaskan
+          hubungan kedua karya itu.
+        </p>
+        <div class="callout">
+          <h3>Cara membaca angka di halaman ini</h3>
+          <p>Judul, penulis, tahun, dan gelar <strong>terverifikasi dari indeks</strong> katalog/repositori UC. Namun metadata
+          repositori DSpace UC <strong>tidak memuat field pembimbing</strong> — supervisor hanya terverifikasi untuk 6 karya
+          (dari halaman acknowledgements PDF dan profil mahasiswa), sisanya ditulis apa adanya sebagai
+          “belum terverifikasi”, bukan ditebak. Metode sebagian tesis diinferensi dari judul/subjek katalog dan ditandai.</p>
+        </div>
+      </section>
+
+      <!-- ============ INFO ALUMNI ============ -->
+      <section aria-labelledby="h-alumni">
+        <div class="sec-head"><span class="num">02</span><h2 id="h-alumni">Info alumni — kesaksian langsung, bukan aturan resmi UC</h2><p>Bagian ini berbeda dari seluruh halaman: isinya pengalaman pribadi satu alumni, bukan data katalog/repositori UC dan bukan aturan resmi.</p></div>
+        <div class="alumni-box">
+          <span class="alumni-tag">Kesaksian alumni · bukan aturan resmi UC · bukan data katalog</span>
+          <p class="intro">
+            Poin-poin berikut berasal dari <strong>Ahmad Syukri (Yusuf)</strong> — pegawai BMKG, penerima beasiswa Manaaki
+            pada program MDRR UC yang baru menyelesaikan studinya — sebagaimana ia ceritakan kepada calon mahasiswa
+            berikutnya, Izzuddin Ar Rifqiy. Ini <strong>pengalaman dan pengamatan Yusuf sendiri</strong>: berguna sebagai
+            gambaran hidup di lapangan, tetapi <strong>tidak menggantikan regulasi, course information, atau konfirmasi
+            koordinator UC</strong>, dan tidak menambah judul karya baru apa pun ke katalog 40 karya di halaman ini.
+          </p>
+          <ul class="alumni-list">
+            <li><strong>Kenapa disertasi profesional MDRR (DRRE691) jarang muncul di repositori — menurut Yusuf, ini memang “mini thesis”.</strong> Panjangnya maksimal sekitar <strong>15–20 lembar</strong>, dikerjakan cepat hanya sekitar <strong>Oktober–November</strong>, dan biasanya berupa proyek atas permintaan pemerintah Selandia Baru. Skalanya jauh berbeda dari tesis riset MSc <strong>DRRE690 (120 poin)</strong> yang terdaftar di repositori — jadi wajar bila DRRE691 nyaris tidak meninggalkan jejak katalog seperti tesis MSc.</li>
+            <li><strong>Jalur yang diambil mayoritas mahasiswa MDRR adalah regulasi 3.(b).(ii).</strong> Dalam pengalaman Yusuf, kebanyakan mahasiswa menempuh <strong>kuliah 120 poin + mini thesis 60 poin</strong> — bukan jalur lain yang lebih panjang.</li>
+            <li><strong>Programnya sebenarnya hanya sekitar 10 bulan.</strong> Menurut Yusuf, MDRR berjalan dari <strong>Februari sampai akhir November</strong>, meski Letter of Acceptance (LoA) tertulis 12 bulan. Semester 2 selesai sekitar <strong>pertengahan Oktober</strong>, dan DRRE403 selesai lebih cepat lagi, sekitar <strong>September</strong> — beberapa mata kuliah tuntas dalam hitungan minggu. MDRR juga <strong>selalu mulai Februari</strong>; tidak ada intake Juli untuk program ini dalam pengalamannya.</li>
+            <li><strong>Opsi DRRE691 mulai Nov–Feb ada, tetapi tahun ini (2026) tidak dibuka.</strong> Yusuf menyebut ada opsi memulai DRRE691 pada <strong>November–Februari</strong> sebagai alternatif pola Juli–November, namun dengan <strong>ketentuan khusus</strong> dari kampus — dan pada tahun 2026 opsi itu ternyata <strong>tidak dibuka / tidak diperbolehkan</strong>. Akibatnya, menurut Yusuf, semua mahasiswa MDRR angkatannya mengerjakan tesis <strong>sambil tetap kuliah</strong>, bukan di blok terpisah setelah coursework selesai.</li>
+            <li><strong>Strategi beban kuliah alumni: berat di depan, longgar di belakang.</strong> Agar Semester 2 lebih leluasa untuk tesis, pola yang biasa dipakai menurut Yusuf adalah menumpuk beban di awal — lihat rincian poin di bawah.</li>
+          </ul>
+          <div class="alumni-load" aria-label="Strategi beban kuliah menurut Yusuf">
+            <div class="ld"><div class="pts">75 poin</div><p><strong>Semester 1</strong> — beban sengaja dibuat lebih berat di awal program.</p></div>
+            <div class="ld"><div class="pts">45 poin</div><p><strong>Semester 2</strong> — beban dikurangi supaya ada ruang mengerjakan mini thesis DRRE691 sambil kuliah.</p></div>
+          </div>
+          <div class="alumni-timeline" aria-label="Linimasa program MDRR menurut Yusuf">
+            <span><b>Feb</b> · program mulai</span>
+            <span><b>Sep</b> · DRRE403 selesai</span>
+            <span><b>Pertengahan Okt</b> · Semester 2 selesai</span>
+            <span><b>Okt–Nov</b> · mini thesis dikerjakan</span>
+            <span><b>Akhir Nov</b> · program selesai (±10 bulan)</span>
+          </div>
+          <p class="alumni-src">Sumber: percakapan WhatsApp Izzuddin Ar Rifqiy dengan Ahmad Syukri (Yusuf), BMKG — MDRR UC, penerima Manaaki, Agustus–November 2026 (terutama 18 Agustus &amp; 6 November 2026). Ditambahkan ke halaman ini 11 November 2026. Perlakukan sebagai kesaksian alumni 2026, bukan janji bahwa pola yang sama berlaku untuk angkatan berikutnya.</p>
+        </div>
+      </section>
+
+      <!-- ============ BENANG MERAH ============ -->
+      <section aria-labelledby="h-tema">
+        <div class="sec-head"><span class="num">03</span><h2 id="h-tema">Benang merah: tiga klaster tema</h2><p>Satu tesis dapat masuk lebih dari satu kategori; angka bersifat indikatif.</p></div>
+
+        <div class="chart-grid">
+          <div class="panel">
+            <h3>Tema dominan (dari 27 tesis MSc)</h3>
+            <p class="cap">Klaster terbesar adalah vulkanik — dan hampir semuanya membahas dampak pada sistem, bukan gunung apinya sendiri.</p>
+            <div class="bar-row"><span class="bl">Vulkanik — Taranaki, Taupō, Tonga</span><div class="track"><div class="fill rust" style="width:100%"></div></div><span class="bv">8</span></div>
+            <div class="bar-row"><span class="bl">Longsoran, debris flow, rockfall, bendungan longsoran</span><div class="track"><div class="fill" style="width:94%"></div></div><span class="bv">7–8</span></div>
+            <div class="bar-row"><span class="bl">Tsunami &amp; evakuasi</span><div class="track"><div class="fill" style="width:75%"></div></div><span class="bv">6</span></div>
+            <div class="bar-row"><span class="bl">Gempa, infrastruktur &amp; pedesaan</span><div class="track"><div class="fill gold" style="width:62%"></div></div><span class="bv">5</span></div>
+            <div class="bar-row"><span class="bl">Murni metode / teknologi</span><div class="track"><div class="fill" style="width:12%"></div></div><span class="bv">1</span></div>
+          </div>
+          <div class="panel">
+            <h3>Tesis MSc per tahun</h3>
+            <p class="cap">Puncak pada 2024 (6 tesis). Tidak ditemukan tesis MSc DRR tahun 2015–2017.</p>
+            <svg class="year-chart" viewBox="0 0 340 190" role="img" aria-label="Grafik batang jumlah tesis MSc per tahun: 2018 dua, 2019 satu, 2020 empat, 2021 dua, 2022 lima, 2023 empat, 2024 enam, 2025 satu, 2026 dua">
+              <g fill="var(--teal)">
+                <rect x="8"   y="118" width="26" height="42" rx="3"/>
+                <rect x="46"  y="139" width="26" height="21" rx="3"/>
+                <rect x="84"  y="76"  width="26" height="84" rx="3"/>
+                <rect x="122" y="118" width="26" height="42" rx="3"/>
+                <rect x="160" y="55"  width="26" height="105" rx="3"/>
+                <rect x="198" y="76"  width="26" height="84" rx="3"/>
+                <rect x="236" y="34"  width="26" height="126" rx="3" fill="var(--accent)"/>
+                <rect x="274" y="139" width="26" height="21" rx="3"/>
+                <rect x="306" y="118" width="26" height="42" rx="3"/>
+              </g>
+              <g fill="var(--ink)" font-size="11" font-weight="600" text-anchor="middle">
+                <text x="21" y="110">2</text><text x="59" y="131">1</text><text x="97" y="68">4</text>
+                <text x="135" y="110">2</text><text x="173" y="47">5</text><text x="211" y="68">4</text>
+                <text x="249" y="26">6</text><text x="287" y="131">1</text><text x="319" y="110">2</text>
+              </g>
+              <g fill="var(--ink-3)" font-size="9.5" text-anchor="middle">
+                <text x="21" y="176">2018</text><text x="59" y="176">2019</text><text x="97" y="176">2020</text>
+                <text x="135" y="176">2021</text><text x="173" y="176">2022</text><text x="211" y="176">2023</text>
+                <text x="249" y="176">2024</text><text x="287" y="176">2025</text><text x="319" y="176">2026</text>
+              </g>
+              <line x1="4" y1="160" x2="336" y2="160" stroke="var(--line)" stroke-width="1"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="eras">
+          <div class="era">
+            <p class="yr">2018–2020</p>
+            <h3>Bayang-bayang Kaikōura</h3>
+            <p>Lima dari tujuh tesis pertama merespons langsung gempa Kaikōura 2016 — evakuasi tsunami, infrastruktur kota kecil, longsoran. Fokusnya <em>response</em> dan perilaku saat peristiwa nyata. Pengecualian awal yang penting: Thomas 2018 (komunitas Māori, Chatham) dan Fraser 2020 (ketahanan pedesaan jangka panjang).</p>
+          </div>
+          <div class="era">
+            <p class="yr">2021–2022</p>
+            <h3>Gelombang vulkanik</h3>
+            <p>Enam dari sembilan tesis bertema vulkanik atau multi-bahaya Franz Josef. Pemicunya ganda: kesiapsiagaan Taranaki Mounga dan Taupō sebagai risiko nasional jangka panjang, plus erupsi Hunga Tonga 2022. Fokus bergeser dari perilaku saat peristiwa ke <em>dampak pada sistem</em> — air, pertanian, kota.</p>
+          </div>
+          <div class="era">
+            <p class="yr">2023–2024</p>
+            <h3>Pemodelan &amp; infrastruktur</h3>
+            <p>Didominasi pemodelan risiko: clean-up pasca-erupsi, transportasi pedesaan Taranaki, debris flow Marlborough, rockfall Kaikōura, longsoran–infrastruktur Wellington. Tsunami tetap hadir, tetapi dalam bentuk sintesis — review survei nasional (Prattley) dan analisis survei respons 2021 (Smith).</p>
+          </div>
+          <div class="era">
+            <p class="yr">2025–2026</p>
+            <h3>Alpine Fault + giliran sosial</h3>
+            <p>Bain dan Bisphan sama-sama memodelkan risiko longsoran untuk skenario gempa Alpine Fault — konsolidasi “mazhab” pemodelan longsoran UC. Larsen 2026, tentang ekspektasi komunitas atas pemulihan transportasi, adalah satu-satunya tesis terbaru yang murni berorientasi sosial — isyarat kembalinya perhatian ke <em>recovery</em>.</p>
+          </div>
+        </div>
+
+        <div class="threads">
+          <div class="thread"><span class="t-num">a</span><p><strong>Satu studi kasus NZ yang dalam.</strong> Hampir setiap tesis mengambil satu kota, satu gunung, atau satu lembah — nyaris tidak ada tesis komparatif multi-negara.</p></div>
+          <div class="thread"><span class="t-num">b</span><p><strong>Berorientasi pengguna akhir.</strong> Riset dipesan atau didukung praktisi: dewan daerah, CDEM Group, Environment Canterbury, Westland District Council.</p></div>
+          <div class="thread"><span class="t-num">c</span><p><strong>Kaikōura 2016 sebagai “laboratorium”.</strong> Satu peristiwa gempa terus dipakai sebagai lahan kajian hingga 2024 — oleh Tilley, Barnhill, McKibbin, Polwart, dan Mabin.</p></div>
+          <div class="thread"><span class="t-num">d</span><p><strong>Taranaki Mounga, “gunung api model”.</strong> Empat tesis MSc dalam tiga tahun (Porter, Pawlick, Coultas, Lamb) meneliti gunung yang sama dari sisi air, pertanian, evakuasi, dan transportasi.</p></div>
+        </div>
+      </section>
+
+      <!-- ============ KATALOG ============ -->
+      <section aria-labelledby="h-katalog">
+        <div class="sec-head"><span class="num">04</span><h2 id="h-katalog">Katalog 40 karya</h2><p>Cari berdasarkan penulis, judul, lokasi, atau metode; saring per jenjang dan klaster tema.</p></div>
+        <div class="controls">
+          <input type="search" id="q" placeholder="Cari: mis. “Taranaki”, “survei”, “Kaikōura”, “Wilson”…" aria-label="Cari dalam katalog tesis" />
+          <select id="tema" aria-label="Saring berdasarkan klaster tema">
+            <option value="">Semua tema</option>
+            <option value="vulkanik">Vulkanik</option>
+            <option value="tsunami">Tsunami &amp; evakuasi</option>
+            <option value="longsoran">Longsoran &amp; debris</option>
+            <option value="infrastruktur">Gempa, infrastruktur &amp; pedesaan</option>
+            <option value="sosial">Multi-bahaya &amp; sosial</option>
+            <option value="metode">Metode / teknologi</option>
+          </select>
+        </div>
+        <div class="chips" role="group" aria-label="Saring berdasarkan jenjang">
+          <button class="chip" data-level="" aria-pressed="true">Semua (40)</button>
+          <button class="chip" data-level="msc" aria-pressed="false">MSc (27)</button>
+          <button class="chip" data-level="disertasi" aria-pressed="false">Disertasi MDRR (1)</button>
+          <button class="chip" data-level="phd" aria-pressed="false">PhD (12)</button>
+        </div>
+        <p class="count-line" id="count-line" aria-live="polite"></p>
+        <div class="thesis-list" id="thesis-list"></div>
+      </section>
+
+      <!-- ============ PEMBIMBING ============ -->
+      <section aria-labelledby="h-pembimbing">
+        <div class="sec-head"><span class="num">05</span><h2 id="h-pembimbing">Kecenderungan dosen pembimbing</h2><p>Hitungan di bawah adalah batas bawah: hanya karya yang pembimbingnya terverifikasi dari sumber publik.</p></div>
+        <p class="prose">
+          <strong>Co-supervision adalah norma, bukan pengecualian.</strong> Setiap karya yang pembimbingnya terverifikasi
+          memiliki 2–3 pembimbing, dan pola kombinasinya lintas disiplin: fisik + sosial, UC + GNS Science,
+          bahkan sains + hukum. Poros UC–GNS Science adalah “sekolah” yang paling jelas terlihat — GNS muncul
+          sebagai mitra pembimbing sekaligus penyedia data dan model.
+        </p>
+        <div class="sup-grid" style="margin-top:20px">
+          <div class="sup-card">
+            <h3>Prof. Tom Wilson</h3>
+            <p class="role">Professor of Disaster Risk and Resilience, UC · kini Chief Science Advisor NEMA</p>
+            <p class="works">Terverifikasi di <b>3 karya</b>: Tilley (MSc 2020) · Smith (disertasi MDRR 2020) · Calderon Barraza (PhD 2024)</p>
+            <p class="spec">Simpul utama jejaring UC–GNS. Spesialisasi tampak: vulkanik &amp; dampak pada sistem, tsunami/evakuasi, skenario kaldera.</p>
+          </div>
+          <div class="sup-card">
+            <h3>Dr. Sarah Beaven</h3>
+            <p class="role">Disaster Risk and Resilience Group, UC · koordinator DRRE691 (proyek profesional MDRR)</p>
+            <p class="works">Terverifikasi di <b>3 karya</b>: Tilley (MSc 2020) · Smith (disertasi MDRR 2020) · Sarwary (PhD 2025, pembimbing utama)</p>
+            <p class="spec">Tsunami &amp; komunikasi risiko, tata kelola dan legislasi pemulihan — poros sisi sosial-kebijakan program ini.</p>
+          </div>
+          <div class="sup-card">
+            <h3>Dr. Matthew Hughes</h3>
+            <p class="role">University of Canterbury</p>
+            <p class="works">Terverifikasi di <b>1 karya</b>: Tilley (MSc 2020) — bersama Wilson &amp; Beaven</p>
+            <p class="spec">Tsunami/evakuasi dan pemodelan; trio Wilson–Hughes–Beaven adalah contoh pola co-supervision khas program ini.</p>
+          </div>
+          <div class="sup-card">
+            <h3>Thomas Robinson &amp; Prof. Tim Davies</h3>
+            <p class="role">Senior Lecturer &amp; Professor, UC · spesialis longsoran / Alpine Fault dan bahaya alam</p>
+            <p class="works">Terverifikasi di <b>1 karya</b>: Nandhini (MSc 2022, Franz Josef)</p>
+            <p class="spec">Robinson juga memimpin rekrutmen PhD longsoran–jalan 2026 (bersama Robson, Yates, Wotherspoon) — tanda mazhab longsoran terus beregenerasi.</p>
+          </div>
+          <div class="sup-card">
+            <h3>Mary Anne Clive &amp; Graham Leonard</h3>
+            <p class="role">GNS Science</p>
+            <p class="works">Clive: Smith (disertasi MDRR 2020) · Leonard: Calderon Barraza (PhD 2024, bersama Wilson)</p>
+            <p class="spec">Wajah institusional poros UC–GNS: risiko tsunami &amp; keterlibatan praktisi (Clive); vulkanologi &amp; skenario kaldera (Leonard).</p>
+          </div>
+          <div class="sup-card">
+            <h3>Prof. John Hopkins</h3>
+            <p class="role">Faculty of Law, UC · pembimbing pendamping</p>
+            <p class="works">Terverifikasi di <b>1 karya</b>: Sarwary (PhD 2025, bersama Beaven)</p>
+            <p class="spec">Hukum &amp; tata kelola kebencanaan — bukti co-supervision program ini menembus fakultas, bukan hanya disiplin.</p>
+          </div>
+        </div>
+
+        <div class="schools">
+          <div class="school a">
+            <h3>Mazhab vulkanik–sistem</h3>
+            <p>Dipimpin poros <strong>Wilson dkk.</strong> — Taranaki, Taupō, Auckland; fokusnya bukan erupsi itu sendiri melainkan <strong>infrastruktur yang terdampak</strong>: air bersih, transportasi, pertanian, dan pembersihan abu. Kuantitatif dan berbasis pemodelan, terhubung ke lembaga nasional (GNS/NEMA).</p>
+          </div>
+          <div class="school b">
+            <h3>Mazhab longsoran–Alpine Fault</h3>
+            <p>Dipimpin poros <strong>Robinson dkk.</strong> — bendungan longsoran West Coast &amp; Shotover, rockfall dan debris flow pasca-gempa, risiko pengguna jalan. Skenario gempa Alpine Fault adalah panggung bersamanya; sama-sama kuantitatif-pemodelan dan berbasis GIS.</p>
+          </div>
+        </div>
+        <p class="prose" style="margin-top:18px">
+          Di luar dua mazhab itu, <strong>sisi sosial/komunitas lebih kecil dan tersebar</strong> — Beaven (tata kelola,
+          komunikasi tsunami), Thomas (Māori, Chatham), Fraser (pedesaan) — tanpa satu pembimbing yang mendominasi
+          seperti Wilson di sisi fisik. Ciri lain yang menonjol: <strong>regenerasi internal</strong>. Lulusan menjadi staf dan
+          peneliti berikutnya — Kristie-Lee Thomas (MSc 2018 → dosen Disaster Risk Reduction UC), Mat Darling
+          (MDRR → PhD 2024), Sophie Newsham (MDRR 2021 → PhD Geologi). Program ini merekrut dari lulusannya sendiri.
+        </p>
+      </section>
+
+      <!-- ============ OUTLIER ============ -->
+      <section aria-labelledby="h-outlier">
+        <div class="sec-head"><span class="num">06</span><h2 id="h-outlier">Tesis paling unik</h2><p>Enam karya yang menyimpang paling jauh dari pola arus utama program.</p></div>
+        <div class="cards">
+          <div class="card"><p class="who">THOMAS · 2018</p><h3>Satu-satunya yang berpusat pada Māori</h3><p>Satu-satunya tesis MSc yang berpusat pada pengetahuan dan kepemimpinan Māori, komunitas terpencil Kepulauan Chatham, dan riset partisipatif kaupapa Māori. Outlier metodologis sekaligus epistemologis — penulisnya kini dosen UC.</p></div>
+          <div class="card"><p class="who">AUAPAAU · 2024</p><h3>Satu-satunya di luar Selandia Baru</h3><p>Satu-satunya studi kasus internasional di daftar MSc (pertanian Tonga pasca-erupsi Hunga Tonga 2022) dan satu-satunya tesis tentang pertanian — merespons erupsi besar yang baru terjadi dua tahun sebelum tesisnya selesai.</p></div>
+          <div class="card"><p class="who">SCOTT · 2021</p><h3>Paling matematis</h3><p>Satu-satunya tesis peramalan probabilistik: Bayesian event tree untuk meramalkan onset erupsi Taupō dalam jangka pendek — jauh dari pola survei/pemodelan spasial arus utama.</p></div>
+          <div class="card"><p class="who">LAMA · 2021</p><h3>Paling teknis-instrumental</h3><p>Satu-satunya perbandingan teknologi penginderaan jauh: citra satelit vs drone (RPAS) dalam kondisi cuaca buruk di Franz Josef. Tesis paling “alat” dalam katalog.</p></div>
+          <div class="card"><p class="who">FRASER · 2020</p><h3>Memakai kacamata ekonomi</h3><p>Satu-satunya tesis yang memakai kerangka kebijakan ekonomi nasional (Treasury Living Standards Framework) dengan cakupan pedesaan NZ selama ±50 tahun.</p></div>
+          <div class="card"><p class="who">McMECKING · 2022</p><h3>Juara Three Minute Thesis</h3><p>Pemodelan bendungan longsoran West Coast (didanai Toka Tū Ake EQC) — satu-satunya tesis MSc dalam daftar yang meraih Juara 1 kategori Masters pada Three Minute Thesis 2022.</p></div>
+        </div>
+      </section>
+
+      <!-- ============ GAP ============ -->
+      <section aria-labelledby="h-gap">
+        <div class="sec-head"><span class="num">07</span><h2 id="h-gap">Gap riset: yang belum digarap</h2><p>Berdasarkan daftar 27 tesis MSc — topik besar yang justru absen.</p></div>
+        <ul class="numlist">
+          <li><span class="txt"><strong>Banjir sebagai bahaya utama: nol tesis.</strong> Banjir hanya muncul sebagai bahaya sekunder — ironis, karena tesis banjir justru hidup di program tetangga (Teknik Sipil, Water Science). Ini celah terbesar program.</span></li>
+          <li><span class="txt"><strong>Perubahan iklim &amp; adaptasi eksplisit: nol.</strong> Tidak ada judul yang menyebut climate change, kenaikan muka laut, atau managed retreat — padahal Franz Josef dan komunitas pesisir menyentuhnya secara implisit.</span></li>
+          <li><span class="txt"><strong>Kesehatan &amp; kelompok rentan: nol</strong> di MSc DRR; topik kesehatan bencana justru berada di Master of Health Science.</span></li>
+          <li><span class="txt"><strong>Pengetahuan Māori / Indigenous: 1 dari 27</strong> (Thomas 2018). Kesenjangan ini mulai diisi di jenjang PhD (beasiswa 2026 tentang ketahanan komunitas Māori), belum di MSc.</span></li>
+          <li><span class="txt"><strong>Pasifik &amp; internasional: 1 dari 27</strong> (Tonga). Tidak ada tesis MSc tentang Fiji, Samoa, Vanuatu, Indonesia, atau Filipina — studi Filipina hanya ada di PhD (Minimo 2021).</span></li>
+          <li><span class="txt"><strong>Auckland Volcanic Field di MSc: nol</strong> — risiko vulkanik perkotaan terbesar NZ ini hanya dikaji di PhD (Allen 2021; Blake).</span></li>
+          <li><span class="txt"><strong>Cyclone Gabrielle (2023): nol.</strong> Hingga 2026 belum ada tesis MSc DRR tentang siklon terbesar NZ dalam satu generasi itu maupun pemulihan pasca-siklon.</span></li>
+          <li><span class="txt"><strong>AI/machine learning, asuransi &amp; keuangan risiko, rantai pasok: nol.</strong> Begitu pula kebakaran hutan dan tsunami jarak jauh sebagai fokus utama.</span></li>
+        </ul>
+        <p class="prose" style="margin-top:18px">
+          Soal metode, polanya serupa: <strong>pemodelan spasial/GIS dan penilaian risiko kuantitatif mendominasi</strong>
+          (±15–17 tesis), diikuti survei perilaku/risiko (±6). Yang langka: penginderaan jauh eksperimental,
+          peramalan Bayesian, studi longitudinal, dan riset partisipatif. Yang <strong>tidak ada sama sekali</strong>:
+          etnografi murni, eksperimen laboratorium, analisis big data/media sosial, dan agent-based modelling
+          sebagai metode utama di jenjang MSc. Secara empiris, program ini adalah
+          <strong>program risiko bencana Selandia Baru</strong> — kedalaman lokal dan akses ke praktisi adalah kekuatannya,
+          generalisasi internasional adalah keterbatasannya. Mahasiswa internasional yang ingin meneliti negara asal
+          (mis. Indonesia) hampir tidak punya preseden di MSc — kecuali mengikuti jejak Auapaau (Tonga).
+        </p>
+      </section>
+
+      <!-- ============ REKOMENDASI ============ -->
+      <section aria-labelledby="h-rekomendasi">
+        <div class="sec-head"><span class="num">08</span><h2 id="h-rekomendasi">Topik yang masih segar untuk calon mahasiswa</h2><p>Sepuluh arah yang mengisi gap di atas atau melanjutkan karya yang sudah ada.</p></div>
+        <ul class="numlist">
+          <li><span class="txt"><strong>Banjir &amp; stopbank di era iklim berubah</strong> — risiko banjir dan efektivitas stopbank dari lensa DRR sosial-teknis (mengisi gap terbesar).</span></li>
+          <li><span class="txt"><strong>Managed retreat / relokasi terencana</strong> — kelanjutan Nandhini 2022: sisi sosial-ekonomi-budaya relokasi Franz Josef atau komunitas pesisir seperti Westport dan South Dunedin.</span></li>
+          <li><span class="txt"><strong>Risiko Auckland Volcanic Field di jenjang MSc</strong> — evakuasi, air bersih, atau hunian; presedennya baru ada di PhD (Allen, Blake).</span></li>
+          <li><span class="txt"><strong>Pemulihan pasca–Cyclone Gabrielle</strong> (Hawke's Bay/Gisborne) — perumahan, infrastruktur, ekspektasi komunitas; lanjutan alami dari Larsen 2026.</span></li>
+          <li><span class="txt"><strong>Ketahanan wisatawan &amp; populasi transient</strong> — melanjutkan Darling (PhD 2024) dan Maireriki; relevan sebagai studi komparatif, mis. Bali/Lombok.</span></li>
+          <li><span class="txt"><strong>Pengetahuan Māori / Indigenous dalam peringatan dini</strong> tsunami atau kebakaran — lanjutan Thomas 2018, selaras dengan arah pendanaan 2026 yang Māori-led.</span></li>
+          <li><span class="txt"><strong>Dampak abu vulkanik pada pertanian di Indonesia atau Pasifik</strong> — melanjutkan Auapaau 2024 (Tonga) dan Pawlick 2022 (Taranaki); preseden internasionalnya sudah diterima program.</span></li>
+          <li><span class="txt"><strong>Risiko compound: kenaikan muka laut + tsunami</strong> di komunitas pesisir — menggabungkan klaster tsunami (Evans/Tilley) dengan adaptasi iklim.</span></li>
+          <li><span class="txt"><strong>AI/machine learning untuk estimasi kerusakan cepat</strong> — arah ini sedang dibuka di UC (mis. crowdsourcing ashfall), tetapi belum ada tesis MSc DRR yang selesai di topik ini.</span></li>
+          <li><span class="txt"><strong>Tata kelola &amp; partisipasi publik pasca-bencana</strong> — membawa pendekatan Sarwary (PhD 2025) ke jenjang master, mis. membandingkan Canterbury dengan konteks Asia Tenggara.</span></li>
+        </ul>
+        <div class="callout">
+          <h3>Saran praktis memilih topik</h3>
+          <p>Pola sukses hampir semua tesis di katalog ini: <strong>(i)</strong> punya mitra praktisi NZ (CDEM Group, ECan, GNS Science, dewan daerah); <strong>(ii)</strong> memanfaatkan salah satu dari dua mazhab kuat — vulkanik–sistem atau longsoran–Alpine Fault — bila ingin pembimbing yang mapan; atau <strong>(iii)</strong> sengaja masuk ke gap di atas bersama pembimbing sosial (Beaven/Thomas) bila mengincar orisinalitas tinggi.</p>
+        </div>
+      </section>
+
+      <!-- ============ VERIFIKASI ============ -->
+      <section aria-labelledby="h-verifikasi">
+        <div class="sec-head"><span class="num">09</span><h2 id="h-verifikasi">Yang belum terverifikasi</h2></div>
+        <div class="verify-box">
+          <p style="color:var(--ink-2);font-size:.95rem">Batas-batas kumpulan data ini, dinyatakan terang-terangan:</p>
+          <ul>
+            <li><strong>Pembimbing 25 dari 27 tesis MSc belum terverifikasi</strong> — hanya Tilley (2020) dan Nandhini (2022) yang pembimbingnya terkonfirmasi di jenjang MSc; metadata repositori DSpace UC memang tidak memuat field pembimbing, dan verifikasinya memerlukan pembacaan halaman acknowledgements di setiap PDF tesis.</li>
+            <li><strong>Judul karya MDRR profesional</strong> untuk Newsham (2021), Maireriki (±2019), dan Darling (±2019) tidak ditemukan — kemungkinan disertasi DRRE691 memang tidak didepositokan.</li>
+            <li><strong>Hubungan karya Joshua Smith 2020 dan 2023</strong> tidak dijelaskan sumber yang ada; keduanya dicantumkan terpisah apa adanya.</li>
+            <li><strong>Tahun tesis PhD Daniel Blake</strong> tidak tercantum di cuplikan katalog yang ditemukan.</li>
+            <li><strong>Kelengkapan daftar tidak dapat dipastikan mutlak</strong> — pencarian berulang di katalog dan repositori mengembalikan himpunan judul yang sama, tetapi tesis jalur profesional dan tahun 2025–2026 mungkin ada yang belum didepositokan.</li>
+            <li><strong>Metode sebagian tesis diinferensi dari judul</strong> atau subjek katalog (ditandai “diinferensi” di katalog), bukan dari abstrak lengkap. Gelar McMecking 2022 di katalog tertulis “Master of Science” tanpa embel-embel DRR eksplisit, meski penulisnya berasal dari Disaster Risk and Resilience Group.</li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>
+        <h3>Sumber utama</h3>
+        <ul>
+          <li><a href="https://ir.canterbury.ac.nz/" target="_blank" rel="noopener">UC Research Repository</a> — item Tilley, Evans, Fraser, PDF Nandhini, dan lainnya</li>
+          <li><a href="https://libcat.canterbury.ac.nz/" target="_blank" rel="noopener">UC Library Catalogue</a> — termasuk Record Fraser 3032467 &amp; Record Hiscock 3288674</li>
+          <li><a href="https://hdl.handle.net/10092/101304" target="_blank" rel="noopener">Tilley 2020</a> (doi:10.26021/10367) · <a href="https://hdl.handle.net/10092/103776" target="_blank" rel="noopener">Evans 2022</a> (doi:10.26021/12875)</li>
+          <li><a href="https://resiliencechallenge.nz/student-profile-laura-tilley/" target="_blank" rel="noopener">Resilience to Nature's Challenges</a> — profil mahasiswa Tilley, Darling, Sarwary, Maireriki</li>
+          <li><a href="https://courseinfo.canterbury.ac.nz/GetCourses.aspx?course=DRRE&viewby=semester&year=2024" target="_blank" rel="noopener">UC Course Information</a> — struktur DRRE690 (tesis) &amp; DRRE691 (proyek profesional)</li>
+          <li><a href="https://www.canterbury.ac.nz/about-uc/contact-us/postgrad-directory/sophie-newsham" target="_blank" rel="noopener">UC Postgraduate Directory</a> — Sophie Newsham, MDRR 2021 with Distinction</li>
+          <li><a href="https://www.preventionweb.net/news/new-canterbury-research-hopes-save-lives-predicting-landslide-dams" target="_blank" rel="noopener">PreventionWeb (17 Nov 2022)</a> — riset bendungan longsoran McMecking &amp; Three Minute Thesis</li>
+          <li><a href="https://media.qrtiger.com/files/2022/10/josh-smith-tsunami-information-board-research-summary---emo-forum-17-feb.pdf" target="_blank" rel="noopener">Ringkasan eksekutif disertasi Joshua Smith 2020</a> — papan informasi tsunami Canterbury</li>
+          <li>Percakapan WhatsApp Izzuddin Ar Rifqiy dengan Ahmad Syukri (Yusuf), BMKG — MDRR UC, penerima Manaaki, Agustus–November 2026 — sumber satu-satunya untuk bagian “Info alumni” (kesaksian langsung, bukan sumber resmi UC)</li>
+        </ul>
+        <p class="fine">Halaman ini adalah potret data per 11 November 2026 dari indeks katalog dan repositori UC. Angka tema bersifat indikatif karena satu tesis dapat masuk lebih dari satu kategori. Bagian “Info alumni” terpisah dari potret katalog tersebut dan bersumber dari kesaksian Yusuf (chat WhatsApp, 2026).</p>
+      </footer>
+    </div>
+
+    <script>
+      var THESES = [
+        /* ---------- MSc (27) ---------- */
+        {lvl:"msc", yr:2018, author:"van Woerden, Timothy Hugh", title:"Quaternary geology and landslide dam hazard assessment of the Shotover Gorge, Otago", tema:"longsoran", temaLabel:"Longsoran / bendungan longsoran", loc:"Shotover Gorge, Otago, NZ", method:"Geologi Kuarter, penilaian bahaya (lapangan + analisis)", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2018, author:"Thomas, Kristie-Lee (Ngāti Mutunga o Wharekauri)", title:"Research to inform community-led action to reduce tsunami impact, Wharekauri-Rekohu–Chatham Islands, Aotearoa-New Zealand", tema:"tsunami", temaLabel:"Tsunami · aksi komunitas & mātauranga Māori", loc:"Kepulauan Chatham, NZ", method:"Partisipatif / berbasis komunitas, kaupapa Māori", sup:null, supNote:"dukungan QuakeCoRE & GNS Science", src:"Katalog UC"},
+        {lvl:"msc", yr:2019, author:"McKibbin, Damon James", title:"Critical infrastructure impacts and adaptations in small rural towns following the 2016 Kaikōura earthquake, New Zealand", tema:"infrastruktur", temaLabel:"Gempa (Kaikōura 2016) · infrastruktur kritis", loc:"Kota-kota kecil pedesaan, wilayah Kaikōura, NZ", method:"Studi kasus infrastruktur", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2020, author:"Tilley, Laura Rose", title:"Assessing tsunami evacuation behaviour and dynamics of a near-source threat – the case study of Kaikōura township following the 2016 Kaikōura earthquake", tema:"tsunami", temaLabel:"Tsunami · perilaku & dinamika evakuasi", loc:"Kaikōura township, NZ", method:"Survei (1.055 disebar, 131 kembali) + model evakuasi jaringan kendaraan", sup:"Assoc Prof Tom Wilson, Dr Matthew Hughes, Dr Sarah Beaven (UC)", link:"https://hdl.handle.net/10092/101304", linkLabel:"hdl.handle.net/10092/101304 · doi:10.26021/10367"},
+        {lvl:"msc", yr:2020, author:"Barnhill, Danielle", title:"Tsunami evacuation dynamics following the 2016 Kaikōura earthquake in Christchurch and Banks Peninsula, New Zealand, to inform tsunami evacuation modelling for Banks Peninsula", tema:"tsunami", temaLabel:"Tsunami · dinamika evakuasi", loc:"Christchurch & Banks Peninsula, NZ", method:"Pemodelan evakuasi berbasis data peristiwa nyata", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2020, author:"Fraser, Becca", title:"Temporal drivers of disaster risk and resilience in rural New Zealand", tema:"sosial", temaLabel:"Multi-bahaya · ketahanan pedesaan", loc:"Pedesaan Selandia Baru (nasional)", method:"Tinjauan literatur + indikator, analisis geospasial, kerangka Treasury Living Standards Framework", sup:null, link:"https://libcat.canterbury.ac.nz/Record/3032467", linkLabel:"Katalog UC Record 3032467"},
+        {lvl:"msc", yr:2020, author:"Campbell, Geena", title:"Hazard and impact scenario development for silicic volcanoes in New Zealand", tema:"vulkanik", temaLabel:"Vulkanik · skenario bahaya & dampak", loc:"Zona vulkanik Taupō dsk., NZ", method:"Pengembangan skenario / pemodelan dampak", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2021, author:"Lama, Shrota Shrestha", title:"A comparison of satellite and remotely piloted aircraft systems imagery in adverse conditions: a case study in Franz Josef, West Coast, New Zealand", tema:"metode", temaLabel:"Metode · penginderaan jauh (satelit vs drone)", loc:"Franz Josef, West Coast, NZ", method:"Penginderaan jauh — perbandingan citra satelit vs RPAS", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2021, author:"Scott, Emmy Elizabeth", title:"Development of a Bayesian event tree for short-term eruption onset forecasting at Taupō volcano", tema:"vulkanik", temaLabel:"Vulkanik · peramalan probabilistik", loc:"Gunung Taupō, NZ", method:"Pemodelan Bayesian event tree", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2022, author:"Evans, Alice", title:"Assessing tsunami hazard risk awareness and evacuation intentions of highly exposed remote rural coastal communities: a Wairarapa, New Zealand case study", tema:"tsunami", temaLabel:"Tsunami · kesadaran risiko & niat evakuasi", loc:"Wairarapa (Riversdale Beach, Castlepoint, Lake Ferry, Cape Palliser), NZ", method:"Survei (415 disebar, 87 kembali, 21%); rekomendasi “tsunami blue lines”", sup:null, link:"https://hdl.handle.net/10092/103776", linkLabel:"hdl.handle.net/10092/103776 · doi:10.26021/12875"},
+        {lvl:"msc", yr:2022, author:"Porter, Harley", title:"Volcanic impacts to regional water supply systems and opportunities for resilience in Taranaki, Aotearoa New Zealand", tema:"vulkanik", temaLabel:"Vulkanik · sistem penyediaan air", loc:"Taranaki, NZ", method:"Penilaian dampak pada infrastruktur air", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2022, author:"Pawlick, Alicia", title:"Longitudinal volcanic impact assessment for farm systems: a case study from Taranaki, Aotearoa New Zealand", tema:"vulkanik", temaLabel:"Vulkanik · dampak pada sistem pertanian", loc:"Taranaki, NZ", method:"Longitudinal — penilaian dampak pada sistem usaha tani dari waktu ke waktu", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2022, author:"Nandhini, R.", title:"Assessment of potential suitability of land for town growth – Franz Josef", tema:"infrastruktur", temaLabel:"Multi-bahaya · relokasi kota", loc:"Franz Josef, West Coast, NZ", method:"Tinjauan literatur, GIS, pemodelan RAMMS, perhitungan risiko jiwa individual & societal", sup:"Prof Tim Davies & Thomas Robinson (UC)", link:"https://ir.canterbury.ac.nz/server/api/core/bitstreams/c20e0481-e9db-4332-8f58-bbde84616741/content", linkLabel:"PDF fulltext — UC Research Repository"},
+        {lvl:"msc", yr:2022, author:"McMecking, Jane", title:"Landslide dam hazard modelling in the West Coast Region, New Zealand", tema:"longsoran", temaLabel:"Longsoran · bendungan longsoran (skenario Alpine Fault)", loc:"West Coast, NZ", method:"Pemodelan bahaya & paparan (GIS/spasial). Didanai Toka Tū Ake EQC; Juara 1 Masters, Three Minute Thesis 2022", sup:null, src:"Katalog UC", note:"Gelar di katalog tertulis “Master of Science” tanpa “Disaster Risk and Resilience” eksplisit; penulis dari Disaster Risk and Resilience Group."},
+        {lvl:"msc", yr:2023, author:"Polwart, Macey Rae", title:"Hazard from post-earthquake landslides: assessing the temporal and spatial evolution of landslides from the 2016 Kaikōura earthquake", tema:"longsoran", temaLabel:"Longsoran pasca-gempa (Kaikōura 2016)", loc:"Wilayah Kaikōura, NZ", method:"Inventarisasi longsoran, analisis GIS spasial-temporal", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2023, author:"Hiscock, Esther Rachael", title:"Development of a multi-environment regional-scale clean-up model for volcanic eruptions", tema:"vulkanik", temaLabel:"Vulkanik · model pembersihan abu pasca-erupsi", loc:"Selandia Baru (Taranaki sebagai studi kasus)", method:"Pengembangan model clean-up skala regional", sup:null, link:"https://libcat.canterbury.ac.nz/Record/3288674/Holdings", linkLabel:"Katalog UC Record 3288674"},
+        {lvl:"msc", yr:2023, author:"Prattley, Louisa Martha-Rose", title:"Tsunami evacuation behaviour: a review of survey findings across Aotearoa New Zealand", tema:"tsunami", temaLabel:"Tsunami · sintesis survei perilaku evakuasi", loc:"Aotearoa NZ (nasional, multi-survei)", method:"Tinjauan / meta-review survei", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2023, author:"Smith, Joshua", title:"Tsunami risk management and research engagement: the 5th March 2021 Tsunami and Earthquake Response Survey", tema:"tsunami", temaLabel:"Tsunami · manajemen risiko & survei respons", loc:"Selandia Baru (nasional)", method:"Survei (Tsunami and Earthquake Response Survey)", sup:null, src:"Katalog UC", note:"Penulis yang sama dengan disertasi MDRR 2020 di bawah; hubungan kedua karya tidak dijelaskan sumber."},
+        {lvl:"msc", yr:2024, author:"Coultas, Emma Kate", title:"Identifying evacuation planning considerations for complex volcanic crises: a case study from Taranaki, Aotearoa New Zealand", tema:"vulkanik", temaLabel:"Vulkanik · perencanaan evakuasi krisis kompleks", loc:"Taranaki, NZ", method:"Kualitatif (perencanaan evakuasi; diinferensi dari judul)", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2024, author:"Lamb, Jack Alan", title:"Multi-hazard impact assessment of rural transport for a large eruption of Taranaki Mounga, Aotearoa", tema:"vulkanik", temaLabel:"Vulkanik · dampak pada transportasi pedesaan", loc:"Taranaki, NZ", method:"Penilaian dampak multi-bahaya (pemodelan)", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2024, author:"Lyford, Hanna", title:"Modelling risk to debris flow throughout the Marlborough Region", tema:"longsoran", temaLabel:"Aliran debris · pemodelan risiko", loc:"Marlborough Region, NZ", method:"Pemodelan risiko (GIS/spasial)", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2024, author:"Mabin, Sarah G.", title:"Rockfall risk and mitigation performance following the 2016 Kaikōura earthquake", tema:"longsoran", temaLabel:"Rockfall pasca-gempa (Kaikōura 2016)", loc:"Kaikōura, NZ", method:"Penilaian risiko & kinerja mitigasi (diinferensi dari judul)", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2024, author:"Harvey, Julia", title:"Modelling earthquake-induced landslide impacts on infrastructure systems in Wellington", tema:"longsoran", temaLabel:"Longsoran akibat gempa · infrastruktur", loc:"Wellington, NZ", method:"Pemodelan dampak pada jaringan infrastruktur", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2024, author:"Auapaau, Fiapaipai Ruth", title:"Assessing the impacts on agriculture from volcanic ashfall of the 2022 Hunga Tonga–Hunga Ha'apai eruption, Kingdom of Tonga", tema:"vulkanik", temaLabel:"Vulkanik · dampak abu pada pertanian", loc:"Kerajaan Tonga — satu-satunya studi kasus internasional di daftar MSc", method:"Penilaian dampak pertanian (diinferensi dari judul)", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2025, author:"Bain, Daniel", title:"Landslide dam hazard and exposure modelling for an Alpine Fault earthquake", tema:"longsoran", temaLabel:"Bendungan longsoran · skenario Alpine Fault", loc:"South Island / Alpine Fault, NZ", method:"Pemodelan bahaya & paparan (GIS)", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2026, author:"Larsen, Flora Edeline Helena", title:"Exploring community expectations of transport infrastructure recovery following natural hazard events in New Zealand", tema:"sosial", temaLabel:"Multi-bahaya · ekspektasi pemulihan komunitas", loc:"Selandia Baru (nasional)", method:"Kualitatif/survei ekspektasi komunitas (diinferensi dari judul)", sup:null, src:"Katalog UC"},
+        {lvl:"msc", yr:2026, author:"Bisphan, Emma", title:"Temporal risk to road users from earthquake-induced landslide events across the South Island", tema:"longsoran", temaLabel:"Longsoran akibat gempa · risiko pengguna jalan", loc:"South Island, NZ", method:"Pemodelan risiko temporal (diinferensi dari judul)", sup:null, src:"Katalog UC"},
+        /* ---------- Disertasi MDRR (1) ---------- */
+        {lvl:"disertasi", yr:2020, author:"Smith, Joshua", title:"Tsunami Information Board Signage: recommendations for the design and implementation of Tsunami Information Boards in Canterbury, New Zealand", tema:"tsunami", temaLabel:"Tsunami · rambu & papan informasi (disertasi DRRE691)", loc:"Canterbury, NZ", method:"Disertasi jalur profesional MDRR atas saran Canterbury CDEM Group, bersama Gareth Birch (Canterbury CDEM) & Helen Jack (Environment Canterbury)", sup:"Sarah Beaven, Tom Wilson (UC), Mary Anne Clive (GNS Science)", link:"https://media.qrtiger.com/files/2022/10/josh-smith-tsunami-information-board-research-summary---emo-forum-17-feb.pdf", linkLabel:"Ringkasan eksekutif disertasi (PDF)"},
+        /* ---------- PhD (12) ---------- */
+        {lvl:"phd", yr:2019, author:"Hayes, Joshua (J.)", title:"Clean-up and restoration of urban environments after volcanic eruptions", tema:"vulkanik", temaLabel:"Vulkanik · pembersihan & restorasi perkotaan", loc:"Perkotaan Selandia Baru", method:"—", sup:null, src:"Katalog UC"},
+        {lvl:"phd", yr:2019, author:"Davies, Alistair J.", title:"Increasing the disaster resilience of remote communities through scenario co-creation", tema:"sosial", temaLabel:"Multi-bahaya · skenario partisipatif komunitas terpencil", loc:"Franz Josef, NZ", method:"Co-creation skenario (partisipatif)", sup:null, src:"Katalog UC"},
+        {lvl:"phd", yr:2020, author:"Barton, Tyler Mark", title:"Disaster risk management in rural New Zealand", tema:"sosial", temaLabel:"Multi-bahaya · manajemen risiko pedesaan", loc:"Pedesaan Selandia Baru", method:"—", sup:null, src:"Katalog UC"},
+        {lvl:"phd", yr:2020, author:"Williams, James Hilton", title:"Tsunami vulnerability of critical infrastructure: development and application of vulnerability models for impact assessment", tema:"tsunami", temaLabel:"Tsunami · kerentanan infrastruktur kritis", loc:"Selandia Baru", method:"Pengembangan & penerapan model kerentanan", sup:null, src:"Katalog UC"},
+        {lvl:"phd", yr:2021, author:"Weir, Alana May", title:"The impact of complex, multi-hazard volcanic eruptions on interdependent, distributed infrastructure networks", tema:"vulkanik", temaLabel:"Vulkanik multi-bahaya · jaringan infrastruktur", loc:"Selandia Baru", method:"Penilaian dampak pada jaringan infrastruktur", sup:null, src:"Katalog UC"},
+        {lvl:"phd", yr:2021, author:"Allen, Nicole Evelyn", title:"Multi-volcanic hazard impact assessment for residential buildings in the Auckland Volcanic Field, New Zealand", tema:"vulkanik", temaLabel:"Vulkanik · dampak pada bangunan hunian", loc:"Auckland Volcanic Field, NZ", method:"Penilaian dampak multi-bahaya vulkanik", sup:null, src:"Katalog UC"},
+        {lvl:"phd", yr:2021, author:"Minimo, Likha Goce", title:"Spatiotemporal analysis of the interaction of decentralization, development and disaster cascades in Mindanao, Philippines", tema:"sosial", temaLabel:"Multi-bahaya · desentralisasi & kaskade bencana", loc:"Mindanao, Filipina (studi internasional)", method:"Analisis spatiotemporal", sup:null, src:"Katalog UC"},
+        {lvl:"phd", yr:2024, author:"Calderon Barraza, Rodrigo", title:"Scenarios for disaster risk management at caldera volcanoes", tema:"vulkanik", temaLabel:"Vulkanik · skenario manajemen risiko kaldera", loc:"Taupō Volcanic Zone, NZ", method:"Pengembangan skenario", sup:"Tom Wilson (UC) & Graham Leonard (GNS Science)", src:"Katalog UC / dokumen UC"},
+        {lvl:"phd", yr:2024, author:"Darling, Mathew J.", title:"Assessing non-resident populations exposure to disaster risk", tema:"sosial", temaLabel:"Multi-bahaya · paparan populasi non-residen/transient", loc:"Selandia Baru", method:"Penilaian paparan populasi", sup:null, src:"Katalog UC", note:"Penulis sebelumnya menempuh MDRR (paruh waktu, ±2019) dengan topik serupa."},
+        {lvl:"phd", yr:2025, author:"Sarwary, Sulaiman", title:"The influence of legislative and governance arrangements on public engagement in recovery decision-making: a New Zealand case study of the Canterbury earthquake sequence", tema:"infrastruktur", temaLabel:"Gempa Canterbury · legislasi, tata kelola & partisipasi publik", loc:"Christchurch / Selwyn / Waimakariri, NZ", method:"Studi kasus tata kelola pemulihan", sup:"Dr Sarah Beaven (utama, UC) & Prof John Hopkins (Law, UC)", src:"Profil Resilience to Nature's Challenges"},
+        {lvl:"phd", yr:2026, author:"Scheele, Finnian Riki", title:"Simulating household impacts and population displacement in disasters", tema:"sosial", temaLabel:"Multi-bahaya · simulasi dampak rumah tangga & perpindahan", loc:"Selandia Baru", method:"Simulasi / pemodelan", sup:null, src:"Katalog UC"},
+        {lvl:"phd", yr:null, author:"Blake, Daniel Mark", title:"Impacts of volcanic ash on surface transportation networks: considerations for Auckland City, New Zealand", tema:"vulkanik", temaLabel:"Vulkanik · abu vulkanik & jaringan transportasi", loc:"Auckland, NZ", method:"Penilaian dampak abu vulkanik", sup:null, src:"Katalog UC", note:"Tahun tidak tercantum di cuplikan katalog yang ditemukan."}
+      ];
+
+      var LVL = { msc: ["MSc", "msc"], disertasi: ["Disertasi MDRR", ""], phd: ["PhD", "phd"] };
+      var listEl = document.getElementById("thesis-list");
+      var countEl = document.getElementById("count-line");
+      var qEl = document.getElementById("q");
+      var temaEl = document.getElementById("tema");
+      var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
+      var activeLevel = "";
+
+      function esc(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+
+      function render() {
+        var q = qEl.value.trim().toLowerCase();
+        var tema = temaEl.value;
+        var shown = 0;
+        var html = "";
+        THESES.forEach(function (t) {
+          if (activeLevel && t.lvl !== activeLevel) return;
+          if (tema && t.tema !== tema) return;
+          if (q) {
+            var hay = (t.author + " " + t.title + " " + t.temaLabel + " " + t.loc + " " + t.method + " " + (t.sup || "") + " " + (t.yr || "")).toLowerCase();
+            if (hay.indexOf(q) === -1) return;
+          }
+          shown++;
+          var badge = LVL[t.lvl];
+          html += '<article class="thesis">';
+          html += '<div class="top"><span class="yr">' + (t.yr ? t.yr : "Tahun ?") + '</span>' +
+                  '<span class="author">' + esc(t.author) + '</span>' +
+                  '<span class="badge ' + badge[1] + '">' + badge[0] + '</span></div>';
+          html += '<p class="title">' + esc(t.title) + '</p>';
+          html += '<div class="facts"><span><b>Tema:</b> ' + esc(t.temaLabel) + '</span>' +
+                  '<span><b>Lokasi:</b> ' + esc(t.loc) + '</span>' +
+                  '<span><b>Metode:</b> ' + esc(t.method) + '</span></div>';
+          if (t.sup) {
+            html += '<p class="sup">Pembimbing: <span class="ok">' + esc(t.sup) + '</span> (terverifikasi)</p>';
+          } else {
+            html += '<p class="sup">Pembimbing: <span class="unv">belum terverifikasi</span>' + (t.supNote ? ' — ' + esc(t.supNote) : '') + '</p>';
+          }
+          if (t.note) html += '<p class="sup">' + esc(t.note) + '</p>';
+          if (t.link) {
+            html += '<p class="lnk"><a href="' + esc(t.link) + '" target="_blank" rel="noopener">' + esc(t.linkLabel) + '</a></p>';
+          } else if (t.src) {
+            html += '<p class="lnk">Sumber: ' + esc(t.src) + '</p>';
+          }
+          html += '</article>';
+        });
+        listEl.innerHTML = html || '<div class="empty-note">Tidak ada karya yang cocok dengan pencarian dan saringan ini.</div>';
+        countEl.textContent = "Menampilkan " + shown + " dari 40 karya";
+      }
+
+      chips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          activeLevel = chip.getAttribute("data-level");
+          chips.forEach(function (c) { c.setAttribute("aria-pressed", c === chip ? "true" : "false"); });
+          render();
+        });
+      });
+      qEl.addEventListener("input", render);
+      temaEl.addEventListener("change", render);
+      render();
+    </script>
+  </body>
+</html>

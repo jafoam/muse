@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<title>Perbandingan Framework AI Agent 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbfbf9; --surface:#ffffff; --surface2:#f1f3f1; --ink:#141a17; --muted:#5c6a63; --line:#dde3de;
+  --accent:#0a6b5e; --accent-ink:#ffffff; --accent-soft:#e3efec; --warn:#b45309; --warn-bg:#fef3e2; --bad:#b42318; --bad-bg:#fdecea;
+  --chip:#eef1ee; --radius:14px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0d100f; --surface:#141817; --surface2:#1a1f1d; --ink:#edf2ef; --muted:#9aaba3; --line:#29312d;
+    --accent:#3ec9b0; --accent-ink:#06110e; --accent-soft:#17332e; --warn:#f5b86b; --warn-bg:#2b2113; --bad:#ff8a7a; --bad-bg:#2f1a17;
+    --chip:#1e2421; color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Archivo",system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+button,[role="button"],select,summary,input{ min-height:40px }
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* HERO */
+.hero{padding:38px 0 8px;border-bottom:1px solid var(--line)}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;font-weight:600;background:var(--surface)}
+.pill strong{color:var(--accent)}
+.pill.warnpill{border-color:var(--warn);color:var(--warn);background:var(--warn-bg)}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.02;letter-spacing:-.03em;font-weight:900;margin:0 0 14px;max-width:820px}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{font-size:clamp(16px,2vw,19px);line-height:1.55;color:var(--muted);max-width:780px;margin:0 0 22px}
+.lede strong{color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0 28px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.stat b{display:block;font-size:28px;line-height:1;letter-spacing:-.03em}
+.stat b span{color:var(--accent)}
+.stat small{display:block;margin-top:7px;color:var(--muted);font-size:13px;line-height:1.4}
+.shortcut{background:var(--ink);color:var(--bg);border-radius:16px;padding:20px 22px;margin:0 0 30px}
+@media(prefers-color-scheme:dark){.shortcut{background:#e8efec;color:#101613}}
+.shortcut h2{margin:0 0 6px;font-size:16px;letter-spacing:-.01em}
+.shortcut p{margin:0 0 12px;opacity:.75;font-size:14px}
+.shortcut-grid{display:flex;flex-wrap:wrap;gap:8px}
+.shortcut-grid span{font-size:13.5px;padding:8px 11px;border-radius:999px;background:rgba(127,127,127,.16);border:1px solid rgba(127,127,127,.22)}
+.shortcut-grid b{font-weight:800}
+
+/* SECTIONS */
+section{padding:34px 0 6px}
+.sec-head{margin-bottom:18px}
+.sec-head h2{font-size:clamp(22px,3vw,30px);letter-spacing:-.025em;line-height:1.1;margin:0 0 8px}
+.sec-head p{margin:0;color:var(--muted);max-width:760px}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:8px}
+
+/* TIMELINE */
+.timeline{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:8px 20px}
+.tl-row{display:grid;grid-template-columns:118px 1fr;gap:16px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.tl-row:last-child{border-bottom:0}
+.tl-date{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;color:var(--accent);padding-top:2px;white-space:nowrap}
+.tl-row p{margin:0;font-size:14.5px}
+.tl-row p b{font-weight:800}
+
+/* CONTROLS */
+.controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:14px 0 12px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.search{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:inherit;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:9px 14px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;min-height:40px}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.result-note{font-size:13px;color:var(--muted);margin-top:9px}
+
+/* TABLE -> CARDS on mobile */
+.table-wrap{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13.8px}
+thead th{text-align:left;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);background:var(--surface2);padding:12px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--surface2)}
+td.fw{min-width:150px}
+td.fw b{font-size:14.5px;display:block;line-height:1.25}
+.ver{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent);font-weight:600;display:block;margin-top:4px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-top:6px}
+.tag.maint{background:var(--warn-bg);color:var(--warn)}
+.tag.legacy{background:var(--bad-bg);color:var(--bad)}
+td .sub{color:var(--muted);font-size:12.5px;display:block;margin-top:3px}
+.hidden-row{display:none !important}
+
+/* DETAIL CARDS */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+details.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+details.card summary{list-style:none;cursor:pointer;padding:18px 18px 14px;display:block}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary h3{margin:0 0 4px;font-size:19px;letter-spacing:-.02em}
+details.card summary p{margin:0;color:var(--muted);font-size:14px}
+.card-body{padding:0 18px 18px;border-top:1px dashed var(--line);padding-top:14px}
+.card-body h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:16px 0 6px}
+.card-body h4:first-child{margin-top:0}
+.card-body p,.card-body li{font-size:14.5px;overflow-wrap:anywhere}
+.card-body ul{margin:6px 0;padding-left:18px}
+.card-body li{margin:4px 0}
+.factgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.fact{background:var(--surface2);border-radius:10px;padding:10px 12px}
+.fact small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.fact span{font-size:13.5px;font-weight:600;line-height:1.35;display:block;margin-top:2px}
+.srcs{font-size:12.5px;color:var(--muted);word-break:break-word}
+.srcs a{font-size:12.5px}
+
+/* RECO */
+.reco{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.reco-box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.reco-box h3{margin:0 0 4px;font-size:18px;letter-spacing:-.02em}
+.reco-box>p{margin:0 0 12px;color:var(--muted);font-size:14px}
+.reco-box ul{margin:0;padding-left:18px}
+.reco-box li{margin:8px 0;font-size:14.5px}
+.reco-box li b{font-weight:800}
+
+/* ALERTS */
+.alert{border:1px solid var(--warn);background:var(--warn-bg);border-radius:16px;padding:20px 22px}
+.alert h3{margin:0 0 10px;font-size:17px}
+.alert ul{margin:0;padding-left:18px}
+.alert li{margin:8px 0;font-size:14.5px}
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.theme{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.theme b{display:block;margin-bottom:5px}
+.theme p{margin:0;color:var(--muted);font-size:14px}
+
+/* UPDATE 11 NOV — ANS */
+.update-ans{border:1.5px solid var(--accent);background:var(--surface);border-radius:16px;padding:22px 24px}
+.update-ans .kicker{margin-bottom:6px}
+.update-ans h2{font-size:clamp(21px,3vw,27px);letter-spacing:-.025em;line-height:1.12;margin:0 0 10px}
+.update-ans p{font-size:15px;margin:0 0 12px}
+.update-ans p:last-of-type{margin-bottom:0}
+.ans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.ans-fact{background:var(--surface2);border-radius:10px;padding:11px 13px}
+.ans-fact small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ans-fact span{font-size:13.5px;font-weight:600;line-height:1.4;display:block;margin-top:3px}
+.ans-support{font-size:13.5px;color:var(--muted);line-height:1.55}
+.ans-support b{color:var(--ink)}
+@media(max-width:860px){.ans-grid{grid-template-columns:1fr}}
+
+.sources{columns:2;column-gap:28px;font-size:13.5px}
+.sources li{break-inside:avoid;margin:0 0 9px}
+.sources ul{margin:0;padding-left:18px}
+footer{margin:36px 0 0;padding:22px 0 34px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+.empty{padding:28px;text-align:center;color:var(--muted);display:none}
+
+@media(max-width:860px){
+  .stats{grid-template-columns:1fr 1fr}
+  .cards,.reco{grid-template-columns:1fr}
+  .themes{grid-template-columns:1fr}
+  .sources{columns:1}
+  .factgrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  /* table becomes stacked cards — no horizontal scroll */
+  .table-wrap{border:0;background:transparent;overflow:visible}
+  table,tbody,tr,td{display:block;width:100%}
+  thead{display:none}
+  tbody tr{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;padding:6px 4px}
+  tbody td{border-bottom:1px dashed var(--line);padding:10px 12px}
+  tbody td:last-child{border-bottom:0}
+  tbody td::before{content:attr(data-label);display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:3px}
+  td.fw{min-width:0}
+  .tl-row{grid-template-columns:1fr;gap:2px}
+}
+@media print{ .controls{display:none} details.card{break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="meta-row">
+      <span class="pill">Riset per 10 Nov 2026 · <strong>diperbarui 11 November 2026</strong></span>
+      <span class="pill">Versi per 7–10 Nov 2026, kecuali bertanggal lain</span>
+      <span class="pill warnpill">Angka bintang/unduhan = snapshot, bukan skor kualitas</span>
+    </div>
+    <h1>Framework AI Agent 2026: tahun <em>konsolidasi &amp; kematangan</em>, bukan ledakan baru</h1>
+    <p class="lede">Temuan utamanya jelas: <strong>AutoGen dan Semantic Kernel masuk mode maintenance dan dilebur ke Microsoft Agent Framework</strong>, gelombang rilis stabil 1.0 datang bertubi-tubi di kuartal II, <strong>eksekusi yang tahan crash (durable execution) jadi standar minimum</strong>, dan dua protokol — <strong>MCP untuk tools dan A2A untuk antar-agent</strong> — kini native di hampir semua framework besar. Halaman ini membandingkan <strong>16 framework</strong> dari hasil riset mendalam, lengkap dengan keunggulan, batasan, dan catatan yang belum terverifikasi.</p>
+
+    <div class="stats">
+      <div class="stat"><b>16</b><small>framework dibandingkan dalam tabel lengkap di bawah</small></div>
+      <div class="stat"><b>5<span>+</span></b><small>rilis GA / 1.0 besar sepanjang 2026: MAF, ADK 2.0, Workflows 1.0, Pydantic AI v2, AG2 v1.0 — plus Mastra 1.0 di Januari</small></div>
+      <div class="stat"><b>2</b><small>protokol yang menstandardisasi ekosistem: MCP (tools) &amp; A2A (agent-ke-agent)</small></div>
+      <div class="stat"><b>3</b><small>halaman resmi diverifikasi langsung saat riset: Google ADK 2.0, LlamaIndex Workflows 1.0, Haystack 3.0</small></div>
+    </div>
+
+    <div class="shortcut">
+      <h2>Jalan pintas memilih — ringkasan keputusan dari laporan</h2>
+      <p>Jika hanya punya 10 detik, ini peta keputusannya. Detail dan alasannya ada di bagian rekomendasi.</p>
+      <div class="shortcut-grid">
+        <span>Python + butuh kontrol → <b>LangGraph</b></span>
+        <span>Python + butuh cepat → <b>CrewAI</b></span>
+        <span>Python + butuh type-safety → <b>Pydantic AI</b></span>
+        <span>.NET / Azure → <b>Microsoft Agent Framework</b></span>
+        <span>Gemini / GCP → <b>Google ADK</b></span>
+        <span>OpenAI → <b>OpenAI Agents SDK</b></span>
+        <span>Claude → <b>Claude Agent SDK</b></span>
+        <span>TypeScript → <b>Mastra</b> / <b>Vercel AI SDK</b></span>
+        <span>Dokumen → <b>LlamaIndex</b></span>
+        <span>RAG tergovernansi → <b>Haystack</b></span>
+        <span>AWS → <b>Strands Agents</b></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- UPDATE 11 NOV 2026 — ANS -->
+  <section id="update-ans" style="padding-top:26px">
+    <div class="update-ans">
+      <div class="kicker">Update 11 Nov 2026 · Lapisan identitas, bukan framework baru</div>
+      <h2>Agent Name Service (ANS): standar identitas agen dari Linux Foundation</h2>
+      <p>Pada <strong>10 November 2026</strong>, Linux Foundation meluncurkan <strong>Agent Name Service (ANS)</strong> sebagai proyek resmi — standar terbuka untuk <strong>identitas, verifikasi, dan discovery agen AI</strong> yang dibangun di atas infrastruktur yang sudah dipakai web: <strong>DNS dan sertifikat X.509</strong>.</p>
+      <div class="ans-grid">
+        <div class="ans-fact"><small>Nama agen</small><span>Nama yang berversi, diikat ke domain operatornya</span></div>
+        <div class="ans-fact"><small>Discovery</small><span>Info discovery dipublikasikan lewat DNS</span></div>
+        <div class="ans-fact"><small>Lifecycle</small><span>Peristiwa lifecycle tercatat di transparency log</span></div>
+        <div class="ans-fact"><small>Spesifikasi</small><span>7 dokumen spesifikasi</span></div>
+        <div class="ans-fact"><small>Autentikasi antar-agen</small><span>mTLS atau DPoP</span></div>
+        <div class="ans-fact"><small>Interoperabilitas awal</small><span>AGNTCY Agent Directory Service &amp; Agentic Resource Discovery (ARD)</span></div>
+      </div>
+      <p class="ans-support"><b>Didukung 11 organisasi sejak Juni 2026:</b> Cisco, Cloudflare, DigiCert, DistributedApps.ai, GoDaddy, HOL, Infoblox, Radix, Salesforce, OWASP, dan Trustmodel.ai — dengan dukungan awal di AGNTCY Agent Directory Service dan interoperabilitas dengan ARD.</p>
+      <p><strong>Kenapa ini penting untuk halaman ini:</strong> ANS <strong>bukan framework ke-17</strong> — ini lapisan identitas lintas-framework yang duduk di atas pilihan framework apa pun. Relevansinya paling terasa untuk <strong>interop A2A dan deployment production</strong>: sebelum agen dari organisasi berbeda saling memanggil, masing-masing pihak perlu cara standar untuk membuktikan siapa agen itu, siapa operatornya, dan apakah identitasnya masih berlaku.</p>
+      <p class="srcs">Detail: <a href="https://ansinfo.ai">ansinfo.ai</a> · <a href="https://github.com/agentnameservice">github.com/agentnameservice</a></p>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="garis-waktu">
+    <div class="sec-head">
+      <div class="kicker">Garis waktu</div>
+      <h2>Gelombang rilis 1.0: akhir 2025 hingga sepanjang 2026</h2>
+      <p>Urutan ini yang menjelaskan kenapa 2026 disebut tahun kematangan: framework yang sebelumnya eksperimental satu per satu mengunci API stabil.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-row"><div class="tl-date">22 OKT 2025</div><p><b>LangChain 1.0 + LangGraph 1.0 GA</b> — <span class="mono">create_agent</span> menggantikan <span class="mono">create_react_agent</span>, middleware jadi permukaan kustomisasi, tanpa janji breaking change sebelum 2.0.</p></div>
+      <div class="tl-row"><div class="tl-date">20 JAN 2026</div><p><b>Mastra 1.0</b> — framework TypeScript dari tim Gatsby (Kepler Software, YC W25) mencapai versi stabil.</p></div>
+      <div class="tl-row"><div class="tl-date">3 APR 2026</div><p><b>Microsoft Agent Framework (MAF) GA 1.0</b> untuk .NET + Python dengan API stabil dan dukungan jangka panjang (LTS). AutoGen sudah maintenance sejak 2 Okt 2025.</p></div>
+      <div class="tl-row"><div class="tl-date">7 APR 2026</div><p><b>CrewAI 1.14.0</b> — checkpointing state runtime (<span class="mono">SqliteProvider</span>, <span class="mono">CheckpointConfig</span>) dan forking checkpoint dengan lineage.</p></div>
+      <div class="tl-row"><div class="tl-date">15–16 APR 2026</div><p><b>OpenAI Agents SDK: sandbox native</b> — harness portabel lintas penyedia sandbox: E2B, Modal, Docker, Daytona, Cloudflare, Blaxel, Runloop, Vercel (+ Unix-local untuk dev).</p></div>
+      <div class="tl-row"><div class="tl-date">19 MEI 2026</div><p><b>Google ADK 2.0 GA (Python)</b> — disusul Go 30 Jun dan TypeScript 21 Agu 2026; Kotlin 1.0 pada 7 Sep 2026.</p></div>
+      <div class="tl-row"><div class="tl-date">22–23 JUN 2026</div><p><b>Dalam 48 jam:</b> LlamaIndex Workflows 1.0 (22 Jun) dan Pydantic AI v2 stabil (23 Jun). Vercel AI SDK 7 menyusul 25 Jun dengan <span class="mono">WorkflowAgent</span> durable.</p></div>
+      <div class="tl-row"><div class="tl-date">20–27 JUL 2026</div><p><b>Haystack 3.0</b> (20 Jul, deepset) dan <b>AG2 v1.0</b> (27 Jul, fork komunitas AutoGen dari para kreator aslinya).</p></div>
+      <div class="tl-row"><div class="tl-date">10 NOV 2026</div><p><b>Agent Name Service (ANS) diluncurkan Linux Foundation</b> sebagai proyek resmi — standar terbuka identitas, verifikasi, dan discovery agen berbasis DNS + sertifikat X.509. Lapisan lintas-framework, bukan framework baru — detail di <a href="#update-ans">bagian update di atas</a>.</p></div>
+    </div>
+  </section>
+
+  <!-- TABLE -->
+  <section id="tabel">
+    <div class="sec-head">
+      <div class="kicker">Tabel lengkap</div>
+      <h2>Perbandingan fitur utama &amp; keunggulan</h2>
+      <p>Cari berdasarkan nama, bahasa, atau keunggulan — atau saring per bahasa pemrograman. Di ponsel, tabel ini otomatis berubah menjadi kartu bertumpuk agar tetap terbaca tanpa geser samping.</p>
+    </div>
+
+    <div class="controls">
+      <input class="search" id="q" type="search" placeholder="Cari: misalnya “RAG”, “TypeScript”, “sandbox”, “handoff”…" aria-label="Cari di tabel perbandingan">
+      <div class="chips" role="group" aria-label="Filter bahasa">
+        <button class="chip" data-filter="all" aria-pressed="true">Semua (16)</button>
+        <button class="chip" data-filter="python" aria-pressed="false">Python</button>
+        <button class="chip" data-filter="typescript" aria-pressed="false">TypeScript</button>
+        <button class="chip" data-filter="dotnet" aria-pressed="false">.NET</button>
+        <button class="chip" data-filter="multi" aria-pressed="false">5 bahasa (ADK)</button>
+        <button class="chip" data-filter="maint" aria-pressed="false">Maintenance / legacy</button>
+      </div>
+      <div class="result-note" id="resultNote">Menampilkan 16 dari 16 framework.</div>
+    </div>
+
+    <div class="table-wrap">
+      <table id="cmpTable">
+        <thead><tr>
+          <th>Framework &amp; versi terbaru</th><th>Arsitektur</th><th>Bahasa</th><th>Lisensi</th><th>Fleksibilitas LLM</th><th>Memory · HITL · Observabilitas / Eval</th><th>Deployment</th><th>Paling cocok untuk</th>
+        </tr></thead>
+        <tbody>
+          <tr data-lang="python typescript">
+            <td class="fw" data-label="Framework"><b>LangGraph / LangChain</b><span class="ver">langchain 1.4.9 · langgraph 1.2.20</span></td>
+            <td data-label="Arsitektur">State machine berbasis graph; runtime durable + lapisan agent tipis + harness Deep Agents</td>
+            <td data-label="Bahasa">Python, TypeScript</td><td data-label="Lisensi">MIT</td>
+            <td data-label="Fleksibilitas LLM">Provider-agnostic (puluhan provider)</td>
+            <td data-label="Memory · HITL · Observabilitas">Memory via checkpointer; interrupt / HITL kelas satu; tracing, eval &amp; deployment via LangSmith</td>
+            <td data-label="Deployment">Self-host / LangSmith Deployment</td>
+            <td data-label="Paling cocok"><b>Agent produksi stateful yang kompleks</b><span class="sub">Pilihan default terkuat menurut laporan</span></td>
+          </tr>
+          <tr data-lang="python">
+            <td class="fw" data-label="Framework"><b>CrewAI</b><span class="ver">1.15.39 · 9 Nov 2026</span></td>
+            <td data-label="Arsitektur">Crew berbasis peran (sequential / hierarchical) + Flows event-driven</td>
+            <td data-label="Bahasa">Python saja</td><td data-label="Lisensi">MIT</td>
+            <td data-label="Fleksibilitas LLM">Semua LLM via LiteLLM / endpoint kompatibel OpenAI</td>
+            <td data-label="Memory · HITL · Observabilitas">Memory terpadu; pause/resume via checkpoint + human feedback; AMP / Langfuse dll.; <span class="mono">crewai eval</span></td>
+            <td data-label="Deployment">Self-host / AMP</td>
+            <td data-label="Paling cocok"><b>Prototipe multi-agent tercepat</b><span class="sub">Crew riset / konten / analis</span></td>
+          </tr>
+          <tr data-lang="dotnet python">
+            <td class="fw" data-label="Framework"><b>Microsoft Agent Framework</b><span class="ver">1.21.0 Py · 1.26 .NET · GA 1.0 Apr 2026</span><span class="tag">Penerus AutoGen + SK</span></td>
+            <td data-label="Arsitektur">Agents + Harness Agent + Workflows fungsional / graph</td>
+            <td data-label="Bahasa">.NET, Python; Go (preview)</td><td data-label="Lisensi">MIT</td>
+            <td data-label="Fleksibilitas LLM">Provider-agnostic (Foundry, OpenAI, Anthropic, Ollama…)</td>
+            <td data-label="Memory · HITL · Observabilitas">Session state; tools dengan approval; OpenTelemetry GenAI; observabilitas Foundry</td>
+            <td data-label="Deployment">Self-host / Foundry Hosted Agents</td>
+            <td data-label="Paling cocok"><b>Enterprise .NET / Azure</b></td>
+          </tr>
+          <tr data-lang="python dotnet maint">
+            <td class="fw" data-label="Framework"><b>AutoGen</b><span class="ver">0.7.5 · Sep 2025</span><span class="tag legacy">Maintenance — legacy</span></td>
+            <td data-label="Arsitektur">Multi-agent percakapan (RoundRobin / Selector / Swarm / Magentic)</td>
+            <td data-label="Bahasa">Python, .NET</td><td data-label="Lisensi">MIT</td>
+            <td data-label="Fleksibilitas LLM">Multi-provider</td>
+            <td data-label="Memory · HITL · Observabilitas">Tidak ada checkpointing bawaan</td>
+            <td data-label="Deployment">Self-host</td>
+            <td data-label="Paling cocok"><b>Hanya legacy</b><span class="sub">Jangan mulai proyek baru di sini</span></td>
+          </tr>
+          <tr data-lang="dotnet python maint">
+            <td class="fw" data-label="Framework"><b>Semantic Kernel</b><span class="ver">1.81.0 .NET · dicek 10 Nov 2026</span><span class="tag maint">Maintenance</span></td>
+            <td data-label="Arsitektur">Kernel + plugin, agents, orkestrasi</td>
+            <td data-label="Bahasa">.NET, Python, Java</td><td data-label="Lisensi">MIT</td>
+            <td data-label="Fleksibilitas LLM">Multi-provider, termasuk Bedrock (eksperimental)</td>
+            <td data-label="Memory · HITL · Observabilitas">Memory via plugin / vector store; filters; OpenTelemetry</td>
+            <td data-label="Deployment">Self-host / Azure</td>
+            <td data-label="Paling cocok"><b>Hanya codebase SK yang sudah berjalan</b><span class="sub">Fix kritis saja; dukungan ≥1 tahun pasca MAF GA (≥ Apr 2027)</span></td>
+          </tr>
+          <tr data-lang="python typescript">
+            <td class="fw" data-label="Framework"><b>OpenAI Agents SDK</b><span class="ver">0.24.0 · 15 Okt 2026 · masih 0.x</span></td>
+            <td data-label="Arsitektur">Multi-agent berbasis handoff; primitif minimal (Agent, Runner, Tools, Handoffs, Guardrails, Sessions)</td>
+            <td data-label="Bahasa">Python, TypeScript</td><td data-label="Lisensi">MIT</td>
+            <td data-label="Fleksibilitas LLM">OpenAI-first; LiteLLM 100+ LLM <span class="sub">(perlu diverifikasi — lihat catatan)</span></td>
+            <td data-label="Memory · HITL · Observabilitas">Sessions (SQLite); guardrails; tracing bawaan; harness sandbox</td>
+            <td data-label="Deployment">Self-host / penyedia sandbox via Manifest</td>
+            <td data-label="Paling cocok"><b>OpenAI-first, agent suara, coding agent tersandbox</b></td>
+          </tr>
+          <tr data-lang="python typescript multi">
+            <td class="fw" data-label="Framework"><b>Google ADK</b><span class="ver">2.14.0 · 2.0 GA Mei–Agu 2026</span></td>
+            <td data-label="Arsitektur">Graph Workflow Runtime; LlmAgent + workflow agents</td>
+            <td data-label="Bahasa">Python, TypeScript, Go, Java, Kotlin</td><td data-label="Lisensi">Apache 2.0</td>
+            <td data-label="Fleksibilitas LLM">Dioptimalkan untuk Gemini; model-agnostic via LiteLLM</td>
+            <td data-label="Memory · HITL · Observabilitas">Session services + Memory Bank; HITL (Tool Confirmation masih eksperimental); OTel; eval bawaan</td>
+            <td data-label="Deployment">Cloud Run / GKE / Vertex AI Agent Engine</td>
+            <td data-label="Paling cocok"><b>Gemini / Google Cloud, multi-bahasa</b></td>
+          </tr>
+          <tr data-lang="python typescript">
+            <td class="fw" data-label="Framework"><b>LlamaIndex + Workflows 1.0</b><span class="ver">core 0.14.25 · Workflows 1.0 Jun 2026</span></td>
+            <td data-label="Arsitektur">Data plane (RAG) + Workflows event-driven di atasnya</td>
+            <td data-label="Bahasa">Python (paket Workflows TS tersedia)</td><td data-label="Lisensi">MIT (core); LlamaParse komersial</td>
+            <td data-label="Fleksibilitas LLM">BYO LLM (semua provider besar)</td>
+            <td data-label="Memory · HITL · Observabilitas">Checkpointing workflow; langkah HITL; OTel / Phoenix; LlamaTrace</td>
+            <td data-label="Deployment">Self-host / LlamaParse hosted</td>
+            <td data-label="Paling cocok"><b>Agent berat dokumen / RAG</b></td>
+          </tr>
+          <tr data-lang="python">
+            <td class="fw" data-label="Framework"><b>Haystack</b> <span style="color:var(--muted);font-weight:600">(deepset)</span><span class="ver">3.4.1 · 3.0 Jul 2026</span></td>
+            <td data-label="Arsitektur">Komponen bertipe → pipeline yang bisa diserialisasi (YAML); Agent sebagai komponen</td>
+            <td data-label="Bahasa">Python saja</td><td data-label="Lisensi">Apache 2.0</td>
+            <td data-label="Fleksibilitas LLM">Vendor-agnostic (semua provider besar + model lokal)</td>
+            <td data-label="Memory · HITL · Observabilitas">HITL / guardrails via hooks; introspeksi token &amp; langkah; tracing per langkah; komponen eval</td>
+            <td data-label="Deployment">Self-host / Haystack Enterprise Platform</td>
+            <td data-label="Paling cocok"><b>RAG produksi yang tergovernansi</b></td>
+          </tr>
+          <tr data-lang="python">
+            <td class="fw" data-label="Framework"><b>Pydantic AI</b><span class="ver">v2.60.0 · v2 Jun 2026</span></td>
+            <td data-label="Arsitektur">Agent bertipe; capabilities + Harness</td>
+            <td data-label="Bahasa">Python saja</td><td data-label="Lisensi">MIT</td>
+            <td data-label="Fleksibilitas LLM">Model-agnostic</td>
+            <td data-label="Memory · HITL · Observabilitas">Memory &amp; guardrails di Harness; HITL; Logfire / OTel; Pydantic Evals; durable di 8 engine</td>
+            <td data-label="Deployment">Self-host di mana saja</td>
+            <td data-label="Paling cocok"><b>Layanan Python type-safe yang terawat</b></td>
+          </tr>
+          <tr data-lang="typescript">
+            <td class="fw" data-label="Framework"><b>Mastra</b><span class="ver">@mastra/core 1.69.0 · 1.0 Jan 2026</span></td>
+            <td data-label="Arsitektur">Agents + workflow berbasis graph</td>
+            <td data-label="Bahasa">TypeScript saja</td><td data-label="Lisensi">Apache 2.0 (core); folder <span class="mono">ee/</span> lisensi Enterprise terpisah</td>
+            <td data-label="Fleksibilitas LLM">Model router ±220 provider</td>
+            <td data-label="Memory · HITL · Observabilitas">Memory 4 mekanisme; HITL suspend/resume; tracing; eval bawaan</td>
+            <td data-label="Deployment">Self-host / Mastra Cloud / Platform</td>
+            <td data-label="Paling cocok"><b>Produksi full-stack TypeScript</b><span class="sub">Pengguna produksi yang disebut: Replit, PayPal, Sanity</span></td>
+          </tr>
+          <tr data-lang="python typescript">
+            <td class="fw" data-label="Framework"><b>Claude Agent SDK</b><span class="ver">0.2.178 · pra-1.0</span></td>
+            <td data-label="Arsitektur">Harness Claude Code sebagai library</td>
+            <td data-label="Bahasa">Python, TypeScript</td><td data-label="Lisensi">MIT (wrapper) + Anthropic Commercial Terms (binary Claude Code)</td>
+            <td data-label="Fleksibilitas LLM">Claude saja</td>
+            <td data-label="Memory · HITL · Observabilitas">Sessions resume/fork; hooks; isolasi konteks subagent</td>
+            <td data-label="Deployment">Self-host / Managed Agents (beta)</td>
+            <td data-label="Paling cocok"><b>Agent coding / riset Claude-first</b></td>
+          </tr>
+          <tr data-lang="typescript">
+            <td class="fw" data-label="Framework"><b>Vercel AI SDK</b><span class="ver">7 · (6 GA Des 2025)</span></td>
+            <td data-label="Arsitektur">Tool loop terbatas (<span class="mono">ToolLoopAgent</span>); <span class="mono">WorkflowAgent</span> durable di v7</td>
+            <td data-label="Bahasa">TypeScript saja</td><td data-label="Lisensi">Apache 2.0</td>
+            <td data-label="Fleksibilitas LLM">Provider-neutral (AI Gateway)</td>
+            <td data-label="Memory · HITL · Observabilitas">Compaction manual; <span class="mono">needsApproval</span>; telemetri OTel; DevTools</td>
+            <td data-label="Deployment">Vercel / Node</td>
+            <td data-label="Paling cocok"><b>Aplikasi TS / React / Next.js yang menambah fitur agent</b><span class="sub">Bukan framework orkestrasi penuh</span></td>
+          </tr>
+          <tr data-lang="python typescript">
+            <td class="fw" data-label="Framework"><b>Strands Agents</b> <span style="color:var(--muted);font-weight:600">(AWS)</span><span class="ver">1.61.1 · 15 Okt 2026</span></td>
+            <td data-label="Arsitektur">Loop model-driven; pola Graph / Swarm / Workflow</td>
+            <td data-label="Bahasa">Python, TypeScript</td><td data-label="Lisensi">Apache 2.0</td>
+            <td data-label="Fleksibilitas LLM">Default Bedrock; semua provider besar</td>
+            <td data-label="Memory · HITL · Observabilitas">Session manager; hooks; OTel aktif secara default</td>
+            <td data-label="Deployment">Self-host / Bedrock AgentCore</td>
+            <td data-label="Paling cocok"><b>Tim AWS-native yang ingin loop ramping</b></td>
+          </tr>
+          <tr data-lang="python">
+            <td class="fw" data-label="Framework"><b>AG2</b><span class="ver">1.1.2 · v1.0 Jul 2026</span></td>
+            <td data-label="Arsitektur">Network bertipe (Hub + channels: conversation / consulting / discussion / workflow)</td>
+            <td data-label="Bahasa">Python</td><td data-label="Lisensi">Apache 2.0</td>
+            <td data-label="Fleksibilitas LLM">Multi-provider</td>
+            <td data-label="Memory · HITL · Observabilitas">Audit log jaringan / WAL</td>
+            <td data-label="Deployment">Self-host</td>
+            <td data-label="Paling cocok"><b>Multi-agent percakapan, tata kelola terbuka</b><span class="sub">v1.0 adalah penulisan ulang, bukan upgrade drop-in</span></td>
+          </tr>
+          <tr data-lang="python typescript">
+            <td class="fw" data-label="Framework"><b>BeeAI Framework</b><span class="ver">Rilis Sep 2026</span></td>
+            <td data-label="Arsitektur">Multi-agent dengan interoperabilitas ACP (Agent Communication Protocol)</td>
+            <td data-label="Bahasa">Python, TypeScript</td><td data-label="Lisensi">Apache 2.0</td>
+            <td data-label="Fleksibilitas LLM">10+ provider</td>
+            <td data-label="Memory · HITL · Observabilitas">Memory; workflows; telemetri</td>
+            <td data-label="Deployment">Self-host / watsonx</td>
+            <td data-label="Paling cocok"><b>Interop IBM / lingkungan teregulasi &amp; hybrid</b><span class="sub">IBM Research / Linux Foundation AI &amp; Data</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="empty" id="emptyState">Tidak ada framework yang cocok dengan pencarian / filter ini. Coba kata kunci lain.</div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:10px">Catatan metode: versi dan klaim di atas berasal dari laporan riset 10 Nov 2026 — panduan sekunder yang saling dicek silang, ditambah verifikasi langsung halaman resmi ADK 2.0, LlamaIndex Workflows 1.0, dan Haystack 3.0. Jika sumber sekunder bertentangan, konfliknya ditandai, bukan diselesaikan diam-diam.</p>
+  </section>
+
+  <!-- DETAIL -->
+  <section id="detail">
+    <div class="sec-head">
+      <div class="kicker">Bedah framework utama</div>
+      <h2>Sembilan framework utama, satu per satu</h2>
+      <p>Ketuk untuk membuka detail: apa yang berubah di 2026, kekuatan, dan batasannya. Framework lain (Pydantic AI, Mastra, Claude Agent SDK, Vercel, Strands, AG2, BeeAI) diringkas setelahnya.</p>
+    </div>
+    <div class="cards">
+
+      <details class="card" open>
+        <summary><h3>1 · LangGraph / LangChain</h3><p>Pilihan default terkuat untuk agent stateful di produksi (Python). ~149 ribu bintang GitHub (4 Nov 2026, per promptxp.app) — ekosistem terbesar di daftar ini.</p></summary>
+        <div class="card-body">
+          <div class="factgrid">
+            <div class="fact"><small>Versi (8 Nov 2026)</small><span>langchain 1.4.9 · langgraph 1.2.20 · JS 1.7.2</span></div>
+            <div class="fact"><small>Arsitektur</small><span>3 lapis: LangChain (framework) → LangGraph (runtime graph) → Deep Agents (harness)</span></div>
+          </div>
+          <h4>Yang berubah di 2026</h4>
+          <ul>
+            <li>LangGraph 1.2.0 (12 Mei): timeout node, error handler, <span class="mono">RunControl</span>, <span class="mono">DeltaChannel</span> beta (snapshot kini tiap 100 update, bukan 1.000, di 1.2.18), streaming v3 beta.</li>
+            <li>LangChain 1.4.0 (1 Sep): MCP pindah ke <span class="mono">langchain.mcp</span> (beta); HITL per-panggilan (14–15 Okt); blok penolakan standar / <span class="mono">ModelRefusalError</span> (4 Nov); tiap <span class="mono">interrupt()</span> dapat ID sendiri + mode resume ketat (5 Nov).</li>
+            <li>Deep Agents 0.7.0 (24 Jul): token input 65% lebih sedikit per putaran default. LangSmith Engine v2 (24 Sep): red-teaming &amp; deteksi tren.</li>
+          </ul>
+          <h4>Kekuatan</h4><p>Kontrol alur eksplisit dan resume setelah crash; cerita observabilitas terbaik via LangSmith (LangGraph Platform kini bernama LangSmith Deployment); integrasi terluas.</p>
+          <h4>Batasan</h4><p>Kurva belajar curam dan kode awal lebih banyak daripada SDK tipis; rilis mingguan dan beberapa fitur unggulan masih berlabel beta; dukungan Python 3.10 akan dihentikan di langchain-core 1.8.0 / langchain 1.5.0. Berlebihan untuk satu agent tool-calling sederhana.</p>
+          <p class="srcs">Sumber: <a href="https://www.developersdigest.tech/blog/langchain-langgraph-whats-new-2026">developersdigest.tech</a> · <a href="https://www.olano.ai/resources/langchain-vs-langgraph-vs-deep-agents">olano.ai</a> · <a href="https://www.garagelabstech.com/blog/langchain-vs-langgraph-vs-langsmith">garagelabstech.com</a> · <a href="https://www.promptxp.app/compare/langchain-vs-llamaindex">promptxp.app</a></p>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h3>2 · CrewAI</h3><p>Tercepat menuju demo multi-agent yang bekerja. ~59–60,7 ribu bintang GitHub; ±552 ribu unduhan PyPI/minggu (angka Sep–Okt 2026).</p></summary>
+        <div class="card-body">
+          <div class="factgrid">
+            <div class="fact"><small>Versi</small><span>1.15.39 · 9 Nov 2026 (12 rilis stabil dalam 30 hari sebelumnya)</span></div>
+            <div class="fact"><small>Bahasa</small><span>Python saja (3.10–3.13; 3.14 belum didukung)</span></div>
+          </div>
+          <h4>Yang berubah di 2026</h4>
+          <ul>
+            <li>1.14.0 (7 Apr): checkpointing state runtime + forking. 1.14.4 (1 Mei): Azure Responses API, tools MCP Tavily/You.com native. 1.14.7 (11 Jun): backend memory/knowledge/RAG/Flow yang bisa diganti, Snowflake Cortex.</li>
+            <li>Lini 1.15: scaffold JSON-first (<span class="mono">crew.jsonc</span>), Flows deklaratif, conversational flows stabil sejak 1.15.18, <span class="mono">crewai eval</span>, <span class="mono">AgentExecutor</span> sebagai default baru.</li>
+            <li>Harga AMP disederhanakan: Basic gratis (50 eksekusi workflow/bulan) + Enterprise custom (SSO/RBAC/VPC, FedRAMP High/SAM). Tier Professional self-serve lama dihentikan — daftar harga lama $99/bln–$120 rb/thn sudah usang.</li>
+          </ul>
+          <h4>Kekuatan</h4><p>Model mental berbasis peran (role/goal/backstory) yang intuitif; Crews + Flows mencakup kerja otonom maupun deterministik; kuat untuk crew riset/konten/analis.</p>
+          <h4>Batasan</h4><p>Kontrol eksekusi kurang halus dibanding LangGraph; rilis patch pernah membawa breaking change (1.15.29 menghapus path import, baru ditandai breaking 5 hari kemudian); telemetri anonim aktif secara default (<span class="mono">CREWAI_DISABLE_TELEMETRY=true</span> untuk mematikan); tidak ada sandbox untuk kode buatan model; observabilitas produksi terkuat ada di balik AMP.</p>
+          <p class="srcs">Sumber: <a href="https://agentgid.com/agents/crewai/">agentgid.com</a> · <a href="https://codehalwell.github.io/AgentGuides/crewai-guide/">AgentGuides — CrewAI</a> · <a href="https://www.anchorterminal.com/tools/crewai">anchorterminal.com</a> · <a href="https://www.lindy.ai/blog/crew-ai-pricing">lindy.ai</a></p>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h3>3 · Microsoft Agent Framework (MAF)</h3><p>Peleburan AutoGen + Semantic Kernel oleh tim yang sama. ±13,9 ribu bintang GitHub (Okt 2026) — kecil, tapi didukung Microsoft dengan LTS.</p></summary>
+        <div class="card-body">
+          <div class="factgrid">
+            <div class="fact"><small>Versi</small><span>Python agent-framework 1.21.0 (8 Okt 2026) · .NET Microsoft.Agents.AI 1.26</span></div>
+            <div class="fact"><small>3 Tingkatan</small><span>Agents (AIAgent) · Harness Agent · Workflows (graph &amp; fungsional)</span></div>
+          </div>
+          <h4>Yang perlu diketahui</h4>
+          <ul>
+            <li>Sep 2026: hosting AG-UI (Python stabil), provider memory Foundry/Cosmos DB (preview), CodeAct via <span class="mono">HyperlightCodeActProvider</span> (eksekusi kode micro-VM), channel OpenAI Responses/Telegram/A2A/MCP, ekstensi Durable Azure Functions.</li>
+            <li>MCP + A2A + AG-UI + OpenAPI native; tracing OpenTelemetry (GenAI Semantic Conventions); eksekusi durable via Azure Durable Task / ekstensi terpisah — belum sepenuhnya di core.</li>
+            <li>Foundry Hosted Agents GA Agu 2026 (scale-to-zero). Go masih public preview dan belum punya declarative agents/RAG/CodeAct/functional workflows.</li>
+          </ul>
+          <h4>Kekuatan</h4><p>Pilihan terbaik di .NET/Azure; mengakhiri kebingungan AutoGen vs Semantic Kernel; jalur migrasi dari keduanya (agent SK bisa dibungkus jadi MAF <span class="mono">AIAgent</span> via <span class="mono">.AsAIAgent()</span>).</p>
+          <h4>Batasan</h4><p>Masih muda (1.0 baru Apr 2026); komunitas jauh lebih kecil dari LangGraph; eksekusi durable hidup di ekstensi.</p>
+          <p class="srcs">Sumber: <a href="https://atlan.com/know/ai-agent/microsoft/agent-framework/">atlan.com — MAF</a> · <a href="https://intelligenttools.co/blog/what-happened-to-autogen">intelligenttools.co</a> · <a href="https://www.cynoteck.com/blog-post/langchain-vs-autogen-vs-crewai-framework-guide">cynoteck.com</a></p>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h3>4 · OpenAI Agents SDK</h3><p>SDK vendor paling ramping. Dirilis 11 Mar 2025 sebagai penerus produksi Swarm; ±31 ribu bintang GitHub (Okt 2026, per geekflare.com).</p></summary>
+        <div class="card-body">
+          <div class="factgrid">
+            <div class="fact"><small>Versi</small><span>0.24.0 · 15 Okt 2026 (masih 0.x)</span></div>
+            <div class="fact"><small>Orkestrasi</small><span>Handoff (triage → spesialis) &amp; agents-as-tools — tanpa graph engine</span></div>
+          </div>
+          <h4>Yang berubah di 2026</h4>
+          <ul>
+            <li>15–16 Apr 2026: eksekusi sandbox native / harness model-native. <span class="mono">Manifest</span> membuat workspace portabel lintas penyedia sandbox — E2B, Modal, Docker, Daytona, Cloudflare, Blaxel, Runloop, Vercel (+ Unix-local untuk dev); kapabilitas Filesystem, Shell, Compaction, Memory. Saat peluncuran hanya Python; TypeScript di roadmap.</li>
+            <li>Okt 2026: anotasi tool MCP, format eksepsi tool menyeluruh, perlindungan penghapusan Docker sandbox, enkripsi/budget session + kontrol batching.</li>
+          </ul>
+          <h4>Kekuatan</h4><p>Kurva belajar paling kecil di antara SDK produksi; tracing terbaik langsung pakai (dashboard OpenAI, bisa ekspor ke OpenTelemetry); cerita eksekusi kode tersandbox terkuat di 2026; agent suara via Realtime API (GA).</p>
+          <h4>Batasan — baca dengan hati-hati</h4><p><strong>Cakupan provider diperdebatkan:</strong> posisi resmi/PyPI menyebut provider-agnostic (Responses + Chat Completions + 100+ LLM via LiteLLM), sementara sebagian ulasan 2026 mengklaim OpenAI-only. Laporan menyimpulkan: perlakukan sebagai <strong>OpenAI-first, kompatibel LiteLLM</strong> — verifikasi routing non-OpenAI sebelum berkomitmen. Durabilitas juga lebih tipis (via wrapper Temporal, bukan bawaan).</p>
+          <p class="srcs">Sumber: <a href="https://agentgid.com/agents/openai-agents-sdk/">agentgid.com</a> · <a href="https://www.solosoft.dev/trends/openai-agents-sdk-sandbox-enterprise-20260419/">solosoft.dev</a> · <a href="https://codex.danielvaughan.com/2026/04/17/agents-sdk-harness-portable-sandbox-manifests-codex-cli/">codex.danielvaughan.com</a></p>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h3>5 · Google ADK 2.0</h3><p>Satu-satunya framework besar dengan 5 bahasa first-party. ±22 ribu bintang GitHub (adk-python); ±2,9 juta unduhan PyPI+npm dalam pekan yang berakhir 8 Nov 2026.</p></summary>
+        <div class="card-body">
+          <div class="factgrid">
+            <div class="fact"><small>Versi</small><span>Python 2.14.0 · 7 Nov 2026 — diverifikasi langsung di adk.dev</span></div>
+            <div class="fact"><small>Pergeseran 2.0</small><span>Dari executor hierarkis → graph-based Workflow Runtime</span></div>
+          </div>
+          <h4>Yang berubah di 2.0 (terverifikasi langsung)</h4>
+          <ul>
+            <li>Workflow Runtime menilai Agents, Tools, dan Functions sebagai node dalam graph: routing, fan-out/fan-in, loop, retry, workflow bersarang; workflow dinamis (logika berbasis kode); workflow kolaboratif; Task API untuk delegasi antar-agent terstruktur dengan HITL multi-turn.</li>
+            <li><span class="mono">SequentialAgent</span>/<span class="mono">ParallelAgent</span>/<span class="mono">LoopAgent</span> deprecated (masih berfungsi). Ada breaking change pada API agent, model event, dan skema session — migrasi dari 1.x diperlukan.</li>
+            <li>A2A native (ekspos agent sebagai server A2A, konsumsi peer A2A sebagai sub-agent), <span class="mono">McpToolset</span>, adapter <span class="mono">LangchainTool</span>/<span class="mono">CrewaiTool</span>, Vertex AI Memory Bank, eval bawaan, UI dev <span class="mono">adk web</span>.</li>
+          </ul>
+          <h4>Kekuatan</h4><p>Cerita Google Cloud terlengkap; dipakai internal di Google (Agentspace) sebelum open-source; graph runtime + A2A/MCP native.</p>
+          <h4>Batasan</h4><p>Tool Confirmation masih eksperimental dengan celah yang diketahui — jangan andalkan sendirian untuk aksi destruktif/finansial. Paritas bahasa tertinggal (fitur mendarat di Python dulu). Klaim breaking change di rilis minor 2.x dan CVE — lihat bagian “belum terverifikasi”.</p>
+          <p class="srcs">Sumber (langsung): <a href="https://adk.dev/2.0/">adk.dev/2.0</a> · <a href="https://agentgid.com/agents/google-adk/">agentgid.com</a> · <a href="https://atlan.com/know/ai-agent/ai-agent-applications/what-is-google-adk/">atlan.com</a></p>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h3>6 · LlamaIndex + Workflows 1.0</h3><p>Terbaik di kelasnya untuk dokumen berantakan dan agent berat retrieval. ±52,8 ribu bintang GitHub (4 Nov 2026).</p></summary>
+        <div class="card-body">
+          <div class="factgrid">
+            <div class="fact"><small>Versi</small><span>llama-index-core 0.14.25 · 21 Sep 2026 (masih 0.x)</span></div>
+            <div class="fact"><small>Workflows 1.0</small><span>22 Jun 2026 — rilis stabil mandiri pertama, diverifikasi langsung</span></div>
+          </div>
+          <h4>Yang berubah di 2026</h4>
+          <ul>
+            <li>Workflows dipisah ke repo/paket sendiri (<span class="mono">llama-index-workflows</span>, <span class="mono">@llamaindex/workflow-core</span>), tetap di-re-export demi kompatibilitas. Event-driven, async-first: state bertipe, injeksi resource, checkpointing + serialisasi konteks (pause/resume termasuk setelah restart), observabilitas OTel / Arize Phoenix.</li>
+            <li>LlamaParse: parsing/ekstraksi terkelola 90+ format file, tabel/chart/gambar, 100+ bahasa; LiteParse open-source berjalan lokal; benchmark ParseBench (Apr 2026, ±2.000 halaman / 167 ribu aturan ekstraksi, per sumber sekunder).</li>
+          </ul>
+          <h4>Kekuatan</h4><p>Pasangan naturalnya: LlamaIndex untuk retrieval + LangGraph untuk orkestrasi. Workflows 1.0 menutup sebagian besar celah orkestrasi.</p>
+          <h4>Harga LlamaParse (terverifikasi, Nov 2026)</h4><p>Berdasarkan dokumen resmi LlamaIndex: <strong>gratis $0/bulan</strong> (10.000 kredit) dan <strong>Pro $500/bulan</strong> (400.000 kredit; kredit tambahan $1,25 per 1.000 kredit). Paket <strong>Starter $50/bulan</strong> (40.000 kredit) sudah tidak ditawarkan ke pelanggan baru. Angka <strong>$5.000</strong> yang sempat beredar adalah <strong>batas pay-as-you-go Pro</strong>, bukan harga paket.</p>
+          <h4>Batasan</h4><p>Orkestrasi tetap lebih ringan dari LangGraph; masih versi 0.x — baca changelog sebelum setiap upgrade minor; kegagalan retrieval adalah mode kegagalan dominan.</p>
+          <p class="srcs">Sumber (langsung): <a href="https://www.llamaindex.ai/blog/announcing-workflows-1-0-a-lightweight-framework-for-agentic-systems">llamaindex.ai — Workflows 1.0</a> · <a href="https://www.promptxp.app/compare/langchain-vs-llamaindex">promptxp.app</a></p>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h3>7 · Haystack 3.0 (deepset)</h3><p>Kejelasan dan governansi di atas “sihir”: pipeline yang bisa diserialisasi, ditinjau, diuji, dan diaudit tim platform.</p></summary>
+        <div class="card-body">
+          <div class="factgrid">
+            <div class="fact"><small>Versi</small><span>haystack-ai 3.4.1 · 21 Okt 2026 · Python 3.11+</span></div>
+            <div class="fact"><small>Integrasi</small><span>90+ integrasi, diuji nightly</span></div>
+          </div>
+          <h4>Yang berubah di 3.0 (terverifikasi langsung, 20 Jul 2026)</h4>
+          <ul>
+            <li>Agent pindah ke pusat: agent siap pakai (deep-research, advanced RAG) di paket terpisah <span class="mono">agent-pack-haystack</span>; hooks agent (<span class="mono">before_run</span>, <span class="mono">before_llm</span>, <span class="mono">before_tool</span>, <span class="mono">after_tool</span>, <span class="mono">on_exit</span>, <span class="mono">after_run</span>) untuk guardrails/persetujuan manusia tanpa menyentuh internal agent.</li>
+            <li><span class="mono">SkillToolset</span> dengan progressive disclosure; introspeksi bawaan (<span class="mono">token_usage</span>, <span class="mono">step_count</span>, <span class="mono">tool_call_counts</span>); helper compaction konteks; <span class="mono">Pipeline</span>/<span class="mono">AsyncPipeline</span> dilebur jadi satu kelas; komponen mock bawaan untuk pengujian deterministik tanpa API key.</li>
+            <li>Versi 2.31 menerima fix keamanan/kritis hingga akhir Okt 2026.</li>
+          </ul>
+          <h4>Kekuatan</h4><p>Warisan RAG/search produksi yang kuat; independensi model dan self-hosting (diposisikan sebagai “sovereign agents”); cakupan tes core &gt;90% menurut deepset.</p>
+          <h4>Batasan</h4><p>Ekosistem lebih kecil dari LangChain/LlamaIndex; Python saja; orkestrasi multi-agent kurang preskriptif (Anda yang menyusunnya); baru dua agent siap pakai saat 3.0.</p>
+          <p class="srcs">Sumber (langsung): <a href="https://haystack.deepset.ai/blog/haystack-3-release">haystack.deepset.ai — Haystack 3.0</a> · <a href="https://codehalwell.github.io/AgentGuides/haystack-guide/">AgentGuides — Haystack</a></p>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h3>8 · AutoGen &amp; Semantic Kernel — status legacy</h3><p>Keduanya masih ada, tapi pesannya sama: jangan mulai proyek baru di sini. Migrasi ke MAF.</p></summary>
+        <div class="card-body">
+          <h4>AutoGen</h4>
+          <p>Maintenance mode sejak 2 Okt 2025; tanpa fitur baru. Rilis Microsoft terakhir <span class="mono">autogen-agentchat</span> 0.7.5 (30 Sep 2025); README mengarahkan pengguna baru ke MAF. ±61 ribu bintang GitHub. Garis keturunannya diteruskan komunitas lewat AG2 (lihat di bawah).</p>
+          <h4>Semantic Kernel</h4>
+          <p>v1.x masih terbit (.NET <span class="mono">Microsoft.SemanticKernel</span> 1.81.0, dicek 10 Nov 2026; MIT; .NET/Python/Java). Microsoft menyebut MAF “penerus Semantic Kernel untuk membangun AI agent”; SK hanya menerima fix bug/keamanan kritis setidaknya 1 tahun setelah MAF GA — yaitu hingga setidaknya Apr 2027 — dan sebagian besar fitur baru masuk ke MAF.</p>
+          <p class="srcs">Sumber: <a href="https://intelligenttools.co/blog/what-happened-to-autogen">intelligenttools.co</a> · <a href="https://atlan.com/know/ai-agent/microsoft/semantic-kernel/">atlan.com — Semantic Kernel</a> · <a href="https://codehalwell.github.io/AgentGuides/semantic-kernel-guide/dotnet/semantic_kernel_comprehensive_dotnet/">AgentGuides — Semantic Kernel</a></p>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h3>9 · Tema lintas-framework 2026</h3><p>Tiga hal yang kini menentukan pilihan — bukan lagi dukungan protokol.</p></summary>
+        <div class="card-body">
+          <ul>
+            <li><strong>MCP + A2A sudah universal.</strong> Pilihan framework kini lebih soal model kontrol dan ekosistem daripada dukungan protokol.</li>
+            <li><strong>Differentiator produksi:</strong> eksekusi durable + sandboxing + persetujuan HITL. Contoh 2026: checkpointing LangGraph/CrewAI/MAF/LlamaIndex, durable Pydantic AI Harness di 8 engine, <span class="mono">WorkflowAgent</span> di Vercel AI SDK 7 / Eve.</li>
+            <li><strong>SDK vendor kini framework yang kredibel</strong> (OpenAI, Google, Anthropic) — terbaik di dalam stack model/cloud-nya sendiri, terlemah di luar itu.</li>
+            <li>Riset State of Agent Engineering dari LangChain (dikutip tangan kedua dalam laporan): 57% organisasi menjalankan agent di produksi; hambatan utama adalah kualitas output, bukan biaya.</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+
+    <h3 style="margin:26px 0 12px;font-size:19px;letter-spacing:-.02em">Pendatang &amp; pemain lain yang menonjol di 2026</h3>
+    <div class="cards">
+      <details class="card"><summary><h3>Pydantic AI v2</h3><p>Type-safe, dari tim Pydantic. v2.60.0 (23 Okt 2026); ±20,8 ribu bintang.</p></summary>
+        <div class="card-body"><p><strong>Capabilities</strong> menyatukan tools + hooks + instruksi + settings sebagai satu unit yang bisa dikomposisi; <strong>Harness</strong> menyediakan memory, guardrails, sub-agent, planning, manajemen konteks, dan coding agent; eksekusi durable di 8 engine (Temporal, DBOS, Prefect, Lambda, Airflow…). Observabilitas Logfire (OTel) dan Pydantic Evals. Orkestrasi multi-agent lebih manual dibanding CrewAI/MAF.</p><p class="srcs">Sumber: <a href="https://www.reviewramble.com/github-repos/pydantic-ai">reviewramble.com</a> · <a href="https://www.institutepm.com/knowledge-hub/agentic-framework-update-2026">institutepm.com</a></p></div></details>
+
+      <details class="card"><summary><h3>Mastra 1.0</h3><p>Stack TypeScript terlengkap. Platform diluncurkan 9 Apr 2026; 22–26 ribu bintang.</p></summary>
+        <div class="card-body"><p>Agents, workflow graph (<span class="mono">.then()/.branch()/.parallel()</span>), memory 4 mekanisme termasuk observational memory, RAG, eval, tracing, MCP, model router ±220 provider, HITL suspend/resume, dan Studio.</p><p class="srcs">Sumber: <a href="https://www.brahmalabs.io/compare/mastra-vs-brahmalabs/">brahmalabs.io</a> · <a href="https://theexpertranking.com/developers/best-ai-agent-frameworks/">theexpertranking.com</a></p></div></details>
+
+      <details class="card"><summary><h3>Claude Agent SDK</h3><p>Claude Code sebagai library. Berganti nama dari Claude Code SDK pada 29 Sep 2025; Python 0.2.178 (4 Nov 2026).</p></summary>
+        <div class="card-body"><p><span class="mono">query()</span> / <span class="mono">ClaudeSDKClient</span>; tools bawaan Read/Write/Edit/Bash/Glob/Grep/WebSearch; 18 event lifecycle hooks; subagent dengan isolasi konteks; sessions resume/fork; skills/plugins; MCP kelas satu. Model Claude saja (via API, Bedrock, Vertex, Foundry). Managed Agents (REST API hosted) beta publik sejak 8 Apr 2026. Loop-nya sendiri tidak bisa dimodifikasi.</p><p class="srcs">Sumber: <a href="https://www.reviewramble.com/github-repos/claude-agent-sdk">reviewramble.com</a> · <a href="https://www.augmentcode.com/tools/claude-code-vs-claude-agent-sdk">augmentcode.com</a></p></div></details>
+
+      <details class="card"><summary><h3>Vercel AI SDK 7 &amp; Eve</h3><p>AI SDK 7 (25 Jun 2026) dan Eve — diluncurkan 17 Jun 2026, beta v0.11.4 (Jul 2026).</p></summary>
+        <div class="card-body"><p><strong>AI SDK:</strong> toolkit provider-neutral (klaim 20 juta+ unduhan bulanan); agent adalah tool loop terbatas (<span class="mono">stopWhen</span>, default <span class="mono">stepCountIs(20)</span>); v7 menambah <span class="mono">WorkflowAgent</span> durable, timeout, sandbox, telemetri. <strong>Eve:</strong> agent backend durable filesystem-first (agent = direktori), workflow ber-checkpoint, compute tersandbox, approval HITL, koneksi MCP/OpenAPI dan channel (Slack/Discord/Teams…); menjalankan 100+ agent di produksi di Vercel — tapi masih pra-GA, masuk daftar pantau.</p><p class="srcs">Sumber: <a href="https://umatechnology.org/ai-sdk-6-to-7-what-changes-for-react-and-next-js-teams/">umatechnology.org</a> · <a href="https://www.marktechpost.com/2026/06/17/vercel-releases-eve/">marktechpost.com</a></p></div></details>
+
+      <details class="card"><summary><h3>Strands Agents (AWS)</h3><p>1.61.1 (15 Okt 2026); 9,1 ribu bintang; Apache 2.0.</p></summary>
+        <div class="card-body"><p>SDK model-driven dengan MCP + A2A dan OTel aktif secara default; sessions file/S3; default Bedrock, bekerja juga dengan Anthropic/OpenAI/Gemini/Ollama; deploy ke Bedrock AgentCore Runtime ($0,0895/vCPU-jam, per sumber laporan).</p><p class="srcs">Sumber: <a href="https://geekflare.com/open-source/ai-agent-frameworks/">geekflare.com</a></p></div></details>
+
+      <details class="card"><summary><h3>AG2 · BeeAI · Hermes · SmolAgents/Agno</h3><p>Fork, interop, dan daftar pantau.</p></summary>
+        <div class="card-body">
+          <ul>
+            <li><strong>AG2 v1.0 (27 Jul 2026; 1.1.2 pada 3 Okt):</strong> fork komunitas AutoGen dari kreator aslinya (±5 ribu bintang, Apache 2.0). Network bertipe menggantikan GroupChat/Swarm; API klasik pindah ke <span class="mono">ag2-classic</span> (maintenance). Penulisan ulang, bukan upgrade drop-in.</li>
+            <li><strong>BeeAI:</strong> IBM Research / Linux Foundation; multi-agent dengan Agent Communication Protocol untuk interop lintas-framework.</li>
+            <li><strong>Hermes Agent (Nous Research, MIT):</strong> memory persisten + skill yang dibuat otomatis. Repo dibuat 22 Jul 2025; rilis publik pertama v0.2.0 pada 12 Mar 2026. Klaim ±220 ribu bintang per Jul 2026 kini <strong>didukung pemeriksaan API GitHub independen</strong>: ±247.700 bintang (21 Sep 2026), ±252.576 (10 Okt 2026), dan <strong>257.311 bintang / 56.367 fork (26 Okt 2026)</strong>; rilis terbaru yang tercatat v0.22.5 (23 Okt 2026). Namun bintang tetap <strong>bukan bukti kesiapan produksi</strong> — tetap di daftar pantau.</li>
+            <li><strong>SmolAgents (Hugging Face) / Agno:</strong> opsi minimal (loop code-agent beberapa ratus baris) dan multimodal ringan — bagus untuk agent sederhana/lokal, bukan orkestrasi enterprise.</li>
+          </ul>
+          <p class="srcs">Sumber: <a href="https://resources.rework.com/tools/ai-agents/best-open-source-ai-agent-frameworks-2026">resources.rework.com</a> · <a href="https://alicelabs.ai/en/insights/best-ai-agent-frameworks-2026">alicelabs.ai</a> · <a href="https://www.respan.ai/articles/best-ai-agent-frameworks">respan.ai</a></p>
+        </div></details>
+    </div>
+  </section>
+
+  <!-- RECO -->
+  <section id="rekomendasi">
+    <div class="sec-head">
+      <div class="kicker">Rekomendasi</div>
+      <h2>Pilih berdasarkan kebutuhan, bukan popularitas</h2>
+      <p>Empat skenario dari laporan — enterprise, prototyping, kolaborasi multi-agent, dan deployment produksi.</p>
+    </div>
+    <div class="reco">
+      <div class="reco-box"><h3>🏢 Enterprise</h3><p>Governansi, audit, dukungan, dan kesesuaian cloud.</p>
+        <ul>
+          <li><b>.NET / Azure → MAF.</b> LTS, Foundry, OTel, MCP/A2A, jalur migrasi SK/AutoGen. Semantic Kernel hanya jika sudah terlanjur investasi — rencanakan migrasi sebelum lantai dukungan Apr 2027.</li>
+          <li><b>Google Cloud / Gemini → Google ADK 2.0</b> + Vertex AI Agent Engine — tapi kunci (pin) versi dan siapkan anggaran untuk breaking change di rilis minor.</li>
+          <li><b>AWS → Strands Agents</b> (ramping, Bedrock AgentCore) atau LangGraph yang di-host di AWS.</li>
+          <li><b>Vendor-neutral / teregulasi / self-hosted → LangGraph</b> atau <b>Haystack</b> (pipeline serial yang bisa ditinjau — cerita governansi RAG terkuat).</li>
+          <li><b>Hindari untuk build enterprise baru:</b> AutoGen, Semantic Kernel (maintenance), AG2 Classic.</li>
+        </ul></div>
+      <div class="reco-box"><h3>⚡ Prototyping</h3><p>Tercepat menuju demo yang bekerja.</p>
+        <ul>
+          <li><b>Demo multi-agent dalam hitungan jam → CrewAI</b> (roles/goals/backstory + Flows). Waspadai breakage di rilis patch.</li>
+          <li><b>Agent tunggal, OpenAI → OpenAI Agents SDK</b> — primitif paling sedikit, tracing sudah termasuk.</li>
+          <li><b>Agent tunggal, Claude → Claude Agent SDK</b> — tools file/shell/web bawaan, boilerplate nyaris nol.</li>
+          <li><b>Prototipe Python type-safe yang harus jadi layanan → Pydantic AI.</b></li>
+          <li><b>Prototipe TS/React → Vercel AI SDK 6/7</b> (<span class="mono">ToolLoopAgent</span>).</li>
+        </ul></div>
+      <div class="reco-box"><h3>🤝 Kolaborasi multi-agent</h3><p>Tim agent, delegasi, debat, dan interop.</p>
+        <ul>
+          <li><b>Tim berbasis peran / delegasi → CrewAI</b> (crews + proses hierarkis) atau <b>MAF</b> (workflow handoff / group-chat / Magentic).</li>
+          <li><b>Debat percakapan / group chat → AG2 v1.0</b> (Network bertipe) — terima biaya penulisan ulangnya — atau group chat MAF.</li>
+          <li><b>Agent lintas-framework / lintas-organisasi → Google ADK</b> (A2A + MCP native) atau <b>BeeAI</b> (ACP). A2A adalah taruhan interop 2026 — dan sejak 10 Nov 2026, lengkapi dengan <b>Agent Name Service (ANS)</b> untuk identitas, verifikasi, dan discovery agen lintas organisasi (lihat <a href="#update-ans">update ANS</a>).</li>
+          <li><b>Orkestrasi tim yang eksplisit &amp; bisa diaudit → LangGraph</b> (subgraph, shared state, interrupts) — kontrol terbanyak, kode terbanyak.</li>
+        </ul></div>
+      <div class="reco-box"><h3>🚀 Deployment produksi</h3><p>Durable, terobservasi, dan terkendali biayanya.</p>
+        <ul>
+          <li><b>Berjalan lama / bisa resume setelah crash → LangGraph</b> (checkpointer, DeltaChannel, LangSmith Deployment) — cerita terkuat. Setara bertipe/TS-nya: <b>Pydantic AI Harness</b> (8 engine durable termasuk Temporal/DBOS) dan <b>Mastra</b> (suspend/resume + Platform); <b>Vercel Eve</b> jika TS + filesystem-first dan pra-GA bisa diterima.</li>
+          <li><b>Eksekusi kode tersandbox → OpenAI Agents SDK</b> (sandbox Manifest multi-penyedia) atau <b>MAF CodeAct/Hyperlight</b>; <span class="mono">code_execution</span> ADK untuk Gemini.</li>
+          <li><b>Kematangan observabilitas/eval:</b> LangSmith (LangGraph), Logfire (Pydantic AI), eval Mastra, eval bawaan ADK, tracing dashboard OpenAI — pilih cerita tracing bersama framework-nya, bukan sesudahnya.</li>
+          <li><b>Produksi berat dokumen → LlamaIndex Workflows + LlamaParse</b>, atau pipeline Haystack 3.0.</li>
+        </ul></div>
+    </div>
+  </section>
+
+  <!-- OPEN QUESTIONS -->
+  <section id="terbuka">
+    <div class="sec-head">
+      <div class="kicker">Kejujuran riset</div>
+      <h2>Yang belum terverifikasi — jangan kutip sebagai fakta</h2>
+    </div>
+    <div class="alert">
+      <h3>Pertanyaan terbuka dari laporan (10 Nov 2026)</h3>
+      <ul>
+        <li><b>“LangGraph 2.0” (Feb 2026) — TIDAK BENAR:</b> lini Python terverifikasi tetap 1.2.x — 1.2.20 per 5 Nov 2026 (PyPI, dicek 10 Nov 2026); JS 1.7.3 dan <span class="mono">langgraph-sdk</span> 0.4.14 bukan 2.0. Klaim dev.to tersebut tidak dipakai.</li>
+        <li><b>Nama model di sumber sekunder 2026:</b> beberapa panduan menyebut “GPT-6 / gpt-6-luna / gpt-5.6-luna” sebagai default CrewAI/OpenAI. Tidak bisa diverifikasi terhadap daftar model resmi dan tampak seperti konten sintetis/bertanggal masa depan — tidak diulang di sini sebagai fakta.</li>
+        <li><b>CVE Google ADK — SEBAGIAN TERVERIFIKASI (11 Nov 2026):</b> CVE-2026-18236 (CVSS 9.3, kritis) memungkinkan pemalsuan konfirmasi tool lewat manipulasi riwayat sesi, ADK Python &lt;2.5.0, GHSA-8qg5-x5vm-75jx; plus CVE-2026-115522 (isolasi artifact antar-aplikasi, diperbaiki 2.7.0/1.39.1), CVE-2026-107858 (Java, CVSS 7.2, diperbaiki 1.13.0), dan CVE-2026-105772 (TypeScript path traversal, diperbaiki 0.6.0). Total 4 CVE 2026 yang terdokumentasi sejauh ini — angka “6 CVE, 3 kritis” belum terkonfirmasi. Pin ADK Python &gt;=2.7.0; versi 2.14.0 di halaman ini sudah di atas semua perbaikan tersebut. Klaim breaking change minor 2.x dan hapus Python 3.10 di 2.12.0 masih belum terverifikasi.</li>
+        <li><b>Harga LlamaParse — terkoreksi 11 Nov 2026:</b> terverifikasi dari dokumen resmi LlamaIndex (Nov 2026): gratis $0/bulan (10.000 kredit) dan Pro $500/bulan (400.000 kredit, $1,25 per 1.000 kredit tambahan). Starter $50/bulan (40.000 kredit) sudah tidak ditawarkan ke pelanggan baru, dan angka $5.000 adalah batas pay-as-you-go Pro — bukan harga paket. Konflik harga antar sumber sekunder sebelumnya kini terselesaikan.</li>
+        <li><b>Cakupan provider OpenAI Agents SDK:</b> posisi resmi (provider-agnostic via LiteLLM) vs sebagian ulasan (OpenAI-only) bertentangan — verifikasi routing non-OpenAI di dokumentasi terkini.</li>
+        <li><b>Status LlamaIndex TS:</b> satu sumber menyebut port TS diarsipkan pada 2026, sementara paket Workflows TS (<span class="mono">@llamaindex/workflow-core</span>) masih mutakhir — cakupan pengarsipannya belum jelas.</li>
+        <li><b>Bintang Hermes Agent — terkoreksi 11 Nov 2026:</b> klaim ±220 ribu bintang per Jul 2026 kini didukung pemeriksaan API GitHub independen (±247.700 pada 21 Sep 2026; ±252.576 pada 10 Okt 2026; 257.311 bintang / 56.367 fork pada 26 Okt 2026; rilis v0.22.5 pada 23 Okt 2026; repo dibuat 22 Jul 2025, rilis publik pertama v0.2.0 pada 12 Mar 2026). Angka bintangnya kini terverifikasi — tetapi bintang tetap bukan bukti kesiapan produksi, jadi Hermes tetap di daftar pantau.</li>
+        <li><b>Angka bintang/unduhan</b> (LangChain 149 rb, CrewAI ±60 rb, MAF ±14 rb, Mastra 22–26 rb, unduhan npm 300 rb–1,1 jt/minggu) adalah snapshot dari tanggal/sumber berbeda dan saling bertentangan — pakai hanya sebagai sinyal ekosistem kasar.</li>
+        <li><b>Cakupan verifikasi langsung:</b> halaman resmi hanya diambil live untuk ADK 2.0, LlamaIndex Workflows 1.0, dan Haystack 3.0; nomor versi lain bertumpu pada pencarian indeks (beberapa sumber sekunder yang sepakat + pelacak turunan PyPI/GitHub), bukan pembacaan live GitHub/PyPI dalam sesi riset ini.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <section id="sumber">
+    <div class="sec-head">
+      <div class="kicker">Provenans</div>
+      <h2>Sumber laporan</h2>
+      <p>Seluruh URL di bawah disalin persis dari laporan riset. Metode: pencarian indeks web dengan beberapa panduan sekunder independen yang dicek silang, ditambah pengambilan live halaman resmi untuk ADK 2.0, Workflows 1.0, dan Haystack 3.0.</p>
+    </div>
+    <div class="sources"><ul>
+      <li>Agent Name Service (ANS) — Linux Foundation, 10 Nov 2026 — <a href="https://ansinfo.ai">ansinfo.ai</a> · <a href="https://github.com/agentnameservice">github.com/agentnameservice</a></li>
+      <li>LangChain/LangGraph akhir 2026 — <a href="https://www.developersdigest.tech/blog/langchain-langgraph-whats-new-2026">developersdigest.tech/blog/langchain-langgraph-whats-new-2026</a></li>
+      <li>LangChain vs LangGraph vs LangSmith — <a href="https://www.garagelabstech.com/blog/langchain-vs-langgraph-vs-langsmith">garagelabstech.com</a></li>
+      <li>LangChain vs LangGraph vs Deep Agents — <a href="https://www.olano.ai/resources/langchain-vs-langgraph-vs-deep-agents">olano.ai</a></li>
+      <li>LangChain vs LlamaIndex (versi/bintang) — <a href="https://www.promptxp.app/compare/langchain-vs-llamaindex">promptxp.app/compare/langchain-vs-llamaindex</a></li>
+      <li>Panduan CrewAI (versi/flows/eval) — <a href="https://codehalwell.github.io/AgentGuides/crewai-guide/">codehalwell.github.io/AgentGuides/crewai-guide</a></li>
+      <li>CrewAI (rilis/bintang) — <a href="https://agentgid.com/agents/crewai/">agentgid.com/agents/crewai</a></li>
+      <li>CrewAI vs AutoGen 2026 — <a href="https://alicelabs.ai/en/insights/crewai-vs-autogen-2026">alicelabs.ai/en/insights/crewai-vs-autogen-2026</a></li>
+      <li>Ulasan CrewAI (telemetri/breaking change) — <a href="https://www.anchorterminal.com/tools/crewai">anchorterminal.com/tools/crewai</a></li>
+      <li>Harga CrewAI AMP — <a href="https://resources.rework.com/tools/ai-agents/best-open-source-ai-agent-frameworks-2026">resources.rework.com</a> · <a href="https://www.lindy.ai/blog/crew-ai-pricing">lindy.ai/blog/crew-ai-pricing</a></li>
+      <li>Status AutoGen / MAF / AG2 — <a href="https://intelligenttools.co/blog/what-happened-to-autogen">intelligenttools.co/blog/what-happened-to-autogen</a> · <a href="https://www.cynoteck.com/blog-post/langchain-vs-autogen-vs-crewai-framework-guide">cynoteck.com</a></li>
+      <li>Microsoft Agent Framework — <a href="https://atlan.com/know/ai-agent/microsoft/agent-framework/">atlan.com/know/ai-agent/microsoft/agent-framework</a></li>
+      <li>Semantic Kernel — <a href="https://atlan.com/know/ai-agent/microsoft/semantic-kernel/">atlan.com/know/ai-agent/microsoft/semantic-kernel</a> · <a href="https://codehalwell.github.io/AgentGuides/semantic-kernel-guide/dotnet/semantic_kernel_comprehensive_dotnet/">AgentGuides — Semantic Kernel</a></li>
+      <li>OpenAI Agents SDK — <a href="https://agentgid.com/agents/openai-agents-sdk/">agentgid.com/agents/openai-agents-sdk</a> · <a href="https://tech-insider.org/openai-agents-sdk-tutorial-python-13-steps-2026/">tech-insider.org</a> · <a href="https://www.solosoft.dev/trends/openai-agents-sdk-sandbox-enterprise-20260419/">solosoft.dev</a> · <a href="https://codex.danielvaughan.com/2026/04/17/agents-sdk-harness-portable-sandbox-manifests-codex-cli/">codex.danielvaughan.com</a></li>
+      <li>Google ADK 2.0 (resmi, live) — <a href="https://adk.dev/2.0/">adk.dev/2.0</a></li>
+      <li>Ikhtisar Google ADK — <a href="https://atlan.com/know/ai-agent/ai-agent-applications/what-is-google-adk/">atlan.com</a> · <a href="https://agentgid.com/agents/google-adk/">agentgid.com/agents/google-adk</a> · <a href="https://www.anchorterminal.com/tools/google-adk">anchorterminal.com/tools/google-adk</a></li>
+      <li>LlamaIndex Workflows 1.0 (resmi, live) — <a href="https://www.llamaindex.ai/blog/announcing-workflows-1-0-a-lightweight-framework-for-agentic-systems">llamaindex.ai/blog/announcing-workflows-1-0</a></li>
+      <li>LlamaIndex vs Haystack — <a href="https://www.ryzlabs.com/guides/llamaindex-vs-haystack">ryzlabs.com/guides/llamaindex-vs-haystack</a></li>
+      <li>LlamaIndex vs LangChain (biaya/kode) — <a href="https://www.360digitaltransformation.com/blogs/guides/langchain-vs-llamaindex-in-2026-real-costs-code-volume-and-which-rag-framework-to-build-on">360digitaltransformation.com</a></li>
+      <li>Haystack 3.0 (resmi, live) — <a href="https://haystack.deepset.ai/blog/haystack-3-release">haystack.deepset.ai/blog/haystack-3-release</a></li>
+      <li>Panduan Haystack — <a href="https://codehalwell.github.io/AgentGuides/haystack-guide/">codehalwell.github.io/AgentGuides/haystack-guide</a></li>
+      <li>Pydantic AI — <a href="https://www.reviewramble.com/github-repos/pydantic-ai">reviewramble.com/github-repos/pydantic-ai</a> · <a href="https://www.institutepm.com/knowledge-hub/agentic-framework-update-2026">institutepm.com</a></li>
+      <li>Mastra — <a href="https://www.brahmalabs.io/compare/mastra-vs-brahmalabs/">brahmalabs.io/compare/mastra-vs-brahmalabs</a> · <a href="https://theexpertranking.com/developers/best-ai-agent-frameworks/">theexpertranking.com</a></li>
+      <li>Claude Agent SDK — <a href="https://www.reviewramble.com/github-repos/claude-agent-sdk">reviewramble.com/github-repos/claude-agent-sdk</a> · <a href="https://www.augmentcode.com/tools/claude-code-vs-claude-agent-sdk">augmentcode.com</a></li>
+      <li>Vercel AI SDK 6 vs 7 — <a href="https://umatechnology.org/ai-sdk-6-to-7-what-changes-for-react-and-next-js-teams/">umatechnology.org</a></li>
+      <li>Vercel Eve — <a href="https://www.marktechpost.com/2026/06/17/vercel-releases-eve/">marktechpost.com/2026/06/17/vercel-releases-eve</a></li>
+      <li>Strands / BeeAI / peringkat open-source — <a href="https://geekflare.com/open-source/ai-agent-frameworks/">geekflare.com/open-source/ai-agent-frameworks</a></li>
+      <li>AG2 / framework open-source 2026 — <a href="https://resources.rework.com/tools/ai-agents/best-open-source-ai-agent-frameworks-2026">resources.rework.com</a></li>
+      <li>Framework terbaik 2026 (termasuk Hermes) — <a href="https://alicelabs.ai/en/insights/best-ai-agent-frameworks-2026">alicelabs.ai/en/insights/best-ai-agent-frameworks-2026</a></li>
+      <li>12 framework terbaik 2026 — <a href="https://www.respan.ai/articles/best-ai-agent-frameworks">respan.ai/articles/best-ai-agent-frameworks</a></li>
+      <li>Manual framework AG2/komunitas — <a href="https://github.com/ar9av/agent-manual/blob/HEAD/frameworks/README.md">github.com/ar9av/agent-manual</a></li>
+      <li>Panduan sistem AI (AutoGen/CrewAI) — <a href="https://github.com/ombharatiya/ai-system-design-guide/blob/HEAD/09-frameworks-and-tools/07-autogen-crewai.md">github.com/ombharatiya/ai-system-design-guide</a></li>
+    </ul></div>
+  </section>
+
+  <footer>
+    <p><strong style="color:var(--ink)">Tentang halaman ini:</strong> snapshot riset per 10 November 2026, diperbarui 11 November 2026 (peluncuran ANS serta koreksi harga LlamaParse dan bintang Hermes) — versi, harga, dan status framework berubah cepat; verifikasi nomor versi terbaru di dokumentasi resmi vendor sebelum mengambil keputusan produksi. Klaim yang bertentangan antar sumber ditandai apa adanya di bagian “belum terverifikasi”, bukan dirapikan.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var q=document.getElementById('q');
+  var rows=Array.prototype.slice.call(document.querySelectorAll('#cmpTable tbody tr'));
+  var chips=Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var note=document.getElementById('resultNote');
+  var empty=document.getElementById('emptyState');
+  var active='all';
+  function apply(){
+    var term=(q.value||'').toLowerCase().trim();
+    var shown=0;
+    rows.forEach(function(r){
+      var langOk = active==='all' || (r.getAttribute('data-lang')||'').split(' ').indexOf(active)>-1;
+      var textOk = !term || r.textContent.toLowerCase().indexOf(term)>-1;
+      var show=langOk&&textOk;
+      r.classList.toggle('hidden-row',!show);
+      if(show) shown++;
+    });
+    note.textContent='Menampilkan '+shown+' dari '+rows.length+' framework.';
+    empty.style.display = shown===0 ? 'block':'none';
+  }
+  q.addEventListener('input',apply);
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){
+      chips.forEach(function(x){x.setAttribute('aria-pressed','false')});
+      c.setAttribute('aria-pressed','true');
+      active=c.getAttribute('data-filter');
+      apply();
+    });
+  });
+})();
+</script>
+</body>
+</html>

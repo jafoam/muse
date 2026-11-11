@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="icon" href="data:,"/>
+<title>DRRE691 Professional Project — Gambaran MDRR UC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f1; --surface:#ffffff; --surface2:#efece6; --ink:#1a2226; --muted:#5c6a6e; --line:#ddd8cf;
+  --teal:#0f4c4c; --teal2:#146666; --accent:#c2511b; --accent-soft:#fdeee6; --gold:#8a6d1b; --gold-soft:#fdf6d8;
+  --green:#1d6b3a; --green-soft:#e6f4ea; --red:#9b2c2c; --red-soft:#fdecec;
+  --shadow:0 10px 30px rgba(20,30,30,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#101619; --surface:#182124; --surface2:#1f2a2d; --ink:#e8ecea; --muted:#a7b3b1; --line:#2e3c3f;
+  --teal:#7fcac6; --teal2:#9adbd7; --accent:#f08a54; --accent-soft:#3a2418; --gold:#e6c95c; --gold-soft:#332d14;
+  --green:#7ed598; --green-soft:#173324; --red:#f19a9a; --red-soft:#3a1e1e; --shadow:0 10px 30px rgba(0,0,0,.35);}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Archivo",system-ui,sans-serif;line-height:1.65;font-size:16px}
+a{color:var(--teal2);text-underline-offset:3px}
+button,summary{min-height:44px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 64px}
+h1,h2,h3{font-family:"Spectral",Georgia,serif;line-height:1.15;margin:0}
+h2{font-size:1.75rem;margin-bottom:10px}
+h3{font-size:1.18rem}
+p{margin:0 0 12px}
+.small{font-size:.88rem;color:var(--muted)}
+.mono{font-family:"JetBrains Mono",monospace;font-size:.82rem}
+
+/* Hero */
+.hero{padding:38px 0 8px}
+.eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:700;max-width:18ch}
+.hero h1 em{font-style:italic;color:var(--teal)}
+.lede{font-size:1.13rem;max-width:68ch;margin-top:16px;color:var(--ink)}
+.lede strong{color:var(--teal)}
+.quote{border-left:4px solid var(--teal);background:var(--surface);padding:16px 18px;margin:22px 0;border-radius:0 12px 12px 0;box-shadow:var(--shadow)}
+.quote p{font-family:"Spectral",serif;font-style:italic;font-size:1.05rem;margin:0 0 6px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 8px}
+.stat{background:var(--teal);color:#fff;border-radius:14px;padding:18px 16px}
+@media (prefers-color-scheme: dark){ .stat{background:#0f3535} }
+.stat b{display:block;font-family:"Spectral",serif;font-size:1.9rem;line-height:1}
+.stat span{font-size:.82rem;opacity:.9}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+
+/* badges */
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;vertical-align:middle}
+.b-ok{background:var(--green-soft);color:var(--green)} .b-warn{background:var(--gold-soft);color:var(--gold)} .b-no{background:var(--red-soft);color:var(--red)} .b-sec{background:var(--surface2);color:var(--muted)}
+
+/* nav */
+nav.toc{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+nav.toc a{font-size:.85rem;font-weight:600;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:9px 13px;border-radius:999px;min-height:36px;display:inline-flex;align-items:center}
+nav.toc a:hover{border-color:var(--teal);color:var(--teal)}
+
+section{margin:44px 0}
+.sec-head{margin-bottom:16px}
+.sec-head p{color:var(--muted);max-width:70ch}
+
+/* alert */
+.alert{background:var(--accent-soft);border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);border-radius:14px;padding:20px}
+.alert h3{color:var(--accent);margin-bottom:8px}
+.alert ol{margin:8px 0 0;padding-left:20px} .alert li{margin-bottom:8px}
+
+/* cards & grids */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+.card h3{margin-bottom:8px}
+.card ul{margin:6px 0 0;padding-left:18px} .card li{margin-bottom:6px}
+
+/* structure bar */
+.bar{display:flex;height:54px;border-radius:12px;overflow:hidden;margin:16px 0 8px;border:1px solid var(--line)}
+.bar div{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.82rem;text-align:center;padding:4px}
+.bar .c1{background:#0f4c4c;flex:120}.bar .c2{background:#c2511b;flex:60}
+@media(max-width:600px){.bar div{font-size:.68rem}}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+
+/* tables -> stacked on mobile */
+.tbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:block}
+.tbl table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:.94rem}
+th{background:var(--surface2);font-size:.8rem;letter-spacing:.05em;text-transform:uppercase}
+tr:last-child td{border-bottom:none}
+@media(max-width:700px){
+  .tbl thead{display:none}
+  .tbl tr{display:block;border-bottom:2px solid var(--line);padding:8px 0}
+  .tbl td{display:block;border:none;padding:6px 14px}
+  .tbl td::before{content:attr(data-l);display:block;font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+}
+
+/* toggle */
+.toggle{display:inline-flex;background:var(--surface2);border-radius:999px;padding:4px;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.toggle button{border:none;background:transparent;color:var(--ink);font:inherit;font-weight:700;font-size:.88rem;padding:8px 16px;border-radius:999px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--teal);color:#fff}
+@media (prefers-color-scheme: dark){ .toggle button[aria-pressed="true"]{background:#0f3535} }
+.panel{display:none}.panel.on{display:block}
+
+/* timeline */
+.tl{position:relative;margin:20px 0 4px;padding-left:26px;border-left:3px solid var(--line)}
+.tl-item{position:relative;padding-bottom:22px}
+.tl-item::before{content:"";position:absolute;left:-35px;top:4px;width:15px;height:15px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
+.tl-item b{font-family:"Spectral",serif;font-size:1.05rem}
+.tl-date{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--accent);font-weight:600}
+
+/* case study */
+.case{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.case-top{background:var(--teal);color:#fff;padding:24px}
+@media (prefers-color-scheme: dark){ .case-top{background:#0f3535} }
+.case-top h3{font-size:1.45rem;color:#fff}
+.case-top p{opacity:.92;margin:6px 0 0}
+.case-body{padding:22px}
+.rq{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+@media(max-width:700px){.rq{grid-template-columns:1fr}}
+.rq div{background:var(--surface2);border-radius:12px;padding:14px}
+.rq b{color:var(--accent)}
+
+/* pathway */
+.path{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin:16px 0}
+.path .step{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.path .arrow{align-self:center;font-size:1.3rem;color:var(--accent);font-weight:800}
+@media(max-width:700px){.path{flex-direction:column}.path .arrow{transform:rotate(90deg)}}
+
+/* checklist styled list (not interactive checkboxes) */
+.check{list-style:none;margin:0;padding:0}
+.check li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px 14px 46px;position:relative;margin-bottom:10px}
+.check li::before{content:"?";position:absolute;left:14px;top:13px;width:22px;height:22px;border-radius:50%;background:var(--gold-soft);color:var(--gold);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px 18px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700;padding:10px 0}
+details p{padding-bottom:12px}
+
+/* alumni testimony */
+.alumni{border:2px dashed var(--gold);background:var(--gold-soft);border-radius:16px;padding:24px}
+.alumni .alum-tag{display:inline-block;background:var(--gold);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:999px;margin-bottom:10px}
+@media (prefers-color-scheme: dark){ .alumni .alum-tag{color:#1a2226} }
+.alumni h2{font-size:1.55rem}
+.alumni .who{font-size:.92rem;color:var(--ink);margin-bottom:4px}
+.al-item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:12px}
+.al-item h3{font-size:1.05rem;margin-bottom:6px}
+.al-item p{margin:0 0 8px}.al-item p:last-child{margin-bottom:0}
+.al-item ul{margin:6px 0 0;padding-left:18px}.al-item li{margin-bottom:5px}
+.vs{font-size:.85rem;background:var(--surface2);border-radius:8px;padding:8px 12px;margin-top:8px}
+
+footer{border-top:1px solid var(--line);padding-top:20px;margin-top:48px}
+.src{font-size:.88rem} .src li{margin-bottom:8px;word-break:break-word}
+.verified-note{font-size:.85rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">University of Canterbury · Selandia Baru · Riset 11 November 2026</div>
+    <h1>DRRE691: disertasi <em>60 poin</em> di jantung gelar MDRR-mu</h1>
+    <p class="lede">Nanti di <strong>Master of Disaster Risk and Resilience (MDRR)</strong> — gelar profesional <strong>180 poin</strong> — komponen risetmu bukan tesis MSc yang besar, melainkan <strong>DRRE691 Professional Project in Disaster Risk and Resilience</strong>: proyek riset individual yang terfokus, dikerjakan dalam <strong>empat bulan</strong> di bawah supervisi anggota Disaster Risk and Resilience Group. Halaman ini merangkum gambaran lengkapnya dari sumber resmi UC — termasuk tiga koreksi penting atas asumsi awal, satu contoh proyek nyata, dan hal-hal yang memang <em>belum dipublikasikan</em> UC sampai sekarang.</p>
+
+    <div class="quote">
+      <p>“A focused disaster risk and resilience-related individual research project under the supervision of at least one member of the Disaster Risk and Resilience Group.”</p>
+      <span class="small">— Deskripsi resmi DRRE691 di courseinfo UC, identik di semua occurrence 2020–2027. Proyek ini mengembangkan keterampilan dari DRRE403 dan <em>“may be informed by an internship (enrolment in GEOG 415)”</em>.</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>60</b><span>poin · Level 9 · ⅓ dari total gelar</span></div>
+      <div class="stat"><b>4 bln</b><span>durasi disertasi</span></div>
+      <div class="stat"><b>180</b><span>total poin MDRR</span></div>
+      <div class="stat"><b>1 thn</b><span>full-time · 2 thn part-time · batas regulasi 36 bulan</span></div>
+    </div>
+    <p class="small">Prasyarat enrolmen DRRE691 hanya satu yang tertulis resmi: <em>Subject to approval of the Programme Director</em>. Restriction: HAZM 691 (kode lama). Biaya domestik DRRE691-26X yang terverifikasi live: <strong>NZ$4.850</strong> — biaya internasional dan total biaya program tidak konsisten antar sumber sekunder, jadi tidak dikutip di sini.</p>
+  </header>
+
+  <nav class="toc" aria-label="Daftar isi">
+    <a href="#koreksi">⚠ 3 koreksi penting</a><a href="#struktur">Struktur MDRR</a><a href="#banding">DRRE691 vs DRRE690</a><a href="#timeline">Timeline &amp; penilaian</a><a href="#contoh">Contoh nyata: Joshua Smith</a><a href="#supervisi">Supervisi &amp; mitra</a><a href="#belum">Yang belum diketahui</a><a href="#tips">Tips praktis</a><a href="#karier">Karier &amp; PhD</a><a href="#alumni">Info alumni (bukan resmi)</a><a href="#sumber">Sumber</a>
+  </nav>
+
+  <section id="koreksi">
+    <div class="alert">
+      <h3>⚠ Tiga hal yang perlu diluruskan dulu</h3>
+      <ol>
+        <li><strong>Struktur wajib sudah berubah di Regulasi 2027.</strong> Schedule C kini hanya: DRRE401 + DRRE402 + DRRE403 + <strong>GISC422 Foundations of GIS</strong> + DRRE691 = 120 poin, plus 60 poin elektif Schedule E. <strong>DRRE408 dan ERST604/ERST609 (Lincoln) tidak ada di Schedule C 2027</strong> — keduanya hanya muncul di deskripsi program lama yang masih beredar di situs agregator. Mahasiswa yang mulai sebelum 2027 boleh menyelesaikan di bawah regulasi 2026 (struktur 2026 belum terverifikasi dalam riset ini).</li>
+        <li><strong>Tidak ada jalur “coursework penuh” terpisah di Regulasi 2027.</strong> Opsi lama “60 poin disertasi <em>atau</em> 60 poin coursework semester ketiga” hanya ada di deskripsi program lama (Hotcourses, sekunder) — bukan di Regulasi 2027, yang hanya mengenal 120 poin wajib + 60 poin elektif.</li>
+        <li><strong>Detail penilaian, word count, dan format laporan tidak dipublikasikan</strong> di courseinfo untuk 2024–2027. Satu-satunya tabel penilaian yang ditemukan adalah tahun 2023 (lihat bagian Timeline). Jangan percaya angka “15.000 kata” atau sejenisnya untuk DRRE691 — itu tidak ditemukan di sumber resmi mana pun.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="struktur">
+    <div class="sec-head"><h2>Posisi DRRE691 dalam MDRR 180 poin</h2><p>Struktur yang berlaku menurut Regulasi Kualifikasi UC 2027 (berlaku 1 Januari 2027) <span class="badge b-ok">✓ Terverifikasi resmi UC</span></p></div>
+
+    <div class="bar" role="img" aria-label="Diagram proporsi: 120 poin wajib termasuk DRRE691, dan 60 poin elektif">
+      <div class="c1">WAJIB (Schedule C) — 120 poin</div><div class="c2">ELEKTIF — 60 poin</div>
+    </div>
+    <div class="legend"><span>■ DRRE691 sendiri = 60 dari 120 poin wajib</span><span>■ Elektif dipilih dari Schedule E</span></div>
+
+    <div class="tbl" style="margin-top:16px"><table>
+      <thead><tr><th>Mata kuliah wajib</th><th>Poin</th><th>Semester 2027</th><th>Catatan</th></tr></thead>
+      <tbody>
+        <tr><td data-l="Mata kuliah"><strong>DRRE401</strong> Introduction to Disaster Risk and Resilience</td><td data-l="Poin">15</td><td data-l="Semester">X (non-calendar)</td><td data-l="Catatan">Restriction: HAZM401</td></tr>
+        <tr><td data-l="Mata kuliah"><strong>DRRE402</strong> Natural Hazard Risk Assessment</td><td data-l="Poin">15</td><td data-l="Semester">S1</td><td data-l="Catatan">Recommended preparation: statistika level 100; R: HAZM410, ENCI601</td></tr>
+        <tr><td data-l="Mata kuliah"><strong>DRRE403</strong> Disaster Risk and Resilience Applications</td><td data-l="Poin">15</td><td data-l="Semester">S2</td><td data-l="Catatan">RP: DRRE401 — mata kuliah persiapan langsung ke DRRE691 (lihat bawah)</td></tr>
+        <tr><td data-l="Mata kuliah"><strong>GISC422</strong> Foundations of Geographic Information Systems</td><td data-l="Poin">15</td><td data-l="Semester">SU1 / S1</td><td data-l="Catatan">Wajib <em>kecuali</em> pengalaman GIS sebelumnya disetujui Kaihautū Akoranga | Director of Studies</td></tr>
+        <tr><td data-l="Mata kuliah"><strong>DRRE691</strong> Professional Project in Disaster Risk and Resilience</td><td data-l="Poin"><strong>60</strong></td><td data-l="Semester">A (Approved Start)</td><td data-l="Catatan">Level 9 · approval Programme Director · R: HAZM691</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h3>Elektif Schedule E (60 poin)</h3><p class="small">Contoh dari Regulasi 2027 — daftar ini contoh, bukan janji ketersediaan tiap tahun:</p><p class="mono">ENGE414 · GEOG401 (30) · GEOG402 (30) · GEOG409 (30) · GEOG412 · GEOG475 · GEOL474 · GEOL476 · GEOL479 · GEOL483 · GEOL485 · GISC401 · GISC402 · GISC403 · GISC406 · HLTH403 (30) · WATR411 · WATR412 · WATR413</p><p class="small">“Other courses may be approved by the Programme Director.” Kode ERST (Lincoln) <strong>tidak tercantum</strong> di Schedule E 2027 yang terbaca.</p></div>
+      <div class="card"><h3>Syarat masuk &amp; progresi</h3><ul>
+        <li>Gelar S1 relevan dengan <strong>GPA B di tahun akhir</strong> + <strong>15 poin STAT level 100</strong> (bisa di-waive Head of School bila kemampuan matematika/statistika terbukti), atau Academic Equivalent Standing.</li>
+        <li>Bahasa Inggris <span class="badge b-sec">Sekunder — cerminan UC</span> IELTS 6.5 (min 6.0/band), TOEFL iBT 90 (min 19), PTE 58 (min 50).</li>
+        <li>Boleh gagal maks. 30 poin asal GPA keseluruhan ≥ B; gelar dapat dianugerahi <em>with Distinction and Merit</em>.</li>
+        <li>Jalur keluar: <strong>PGDipDRR (120 poin)</strong> sebagai kualifikasi exit — tidak ada penerimaan langsung ke PGDipDRR.</li>
+      </ul></div>
+    </div>
+
+    <div class="card" style="margin-top:14px"><h3>Kenapa DRRE403 penting: jembatan resminya</h3><p>Deskripsi resmi DRRE691 menegaskan proyek ini mengembangkan keterampilan dari <strong>DRRE403</strong>. Dan DRRE403-26S2 memang dirancang untuk itu — tujuannya tertulis: <em>“Develop applied research skills in support of MDRR dissertation or related project”</em>, dengan <strong>literature review, formal research proposal, poster &amp; oral presentation, simulasi bencana dan mock press conference, serta policy brief</strong>. Praktisnya: proposal DRRE691-mu mulai dibangun di Semester 2, bukan saat disertasi dimulai.</p></div>
+  </section>
+
+  <section id="banding">
+    <div class="sec-head"><h2>DRRE691 vs tesis MSc (DRRE690) vs “jalur coursework”</h2><p>Perbedaan praktisnya adalah skala, kedalaman, dan bobot riset — bukan sekadar nama mata kuliah.</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Aspek</th><th>DRRE691 — Professional Project</th><th>DRRE690 — Thesis (MSc DRR)</th><th>Jalur coursework penuh</th></tr></thead>
+      <tbody>
+        <tr><td data-l="Aspek"><strong>Poin / sifat</strong></td><td data-l="DRRE691">60 poin, Level 9 — disertasi 4 bulan, proyek riset individual terfokus</td><td data-l="DRRE690">120 poin — tesis riset penuh; deskripsi courseinfo hanya tertulis “Thesis”</td><td data-l="Coursework"><span class="badge b-no">✕ Tidak ada di Regulasi 2027</span> Hanya dikenal di deskripsi lama: “60-pt dissertation OR a third semester of coursework (60 points)”</td></tr>
+        <tr><td data-l="Aspek"><strong>Gelar induk</strong></td><td data-l="DRRE691">MDRR (180 poin, gelar profesional)</td><td data-l="DRRE690">MSc in Disaster Risk and Resilience — Part II only, tesis 120 poin <span class="badge b-sec">Sekunder</span></td><td data-l="Coursework">—</td></tr>
+        <tr><td data-l="Aspek"><strong>Prasyarat</strong></td><td data-l="DRRE691">Subject to approval of the Programme Director</td><td data-l="DRRE690">Subject to approval of the Programme Director</td><td data-l="Coursework">—</td></tr>
+        <tr><td data-l="Aspek"><strong>Koordinator</strong></td><td data-l="DRRE691">Berubah per tahun (lihat bagian Supervisi)</td><td data-l="DRRE690">Tom Wilson (occurrence 27A, 2027)</td><td data-l="Coursework">—</td></tr>
+        <tr><td data-l="Aspek"><strong>Didepositokan sebagai tesis?</strong></td><td data-l="DRRE691"><span class="badge b-warn">? Tidak ditemukan</span> Pencarian katalog UC menemukan banyak tesis MSc &amp; PhD DRR, tetapi tidak ada bukti disertasi DRRE691 diunggah terbuka ke repositori UC</td><td data-l="DRRE690">Tesis MSc-lah yang ditemukan di katalog UC (mis. Fraser 2020, Tilley 2020, Scott 2021 — <em>bukan</em> contoh DRRE691)</td><td data-l="Coursework">—</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="timeline">
+    <div class="sec-head"><h2>Kapan dikerjakan, dan bagaimana dinilai</h2><p>DRRE691 punya dua pola occurrence. Pola normalnya: coursework Februari–Oktober, lalu disertasi selama musim panas November–Februari — total gelar ±12 bulan full-time.</p></div>
+
+    <div class="toggle" role="group" aria-label="Pilih pola occurrence">
+      <button id="btnX" aria-pressed="true" onclick="showPanel('X')">Pola X — Musim panas (jadwal tetap)</button>
+      <button id="btnA" aria-pressed="false" onclick="showPanel('A')">Pola A — Approved Start (individual)</button>
+    </div>
+
+    <div class="panel on" id="panelX">
+      <div class="card"><h3>General non-calendar-based (X) — “summer”</h3>
+        <div class="tl">
+          <div class="tl-item"><span class="tl-date">2023X</span><br><b>6 Nov 2023 – 4 Feb 2024</b></div>
+          <div class="tl-item"><span class="tl-date">2024X</span><br><b>4 Nov 2024 – 2 Feb 2025</b></div>
+          <div class="tl-item"><span class="tl-date">2025X</span><br><b>10 Nov 2025 – 8 Feb 2026</b></div>
+          <div class="tl-item"><span class="tl-date">2026X · terverifikasi live 11 Nov 2026</span><br><b>9 Nov 2026 – 7 Feb 2027</b><p class="small" style="margin:4px 0 0">Contact Person: Sarah Beaven · Biaya domestik: NZ$4.850</p></div>
+        </div>
+        <p class="small">Konsisten dengan deskripsi lama program: “DRRE691 completed over summer”.</p>
+      </div>
+    </div>
+    <div class="panel" id="panelA">
+      <div class="card"><h3>Approved Start (A) — tanggal disepakati per mahasiswa</h3>
+        <p>Tanggal mulai/akhir bersifat individual, disepakati dengan supervisor. Ada sesi terjadwal: misalnya 2026A setiap Senin 13.00 pada minggu 25–31 Mei, 13–19 Juli, dan 7 Sep–18 Okt (Ernest Rutherford 213); 2027A Senin 11.00–13.00 pada 31 Mei–6 Jun, 19–25 Jul, 9–15 Agu, plus tutorial 13 Sep–24 Okt.</p>
+        <p class="small">Koordinator occurrence A 2025–2027: Tom Robinson &amp; Heather Craig.</p>
+      </div>
+    </div>
+
+    <h3 style="margin:26px 0 10px">Penilaian — satu-satunya tabel yang dipublikasikan: 2023A <span class="badge b-warn">⚠ Belum tentu berlaku 2024–2027</span></h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Komponen (DRRE691-23A)</th><th>Tenggat</th><th>Bobot</th></tr></thead>
+      <tbody>
+        <tr><td data-l="Komponen">Research Proposal</td><td data-l="Tenggat">9 Sep 2023</td><td data-l="Bobot"><strong>25%</strong></td></tr>
+        <tr><td data-l="Komponen">Progress Report</td><td data-l="Tenggat">30 Okt 2023</td><td data-l="Bobot"><strong>5%</strong></td></tr>
+        <tr><td data-l="Komponen">Dissertation Report</td><td data-l="Tenggat">15 Des 2023</td><td data-l="Bobot"><strong>65%</strong></td></tr>
+        <tr><td data-l="Komponen">Time management &amp; communication</td><td data-l="Tenggat">15 Des 2023</td><td data-l="Bobot"><strong>5%</strong></td></tr>
+      </tbody>
+    </table></div>
+    <p class="small" style="margin-top:10px">Occurrence 2024A, 2024X, 2025A, 2025X, 2026A, 2026X, dan 2027A yang dibuka <strong>tidak menampilkan bagian Assessment sama sekali</strong> di courseinfo. Jadi pembobotan 2023 di atas adalah gambaran bentuknya — bukan janji untuk tahunmu. Minta <em>course outline</em> / halaman Learn terbaru dari koordinator sebelum enrolmen. Pola waktunya tetap memberi petunjuk ritme 4 bulan: proposal ±bulan ke-1, laporan kemajuan ±bulan ke-2/3, disertasi final di bulan ke-4.</p>
+    <p class="small">Prasyarat formal yang tertulis hanya approval Programme Director — tidak ada mata kuliah yang secara formal tertulis “harus lulus dulu” di courseinfo DRRE691. Penafsiran praktisnya (inferensi): persetujuan itu hampir pasti mensyaratkan kemajuan coursework yang memadai.</p>
+  </section>
+
+  <section id="contoh">
+    <div class="sec-head"><h2>Satu contoh nyata yang terverifikasi</h2><p>Selain proyek ini, <strong>tidak ditemukan</strong> contoh proyek DRRE691/MDRR lain yang bisa diverifikasi dari sumber terbuka. Judul-judul tesis MSc di katalog UC bukan contoh DRRE691 dan tidak disajikan sebagai contoh di sini.</p></div>
+    <div class="case">
+      <div class="case-top">
+        <span class="badge" style="background:rgba(255,255,255,.18);color:#fff">Contoh DRRE691 · 2020</span>
+        <h3 style="margin-top:10px">“Tsunami Information Board Signage: recommendations for the design and implementation of Tsunami Information Boards in Canterbury, New Zealand”</h3>
+        <p>Joshua (Josh) Smith — disertasi MDRR, University of Canterbury, 2020</p>
+      </div>
+      <div class="case-body">
+        <div class="grid3">
+          <div><h3 style="font-size:1rem">Diusulkan oleh</h3><p><strong>Canterbury CDEM Group</strong> — topiknya datang dari kebutuhan praktisi, bukan ide mahasiswa semata.</p></div>
+          <div><h3 style="font-size:1rem">Pembimbing</h3><p>Sarah Beaven &amp; Tom Wilson (DRR Group, UC) + Mary Anne Clive (Risk Group, <strong>GNS Science</strong>)</p></div>
+          <div><h3 style="font-size:1rem">Kolaborator</h3><p>Gareth Birch (Canterbury CDEM Group) &amp; Helen Jack (Science Group, Environment Canterbury / ECan)</p></div>
+        </div>
+        <h3 style="margin-top:18px">Tiga pertanyaan risetnya</h3>
+        <div class="rq">
+          <div><b>RQ 1</b><p style="margin:4px 0 0">Apa <em>best practice</em> internasional untuk papan informasi tsunami?</p></div>
+          <div><b>RQ 2</b><p style="margin:4px 0 0">Bagaimana papan Canterbury versi 2012 dibandingkan dengan best practice itu?</p></div>
+          <div><b>RQ 3</b><p style="margin:4px 0 0">Apa implikasinya untuk desain &amp; penempatan iterasi berikutnya?</p></div>
+        </div>
+        <h3>Isi &amp; temuan kunci</h3>
+        <ul>
+          <li>Proyek ini merevisi ilmu di balik <em>NEMA Technical Standard for National Tsunami Signage 2008</em> yang sudah berumur 12 tahun.</li>
+          <li>Targetkan <strong>penduduk lokal permanen</strong>; libatkan komunitas lokal dalam desain &amp; penempatan papan.</li>
+          <li>Prioritaskan <strong>pesan aksi + peta evakuasi</strong> secara hierarkis; gunakan atribut visual &amp; pesan sederhana.</li>
+          <li><strong>Jangan satu template standar</strong> untuk semua lokasi.</li>
+          <li>Papan WREMO &amp; Chatham Islands (2018) direkomendasikan sebagai titik awal desain berikutnya di Canterbury.</li>
+        </ul>
+        <p><a href="https://media.qrtiger.com/files/2022/10/josh-smith-tsunami-information-board-research-summary---emo-forum-17-feb.pdf" target="_blank" rel="noopener">Baca ringkasan eksekutifnya (PDF, 8 halaman) →</a></p>
+        <p class="small">Dokumen itu bertanggal 11 Feb 2021, disiapkan untuk Tsunami design workshop di Canterbury Emergency Management Officer Forum, 17 Feb 2021, dan menyatakan temuannya <em>“have yet to be peer reviewed”</em>. <strong>Itu bukan disertasi lengkapnya</strong> — naskah lengkap Smith tidak ditemukan di sumber terbuka. Catatan dampak: Timaru District Council kemudian memasang <a href="https://www.timaru.govt.nz/news/council-news/communities-better-prepared-for-coastal-hazards" target="_blank" rel="noopener">23 papan buletin tsunami baru</a> di garis pantainya — tetapi <strong>tidak ada bukti</strong> pemasangan itu disebabkan langsung oleh disertasi Smith, jadi jangan mengklaim hubungan sebab-akibatnya.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px"><h3>Output-nya berbentuk apa, persisnya?</h3><p>Yang terverifikasi: output utama bernama <strong>“Dissertation Report”</strong> (tabel penilaian 2023A) — laporan tertulis, bukan hanya produk praktis. DRRE403 menekankan keterampilan terapan (policy brief, presentasi, simulasi), tetapi untuk DRRE691 sendiri <strong>tidak ada rincian resmi</strong> apakah output boleh berupa produk non-tulisan (peta, pedoman, prototipe papan informasi) di samping laporan tertulis.</p></div>
+  </section>
+
+  <section id="supervisi">
+    <div class="sec-head"><h2>Koordinator, supervisi &amp; mitra praktisi</h2></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Occurrence</th><th>Koordinator / kontak</th></tr></thead>
+      <tbody>
+        <tr><td data-l="Occurrence">2020 (20S2, 20CY, 20X) · 2023 (23A, 23X) · 2024 (24A, 24X)</td><td data-l="Koordinator"><strong>Sarah Beaven</strong> — Course Coordinator</td></tr>
+        <tr><td data-l="Occurrence">2025A · 2026A · 2027A (Approved Start)</td><td data-l="Koordinator"><strong>Tom Robinson &amp; Heather Craig</strong> — Course Coordinators</td></tr>
+        <tr><td data-l="Occurrence">2025X · 2026X (musim panas Nov–Feb)</td><td data-l="Koordinator"><strong>Sarah Beaven</strong> — “Contact Person” (bukan dilabeli Course Coordinator)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="grid2" style="margin-top:14px">
+      <div class="card"><h3>Aturan supervisi yang tertulis</h3><ul>
+        <li>Wajib disupervisi <strong>≥1 anggota Disaster Risk and Resilience Group</strong> — itu satu-satunya syarat yang dipublikasikan.</li>
+        <li>Tidak ada daftar supervisor, prosedur pemilihan topik, maupun tenggat pemilihan topik yang dipublikasikan di courseinfo. <span class="badge b-no">✕ Tidak ditemukan</span></li>
+        <li>Nama Programme Director saat ini juga tidak ditemukan di halaman DRRE691 yang dibuka.</li>
+        <li>Contoh Smith membuktikan <strong>co-supervisi lintas institusi dimungkinkan</strong> (UC + GNS Science), tetapi tidak ada aturan resmi yang ditemukan tentang kapan co-supervisor eksternal diperbolehkan.</li>
+      </ul></div>
+      <div class="card"><h3>Mitra praktisi — bukti, bukan daftar resmi</h3><ul>
+        <li><strong>Canterbury CDEM Group</strong> — pengusul topik Smith; kolaborator Gareth Birch.</li>
+        <li><strong>Environment Canterbury (ECan)</strong> — kolaborator Helen Jack (Science Group).</li>
+        <li><strong>GNS Science</strong> — co-supervisor Mary Anne Clive (Risk Group).</li>
+        <li>Program ini diajarkan tim multidisiplin dari DRR Group UC (School of Earth and Environment), Lincoln University Dept of Environmental Management, dan GNS Science; riset grup didanai antara lain Resilience to Nature's Challenges, Endeavour Fund, dan EQC.</li>
+        <li><span class="badge b-no">✕ Tidak ditemukan</span> daftar mitra magang/penempatan resmi untuk DRRE691 — dan tidak ada bukti setiap mahasiswa otomatis mendapat mitra eksternal.</li>
+        <li><strong>GEOG415:</strong> DRRE691 “may be informed by an internship (enrolment in GEOG 415)” — mata kuliah magang Geografi dengan penempatan di organisasi bisnis, pemerintah, industri, dan non-profit (deskripsi 2018, sudah lama — perlakukan hati-hati). Tidak ditemukan ketentuan apakah GEOG415 dihitung dalam 180 poin MDRR, kapan diambil, atau berapa jamnya saat ini.</li>
+      </ul></div>
+    </div>
+
+    <div class="card" style="margin-top:14px"><h3>Area riset DRR Group UC — petunjuk topik yang mungkin disupervisi</h3><p class="small">Ini area riset grup secara umum (dari halaman profil grup UC), <strong>bukan</strong> daftar topik DRRE691:</p><p>Disaster risk governance &amp; decision-making · co-production of disaster resilience · multi-hazard impact assessment · skenario gempa bumi, gunung berapi, tanah longsor, banjir, dan erosi pantai · platform sains/praktik/kebijakan regional.</p><p class="small"><a href="https://profiles.canterbury.ac.nz/search?type=group" target="_blank" rel="noopener">Profil DRR Group UC →</a></p></div>
+  </section>
+
+  <section id="belum">
+    <div class="sec-head"><h2>Yang belum diketahui — dinyatakan apa adanya</h2><p>Ini bukan kelalaian riset: detail-detail ini memang tidak dipublikasikan UC di sumber resmi yang dibuka. Semuanya perlu kamu konfirmasi langsung ke koordinator.</p></div>
+    <div class="grid2">
+      <div class="card"><h3><span class="badge b-no">✕ Tidak ditemukan</span> Soal disertasi</h3><ul>
+        <li>Word count / jumlah kata / jumlah halaman disertasi</li>
+        <li>Format laporan, struktur bab wajib, gaya sitasi, template</li>
+        <li>Ada/tidaknya presentasi akhir, defense/viva, atau penguji eksternal — tabel 2023A tidak mencantumkan presentasi, tapi itu <em>bukan</em> bukti presentasi tidak pernah ada</li>
+        <li>Kriteria / rubrik marking per komponen</li>
+        <li>Apakah disertasi diunggah terbuka ke repositori UC</li>
+      </ul></div>
+      <div class="card"><h3><span class="badge b-no">✕ Tidak ditemukan</span> Soal proses &amp; administrasi</h3><ul>
+        <li>Penilaian yang berlaku 2024–2027 (courseinfo tidak menampilkannya)</li>
+        <li>Prosedur resmi &amp; tenggat memilih topik dan supervisor</li>
+        <li>Nama Programme Director MDRR saat ini</li>
+        <li>Contoh proyek DRRE691 selain Joshua Smith; disertasi lengkap Smith</li>
+        <li>Struktur MDRR Regulasi 2026 untuk mahasiswa pra-2027</li>
+        <li>Biaya total MDRR &amp; biaya internasional DRRE691 (angka sekunder saling bertentangan: NZ$54.750 / 65.100 / 68.850 — tidak dikutip sebagai fakta)</li>
+      </ul></div>
+    </div>
+
+    <h3 style="margin:22px 0 10px">Checklist pertanyaan untuk koordinator — bawa ini saat konsultasi</h3>
+    <ul class="check">
+      <li>Berapa word count dan format wajib Dissertation Report untuk occurrence tahun saya?</li>
+      <li>Apakah pembobotan penilaian 2023 (Proposal 25% · Progress 5% · Dissertation 65% · Time management 5%) masih berlaku?</li>
+      <li>Apakah ada presentasi akhir atau defense untuk DRRE691?</li>
+      <li>Bagaimana prosedur dan tenggat resmi memilih topik &amp; supervisor? Apakah ada daftar kebutuhan riset dari CDEM Group, dewan daerah, atau GNS Science?</li>
+      <li>Apakah GEOG415 bisa diambil dan dihitung dalam 180 poin MDRR saya?</li>
+      <li>Apakah disertasi DRRE691 akan didepositokan di repositori UC?</li>
+    </ul>
+  </section>
+
+  <section id="tips">
+    <div class="sec-head"><h2>Tips praktis untukmu nanti</h2><p><span class="badge b-warn">⚠ Inferensi</span> Bagian ini <strong>bukan aturan resmi UC</strong> — diturunkan dari fakta terverifikasi di atas. Perlakukan sebagai strategi, bukan ketentuan.</p></div>
+    <div class="grid2">
+      <div class="card"><h3>1 · Mulai di Semester 2, saat DRRE403</h3><p>DRRE403 mengajarkan <em>formal research proposal</em> dan <em>literature review</em> — dan komponen pertama DRRE691 (2023) adalah Research Proposal 25%. Gunakan tugas DRRE403 untuk menguji topik disertasimu.</p></div>
+      <div class="card"><h3>2 · Kejar topik yang “diminta” praktisi</h3><p>Satu-satunya contoh yang berhasil berawal dari topik usulan Canterbury CDEM Group, lengkap dengan kolaborator bernama dari CDEM + ECan + co-supervisor GNS Science. Tanyakan daftar kebutuhan riset mitra ke koordinator (2026–2027: Tom Robinson &amp; Heather Craig; kontak musim panas: Sarah Beaven) — jangan hanya membawa ide sendiri.</p></div>
+      <div class="card"><h3>3 · Bangun segitiga supervisi sejak awal</h3><p>Supervisor UC dari DRR Group (wajib) + mitra praktisi (CDEM / ECan / dewan) + bila relevan ilmuwan GNS Science. Pola Smith ini menghasilkan rekomendasi yang langsung dipakai di forum praktisi.</p></div>
+      <div class="card"><h3>4 · Pilih topik yang jawabannya bisa dipakai</h3><p>Proyek Smith kuat bukan karena teorinya rumit, melainkan: 3 pertanyaan riset yang jelas, membandingkan praktik berjalan (papan 2012) dengan best practice internasional, dan menghasilkan rekomendasi desain/penempatan yang spesifik plus contoh acuan (WREMO, Chatham Islands 2018).</p></div>
+      <div class="card"><h3>5 · Rencanakan 4 bulan secara realistis</h3><p>Ritme 2023: proposal ±bulan ke-1 → progress report ±bulan ke-2/3 → disertasi akhir bulan ke-4. Jangan merencanakan pengumpulan data primer besar tanpa memeriksa kelayakan waktunya — ini inferensi dari durasi 4 bulan, bukan batas resmi.</p></div>
+      <div class="card"><h3>6 · Konfirmasi yang tak dipublikasikan, sebelum enrolmen</h3><p>Word count, format, presentasi akhir, dan pembobotan tahun berjalan — tanyakan langsung ke koordinator, karena courseinfo 2024–2027 tidak mempublikasikannya. Checklist di bagian sebelumnya bisa langsung kamu pakai.</p></div>
+    </div>
+  </section>
+
+  <section id="karier">
+    <div class="sec-head"><h2>MDRR profesional vs MSc DRR: karier &amp; jalur PhD</h2></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Aspek</th><th>MDRR (profesional, 180 poin)</th><th>MSc in DRR (DRRE690, 120 poin)</th></tr></thead>
+      <tbody>
+        <tr><td data-l="Aspek"><strong>Orientasi</strong></td><td data-l="MDRR">Profesional/terapan — disiapkan untuk <em>entry-level professional positions</em> di bidang DRR</td><td data-l="MSc">Riset — tesis orisinal yang lebih besar</td></tr>
+        <tr><td data-l="Aspek"><strong>Struktur riset</strong></td><td data-l="MDRR">Coursework 120 poin (wajib + elektif) + disertasi profesional 60 poin</td><td data-l="MSc">Coursework Part I + tesis 120 poin; atau Part II only bagi yang sudah punya Honours/PGDip</td></tr>
+        <tr><td data-l="Aspek"><strong>Karier</strong> <span class="badge b-sec">Klaim program, sekunder</span></td><td data-l="MDRR">Konsultan (lokal &amp; internasional), NZ Crown Research Institutes, Ministry for Civil Defence and Emergency Management (kini NEMA), regional CDEM Groups, pemerintah lokal/regional, sektor swasta; juga environmental management &amp; consulting, hazard/risk assessment</td><td data-l="MSc">Lulusan MSc “may go on to PhD” (deskripsi umum MSc UC, sekunder)</td></tr>
+        <tr><td data-l="Aspek"><strong>Jalur PhD</strong></td><td data-l="MDRR">Tidak ada jalur langsung yang tertulis — lihat diagram di bawah</td><td data-l="MSc">Jalur standar ke PhD (DRRE790, 120 poin/tahun, 360 poin total)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 style="margin:22px 0 6px">Jalur formalmu kalau nanti ingin lanjut PhD</h3>
+    <p class="small">Regulasi PhD UC 2027 mensyaratkan <em>research master's</em> dengan Distinction/Merit atau Honours Div I + pengalaman riset; transfer dari research master's ke PhD mensyaratkan &gt;90 poin riset tesis — DRRE691 hanya 60 poin. Jadi jalur yang tercatat resmi adalah:</p>
+    <div class="path">
+      <div class="step"><b>MDRR coursework</b><p class="small" style="margin:4px 0 0">Dua semester coursework</p></div><div class="arrow">→</div>
+      <div class="step"><b>GPA B+ atau lebih</b><p class="small" style="margin:4px 0 0">Syarat mengajukan transfer (Regulasi MDRR 2027, Pasal 10a)</p></div><div class="arrow">→</div>
+      <div class="step"><b>Part II MSc in DRR</b><p class="small" style="margin:4px 0 0">Tesis DRRE690, 120 poin</p></div><div class="arrow">→</div>
+      <div class="step"><b>PhD</b><p class="small" style="margin:4px 0 0">DRRE790 · 360 poin total</p></div>
+    </div>
+    <p class="small">Klaim agregator bahwa lulusan MDRR dapat “proceed into funded doctoral programs” memang ada, tetapi mekanismenya tidak dirinci di sumber resmi. Catatan: pengakuan gelar di Indonesia tidak diteliti dalam riset ini dan tidak diklaim di sini; NZQA mencatat MDRR sebagai Masters Degree Level 9, 180 credits <span class="badge b-sec">Sekunder</span>.</p>
+  </section>
+
+  <section id="alumni">
+    <div class="alumni">
+      <span class="alum-tag">Info alumni — kesaksian langsung, bukan aturan resmi UC</span>
+      <h2>Bagaimana rasanya sebenarnya, menurut alumni yang baru lulus</h2>
+      <p class="who"><strong>Sumber:</strong> Ahmad Syukri (“Yusuf”) — pegawai BMKG, penerima beasiswa Manaaki, mahasiswa MDRR UC yang menyelesaikan programnya tahun 2026. Dikutip dari percakapan WhatsApp dengan Izzuddin Ar Rifqiy (penerima Manaaki 2026 berikutnya), <strong>Agustus–November 2026</strong>; Yusuf lulus dan pulang ke Indonesia pertengahan Desember 2026.</p>
+      <p class="small" style="color:var(--ink)">Semua poin di bagian ini adalah <strong>pengalaman dan pendapat pribadi Yusuf</strong>, bukan regulasi UC dan bukan janji untuk angkatan berikutnya. Di beberapa tempat kesaksiannya <em>berbeda</em> dari dokumen resmi — perbedaan itu ditandai eksplisit di bawah tiap poin, supaya kamu tahu mana yang “kata alumni” dan mana yang “kata Regulasi 2027”.</p>
+
+      <div class="al-item">
+        <h3>1 · Programnya sebenarnya cuma ±10 bulan: Februari – akhir November</h3>
+        <p>Meski LoA tertulis 12 bulan, menurut Yusuf program MDRR nyatanya berjalan sekitar <strong>10 bulan</strong> saja. Kuliah Semester 2 selesai <strong>pertengahan Oktober</strong>, dan beberapa mata kuliah selesai cepat — <strong>DRRE403 selesai sekitar September</strong>; ada mata kuliah yang rampung dalam ±6 minggu.</p>
+        <p>Setelah submit tesis, aturan <strong>Manaaki</strong> (bukan UC) mewajibkan pulang <strong>maksimal 14 hari setelah perkuliahan selesai</strong> — praktiknya tiket pulang maksimal sekitar <strong>14 Desember</strong>, dan angkatan Yusuf pulang pertengahan Desember semua. <strong>Wisuda resmi UC baru April</strong> tahun berikutnya; Manaaki mengadakan <strong>wisuda kecil sendiri di akhir tahun</strong> (tidak resmi dari kampus). Yusuf sendiri tidak berencana datang ke wisuda April.</p>
+        <p class="vs"><strong>Bandingkan resmi:</strong> Regulasi 2027 menulis durasi gelar 1 tahun full-time dan occurrence DRRE691 musim panas berjalan Nov–Feb. Kesaksian Yusuf menggambarkan praktik di lapangan untuk penerima Manaaki: perkuliahan efektif berakhir November, dan kewajiban pulang ≤14 hari itu ketentuan beasiswa Manaaki, bukan aturan UC.</p>
+      </div>
+
+      <div class="al-item">
+        <h3>2 · MDRR selalu mulai Februari — kasus Yusuf masuk Juli adalah anomali</h3>
+        <p>Menurut Yusuf, program MDRR <strong>selalu dibuka bulan Februari</strong> dan semua mahasiswa mulai di situ. Ia sendiri masuk <strong>Juli</strong> karena <strong>kesalahan pihak kampus</strong> yang membuka LoA MDRR di bulan Juli — ia sudah terlanjur daftar dan mengurus visa, baru diberi tahu untuk <em>defer</em> ke Februari tahun berikutnya; karena semua urusan (termasuk tes TB) sudah selesai, ia tetap berangkat, lalu <strong>harus menunggu angkatan berikutnya</strong> untuk menyelesaikan programnya. Ia menekankan ini kejadian aneh dan satu-satunya — <strong>jangan dijadikan patokan</strong>.</p>
+      </div>
+
+      <div class="al-item">
+        <h3>3 · Opsi DRRE691 mulai Nov–Feb ada di atas kertas — tapi tahun 2026 tidak dibuka</h3>
+        <p>Yusuf membenarkan ada opsi <em>start</em> tesis <strong>November–Februari</strong> (bukan Juli–November), tetapi ada <strong>ketentuan khusus</strong> dari kampus — dan <strong>tahun ini (2026) ternyata tidak diperbolehkan / tidak dibuka</strong>. Akibatnya, <strong>semua mahasiswa MDRR angkatannya mengerjakan tesis sambil kuliah</strong>.</p>
+        <p class="vs"><strong>Bandingkan resmi:</strong> courseinfo memang mencatat dua pola occurrence DRRE691 — X (musim panas Nov–Feb) dan A (Approved Start) — seperti di bagian Timeline di atas. Yang baru dari kesaksian ini: pola musim panas itu dalam praktiknya <em>tidak selalu</em> bisa diambil; ketersediaannya diputuskan kampus per tahun.</p>
+      </div>
+
+      <div class="al-item">
+        <h3>4 · Mayoritas ambil jalur 3.(b).(ii): 120 poin kuliah + mini thesis 60 poin</h3>
+        <p>Menurut Yusuf, mayoritas mahasiswa MDRR mengambil opsi regulasi <strong>3.(b).(ii)</strong> — kuliah <strong>120 poin</strong> ditambah <strong>mini thesis 60 poin</strong> (DRRE691). Tesisnya sendiri ia gambarkan <strong>cepat</strong>: dikerjakan praktis hanya di bulan <strong>Oktober–November</strong>, dengan naskah <strong>maksimal 15–20 lembar</strong> — “mini thesis aja”. Topiknya <strong>biasanya proyek atas permintaan pemerintah NZ</strong> (<em>government NZ</em>).</p>
+        <p class="vs"><strong>Bandingkan resmi:</strong> Regulasi 2027 memang menetapkan 120 poin wajib (termasuk DRRE691 60 poin) + 60 poin elektif, tetapi <strong>tidak</strong> mempublikasikan jumlah halaman/kata disertasi — angka “15–20 lembar” ini murni kesaksian alumni, dan pola “proyek permintaan pemerintah” sejalan dengan contoh terverifikasi Joshua Smith (topik usulan Canterbury CDEM Group) di atas, tanpa menjadi aturan tertulis.</p>
+      </div>
+
+      <div class="al-item">
+        <h3>5 · Strategi beban: Semester 1 dibuat 75 poin, Semester 2 hanya 45 poin</h3>
+        <p>Karena tesis dikerjakan sambil kuliah, pola yang biasa dipakai angkatan Yusuf: <strong>Semester 1 = 75 poin, Semester 2 = 45 poin</strong>, supaya Semester 2 lebih longgar untuk tesis (“salah satu elektifnya yang dinaikin” ke Semester 1).</p>
+        <p>Rencana studi Izzuddin — Sem 1: DRRE401, DRRE402, GISC422, GISC426 <em>Spatial Data Science and AI</em>; Sem 2: DRRE403, GISC404 <em>Spatial Analysis</em>, GEOG402 <em>Sustainable and Resilient Cities</em> (30 poin); lalu DRRE691 — <strong>dikonfirmasi Yusuf arahnya sudah benar</strong>, termasuk ide proyek DRRE691 berupa <strong>dashboard analitik</strong> seperti contoh <a href="https://indo-drr.streamlit.app/" target="_blank" rel="noopener">Indo-DRR (Streamlit)</a>. Tapi Yusuf mengingatkan rencana itu <strong>masih kurang 45 poin</strong>: biasanya diisi mata kuliah sosial 30 poin (mis. <em>wellbeing / sustainable resilient cities</em>), dan 15 poin sisanya bisa dari GISC422 bila tetap diambil, atau mata kuliah lain asal tidak bentrok dengan wajib dan <strong>disetujui student advisor</strong>.</p>
+      </div>
+
+      <div class="al-item">
+        <h3>6 · GISC422 bisa diganti mata kuliah GISC lain — tanya advisor, bukan koordinator</h3>
+        <p>Menurut Yusuf, <strong>GISC422 itu GIS dasar</strong> dan bisa diganti mata kuliah GISC lain — <em>pro GIS / remote sensing / data science</em> — bila di S1 sudah pernah mengambil GIS. Kelayakannya ditanyakan ke <strong>academic / student advisor</strong> di sana; biasanya dibolehkan bila mata kuliah setara sudah pernah diambil di S1.</p>
+        <p><strong>Sarah Beaven adalah koordinator MDRR, bukan student advisor</strong> — tetapi ia juga memberi saran soal mata kuliah bila ditanya. Persetujuan akhir elektif tetap dari <strong>student advisor</strong>.</p>
+        <p class="vs"><strong>Bandingkan resmi:</strong> Regulasi 2027 memang menulis GISC422 wajib <em>kecuali</em> pengalaman GIS sebelumnya disetujui Director of Studies — kesaksian Yusuf menambahkan jalur praktisnya (lewat student advisor) dan siapa orangnya.</p>
+      </div>
+
+      <div class="al-item">
+        <h3>7 · GEOG401 vs GEOG402: sama-sama membosankan, GEOG402 lebih baik nilainya</h3>
+        <p>Ditanya mana yang lebih baik antara GEOG401 dan GEOG402, jawaban Yusuf blak-blakan: <strong>kelasnya sama-sama membosankan</strong>, tetapi <strong>dalam pemberian nilai GEOG402 terasa lebih baik</strong>. Keduanya juga berada di <strong>semester yang berbeda</strong>, jadi pilihan sering ditentukan jadwal.</p>
+      </div>
+
+      <div class="al-item">
+        <h3>8 · Pilihan mata kuliah masih bisa diubah di 2 minggu pertama</h3>
+        <p>Menurut Yusuf, mahasiswa diberi <strong>dua minggu di awal</strong> untuk mencoba masuk kelas, dan pilihan mata kuliah <strong>masih bisa diubah</strong> dalam masa itu. Info soal mata kuliah mana yang layak diambil biasanya <strong>dikumpulkan dari teman seangkatan</strong> — bahkan setelah sampai di NZ pun pemilihan masih bisa dilakukan, jadi tidak perlu panik mengunci semuanya dari Indonesia.</p>
+      </div>
+
+      <div class="al-item">
+        <h3>9 · Soal opsi 18 bulan di LoA: Yusuf menyarankan “coba saja”</h3>
+        <p>Konteksnya: LoA Izzuddin hanya tertulis <strong>12 bulan</strong>; opsi 18 bulan hanya muncul di <strong>keterangan di bagian bawah</strong> LoA. Izzuddin sedang meminta bantuan <strong>konselor IDP</strong> agar diterbitkan LoA yang tegas 18 bulan, supaya pendanaan dan administrasi Manaaki menyesuaikan. Tanggapan Yusuf: <strong>“coba aja, siapa tahu bisa”</strong> — tetapi ia menegaskan programnya sendiri memang hanya 12 bulan (praktiknya ±10 bulan, lihat poin 1), jadi opsi 18 bulan itu bukan pola normal MDRR.</p>
+      </div>
+
+      <p class="small" style="margin-top:14px;color:var(--ink)"><strong>Cara membaca bagian ini:</strong> perlakukan sebagai cerita lapangan dari satu alumni Manaaki angkatan 2026 — berguna untuk ekspektasi dan strategi, tetapi setiap angka dan ketentuan di sini tetap harus dikonfirmasi ke UC / student advisor / Manaaki untuk angkatanmu. Bagian lain di halaman ini (struktur, regulasi, timeline resmi) tidak berubah dan tetap bersumber dari dokumen resmi UC.</p>
+    </div>
+  </section>
+
+  <footer id="sumber">
+    <h2 style="font-size:1.3rem">Sumber</h2>
+    <p class="verified-note">Riset web 11 November 2026. <span class="badge b-ok">✓ Terverifikasi resmi UC</span> = courseinfo.canterbury.ac.nz &amp; Regulasi Kualifikasi UC 2027 · <span class="badge b-sec">Sekunder</span> = cerminan/agregator · Detail DRRE691-26X (biaya domestik NZ$4.850, 9 Nov 2026–7 Feb 2027, kontak Sarah Beaven) juga diverifikasi live.</p>
+    <ul class="src">
+      <li>Courseinfo DRRE691 (semua occurrence): <a href="https://courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=DRRE691" target="_blank" rel="noopener">courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=DRRE691</a></li>
+      <li>DRRE691-23A (satu-satunya dengan tabel Assessment): <a href="https://courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=DRRE691&amp;occurrence=23A(C)&amp;year=2023" target="_blank" rel="noopener">courseinfo.canterbury.ac.nz — DRRE691-23A</a></li>
+      <li>DRRE691-26X: <a href="https://courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=DRRE691&amp;occurrence=26X(C)&amp;year=2026" target="_blank" rel="noopener">courseinfo.canterbury.ac.nz — DRRE691-26X</a></li>
+      <li>DRRE691-27A: <a href="https://courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=DRRE691&amp;occurrence=27A(C)&amp;year=2027" target="_blank" rel="noopener">courseinfo.canterbury.ac.nz — DRRE691-27A</a></li>
+      <li>Regulasi MDRR 2027 (PDF resmi UC): <a href="https://www.canterbury.ac.nz/content/dam/uoc-main-site/documents/pdfs/a-regulations/qualification-regulations/academic-regulations-science-MDRR.pdf.coredownload.pdf" target="_blank" rel="noopener">canterbury.ac.nz — Academic Regulations: MDRR</a></li>
+      <li>DRRE403-26S2: <a href="https://courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=DRRE403&amp;occurrence=26S2(C)&amp;year=2026" target="_blank" rel="noopener">courseinfo.canterbury.ac.nz — DRRE403-26S2</a></li>
+      <li>DRRE690-27A: <a href="https://courseinfo.canterbury.ac.nz/GetCourseDetails.aspx?course=DRRE690&amp;occurrence=27A(C)&amp;year=2027" target="_blank" rel="noopener">courseinfo.canterbury.ac.nz — DRRE690-27A</a></li>
+      <li>Regulasi PhD 2027 (PDF resmi UC): <a href="https://www.canterbury.ac.nz/content/dam/uoc-main-site/documents/pdfs/a-regulations/qualification-regulations/academic-regulations-doctorate-PhD.pdf.coredownload.pdf" target="_blank" rel="noopener">canterbury.ac.nz — Academic Regulations: PhD</a></li>
+      <li>UC Postgraduate Science Handbook (durasi 1 thn FT / 2 thn PT): <a href="https://www.canterbury.ac.nz/content/dam/uoc-main-site/documents/pdfs/c-brochures/Postgraduate%20Science.pdf.coredownload.pdf" target="_blank" rel="noopener">canterbury.ac.nz — Postgraduate Science (PDF)</a></li>
+      <li>Joshua Smith — ringkasan eksekutif (PDF, 11 Feb 2021): <a href="https://media.qrtiger.com/files/2022/10/josh-smith-tsunami-information-board-research-summary---emo-forum-17-feb.pdf" target="_blank" rel="noopener">media.qrtiger.com — Josh Smith tsunami information board research summary</a></li>
+      <li>Hotcourses — deskripsi program MDRR versi lama (sekunder): <a href="https://mdev.dev.aws.hotcoursesabroad.com/study/course/newzealand/master-of-disaster-risk-and-resilience/56519092/program.html" target="_blank" rel="noopener">hotcoursesabroad.com — MDRR program</a></li>
+      <li>Timaru District Council — 23 papan tsunami baru (konteks, tanpa klaim kausal): <a href="https://www.timaru.govt.nz/news/council-news/communities-better-prepared-for-coastal-hazards" target="_blank" rel="noopener">timaru.govt.nz — Communities better prepared for coastal hazards</a></li>
+      <li>Profil DRR Group UC (area riset grup): <a href="https://profiles.canterbury.ac.nz/search?type=group" target="_blank" rel="noopener">profiles.canterbury.ac.nz — group search</a></li>
+      <li>NZQA — MDRR Level 9, 180 credits (sekunder): <a href="https://www.nzqa.govt.nz/nzqf/search/results.do?org=700571001&amp;status=All" target="_blank" rel="noopener">nzqa.govt.nz — NZQF search</a></li>
+      <li><strong>Kesaksian alumni (bukan sumber resmi UC):</strong> percakapan WhatsApp Izzuddin Ar Rifqiy dengan Ahmad Syukri (“Yusuf”), BMKG — MDRR UC, beasiswa Manaaki, Agustus–November 2026. Dipakai hanya untuk bagian “Info alumni” di atas; tidak mengubah satu pun klaim berbasis regulasi/courseinfo UC di halaman ini.</li>
+    </ul>
+    <p class="small">Halaman program MDRR di canterbury.ac.nz (“Study MDRR”) tidak berhasil dibuka langsung dalam riset ini — deskripsi program di halaman ini dikutip dari Regulasi UC + Hotcourses sebagai cerminan UC, dan verifikasi halaman tersebut masih terbuka.</p>
+  </footer>
+</div>
+
+<script>
+function showPanel(which){
+  document.getElementById('panelX').classList.toggle('on', which==='X');
+  document.getElementById('panelA').classList.toggle('on', which==='A');
+  document.getElementById('btnX').setAttribute('aria-pressed', which==='X' ? 'true' : 'false');
+  document.getElementById('btnA').setAttribute('aria-pressed', which==='A' ? 'true' : 'false');
+}
+</script>
+</body>
+</html>
