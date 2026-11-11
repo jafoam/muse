@@ -78,6 +78,7 @@
         padding: 8px 11px; border-radius: 999px; line-height: 1.2;
       }
       nav.toc a:hover { background: var(--surface-2); color: var(--ink); }
+      .toc-toggle { display: none; }
 
       /* ---------- hero ---------- */
       header.hero { padding: 44px 0 8px; }
@@ -132,6 +133,22 @@
       .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; margin: 14px 0; }
       .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
       @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+      @media (max-width: 720px) {
+        .toc { padding: 0; }
+        .toc-toggle {
+          display: inline-flex; align-items: center; gap: 8px;
+          margin: 8px 0; padding: 9px 14px; border-radius: 999px;
+          border: 1px solid var(--line); background: var(--surface-2);
+          color: var(--ink); font: inherit; font-size: 14px; font-weight: 700;
+          cursor: pointer; line-height: 1.2;
+        }
+        .toc .wrap { display: none; }
+        .toc.open .wrap {
+          display: flex; flex-direction: column; gap: 2px;
+          padding: 4px 0 12px; max-height: 70vh; overflow-y: auto;
+        }
+        .toc.open .wrap a { border-radius: 8px; padding: 10px 12px; }
+      }
       .cols .card { margin: 0; }
 
       /* tables */
@@ -209,7 +226,8 @@
   </head>
   <body>
     <nav class="toc" aria-label="Daftar isi">
-      <div class="wrap">
+      <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="toc-list">☰&nbsp;Daftar isi</button>
+      <div class="wrap" id="toc-list">
         <a href="#perjalanan">Perjalanan</a>
         <a href="#pra">Pra-keberangkatan</a>
         <a href="#sem1">Semester 1</a>
@@ -1106,6 +1124,20 @@
         housing.addEventListener("change", calc);
         Object.keys(sliders).forEach(function (k) { sliders[k].addEventListener("input", calc); });
         calc();
+      })();
+    </script>
+    <script>
+      (function () {
+        var nav = document.querySelector('.toc');
+        var btn = document.querySelector('.toc-toggle');
+        if (!nav || !btn) return;
+        function close() { nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+        btn.addEventListener('click', function () {
+          var open = nav.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        nav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
       })();
     </script>
   </body>
