@@ -88,6 +88,18 @@
         font-family: "IBM Plex Mono", monospace; font-size: .84rem; font-weight: 600; color: var(--ink-2);
       }
       .topnav-current b { color: var(--accent-ink); font-weight: 600; }
+      .topnav-home {
+        flex: 0 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        display: inline-flex; align-items: center; min-height: 2.25rem;
+        font-size: .88rem; font-weight: 700; color: var(--teal); text-decoration: none;
+      }
+      .topnav-home:hover, .topnav-home:focus-visible { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+      @media (max-width: 640px) {
+        .topnav-inner { gap: 8px; padding: 0 14px; }
+        .topnav-home { font-size: .82rem; flex-shrink: 1; }
+        .topnav-current { display: none; }
+        .topnav-btn { padding: 6px 13px; font-size: .86rem; }
+      }
       .topnav-wrap { position: relative; flex: none; }
       .topnav-btn {
         display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
@@ -318,6 +330,7 @@
   <body>
     <nav class="topnav" aria-label="Daftar isi halaman">
       <div class="topnav-inner">
+        <a class="topnav-home" href="https://jafoam.github.io/muse/">← Jafoam Muse Knowledge Hub</a>
         <span class="topnav-current" id="nav-current"><b>Thesis MDRR</b> · Ringkasan</span>
         <div class="topnav-wrap">
           <button class="topnav-btn" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-haspopup="true">Isi <span aria-hidden="true">▾</span></button>
