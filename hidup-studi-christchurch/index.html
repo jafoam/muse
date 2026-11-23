@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Hidup &amp; Studi di Christchurch — Kuliah vs Kehidupan</title>
+    <meta name="description" content="Panduan mahasiswa Indonesia di Christchurch, dipisah jelas: Kuliah dan Kehidupan. Sumber: Hidup & Studi di Christchurch (21 hal)." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f3f5f2; --surface: #ffffff; --surface-2: #e9ede7;
+        --ink: #16211b; --ink-2: #43534a; --ink-3: #68786e; --line: #d3dcd2;
+        --accent: #0d5c46; --accent-soft: #dcebe2;
+        --blue: #24567d; --blue-soft: #dde8f1;
+        --rust: #a44a21; --rust-soft: #f6e3d8;
+        --amber: #8a5b12; --amber-soft: #f3e8cd;
+        --radius: 14px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0d130f; --surface: #161e18; --surface-2: #1e2921;
+          --ink: #e7ede8; --ink-2: #b3c0b5; --ink-3: #8b9a8d; --line: #2c3a30;
+          --accent: #6fc7a5; --accent-soft: #1d332a;
+          --blue: #8fb8dd; --blue-soft: #1f2f40;
+          --rust: #e08a5f; --rust-soft: #3a271c;
+          --amber: #e0b45c; --amber-soft: #38301c;
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Public Sans", system-ui, sans-serif; font-size: 16.5px; line-height: 1.62; }
+      a { color: var(--accent); text-underline-offset: 3px; }
+      .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+      .narrow { max-width: 780px; }
+      nav.top { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+      .top-inner { display: flex; align-items: center; gap: 12px; min-height: 54px; }
+      .top-inner a.home { color: var(--accent); font-weight: 700; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); padding: 7px 12px; font-size: 14px; }
+      .top-inner span { font-size: 14px; font-weight: 600; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      header.hero { padding: 44px 0 8px; }
+      .hero h1 { font-family: "Newsreader", Georgia, serif; font-size: clamp(34px, 5.6vw, 54px); line-height: 1.08; font-weight: 600; margin: 0 0 14px; max-width: 22ch; }
+      .hero h1 em { font-style: italic; color: var(--accent); }
+      .lede { font-size: 18.5px; color: var(--ink-2); max-width: 62ch; margin: 0 0 22px; }
+      .filter { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 26px; }
+      .filter button { font: inherit; font-size: 15px; font-weight: 700; padding: 11px 18px; min-height: 44px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+      .filter button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+      .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0 8px; }
+      @media (max-width: 640px) { .split { grid-template-columns: 1fr; } }
+      .split-card { border-radius: var(--radius); padding: 22px; border: 1px solid var(--line); text-decoration: none; color: var(--ink); display: block; }
+      .split-card.kuliah { background: var(--accent-soft); }
+      .split-card.hidup { background: var(--blue-soft); }
+      .split-card b { font-family: "Newsreader", serif; font-size: 26px; display: block; line-height: 1.15; margin-bottom: 6px; }
+      .split-card span { color: var(--ink-2); font-size: 15px; }
+      .tag { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; margin-bottom: 10px; }
+      .tag-kuliah { background: var(--accent); color: #fff; }
+      .tag-hidup { background: var(--blue); color: #fff; }
+      section { padding: 40px 0 6px; scroll-margin-top: 66px; }
+      section.part { border-top: 3px solid var(--accent); margin-top: 36px; }
+      section.part.life { border-top-color: var(--blue); }
+      h2 { font-family: "Newsreader", Georgia, serif; font-size: clamp(28px, 3.6vw, 36px); font-weight: 600; line-height: 1.15; margin: 0 0 6px; }
+      h2 .no { font-family: "IBM Plex Mono", monospace; font-size: 14px; display: block; margin-bottom: 8px; letter-spacing: .06em; color: var(--accent); }
+      section.life h2 .no { color: var(--blue); }
+      h3 { font-size: 19px; font-weight: 700; margin: 30px 0 8px; line-height: 1.3; }
+      .sub { color: var(--ink-2); max-width: 68ch; margin: 0 0 18px; }
+      p { margin: 0 0 13px; }
+      ul, ol { margin: 0 0 14px; padding-left: 22px; }
+      li { margin-bottom: 6px; }
+      li::marker { color: var(--accent); }
+      section.life li::marker { color: var(--blue); }
+      table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 15px; background: var(--surface); }
+      th, td { text-align: left; padding: 10px 12px; border: 1px solid var(--line); vertical-align: top; }
+      th { background: var(--surface-2); }
+      .note { background: var(--amber-soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; margin: 18px 0; }
+      .note strong { display: block; margin-bottom: 4px; }
+      .statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 22px 0 6px; }
+      .stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+      .stat b { display: block; font-family: "Newsreader", serif; font-size: 24px; font-weight: 600; line-height: 1.15; }
+      .stat span { font-size: 13px; color: var(--ink-2); display: block; margin-top: 3px; }
+      footer { padding: 40px 0 60px; color: var(--ink-3); font-size: 14px; }
+      body.show-kuliah #kehidupan, body.show-kuliah #kehidupan-nav { display: none; }
+      body.show-hidup #kuliah, body.show-hidup #kuliah-nav { display: none; }
+      @media (max-width: 560px) { .filter button { flex: 1 1 30%; } }
+    </style>
+  </head>
+  <body>
+    <nav class="top"><div class="wrap top-inner">
+      <a class="home" href="../">← Jafoam Muse</a>
+      <span>Hidup &amp; Studi di Christchurch — Kuliah vs Kehidupan</span>
+    </div></nav>
+
+    <div class="wrap narrow">
+      <header class="hero">
+        <h1>Hidup &amp; Studi di <em>Christchurch</em></h1>
+        <p class="lede">Satu panduan, dua dunia yang beda. Bagian <strong>Kuliah</strong> hanya soal kampus dan studi. Bagian <strong>Kehidupan</strong> soal tinggal sehari-hari di Christchurch — dari bandara sampai belanja mingguan.</p>
+
+        <div class="filter" role="group" aria-label="Tampilkan bagian">
+          <button type="button" data-filter="all" aria-pressed="true">Semua</button>
+          <button type="button" data-filter="kuliah" aria-pressed="false">Kuliah saja</button>
+          <button type="button" data-filter="hidup" aria-pressed="false">Kehidupan saja</button>
+        </div>
+
+        <div class="split">
+          <a class="split-card kuliah" href="#kuliah" id="kuliah-nav">
+            <span class="tag tag-kuliah">Bagian 01 · Kuliah</span>
+            <b>Studi &amp; kampus</b>
+            <span>Offer of Place, enrolment, Student ID, orientasi, dan dokumen akademik. Singkat — karena PDF ini memang fokus ke kehidupan.</span>
+          </a>
+          <a class="split-card hidup" href="#kehidupan" id="kehidupan-nav">
+            <span class="tag tag-hidup">Bagian 02 · Kehidupan</span>
+            <b>Hidup sehari-hari</b>
+            <span>Berangkat, tiba, rumah, SIM, bank, biaya hidup ~NZ$317/minggu, cuaca, transport, belanja, kerja, komunitas, dan wisata.</span>
+          </a>
+        </div>
+
+        <div class="statgrid">
+          <div class="stat"><b>~NZ$317</b><span>biaya hidup / minggu, 1 orang di rumah berbagi</span></div>
+          <div class="stat"><b>NZ$220</b><span>akomodasi kamar tunggal / minggu</span></div>
+          <div class="stat"><b>NZ$3,00</b><span>bus dewasa / perjalanan, maks. NZ$6/hari</span></div>
+          <div class="stat"><b>4 musim</b><span>dalam sehari — cuaca cepat berubah</span></div>
+        </div>
+      </header>
+
+      <!-- ============ BAGIAN 01: KULIAH ============ -->
+      <section class="part" id="kuliah">
+        <span class="tag tag-kuliah">Bagian 01 · Kuliah</span>
+        <h2><span class="no">01 — KULIAH</span>Studi &amp; kampus</h2>
+        <p class="sub">Yang ada di PDF soal kuliah hanya ini. Tidak ada daftar mata kuliah, jadwal, atau biaya kuliah di PDF ini.</p>
+
+        <h3>Admisi &amp; registrasi kampus</h3>
+        <ul>
+          <li>Pastikan dokumen awal: <strong>Offer of Place, visa pelajar, dan tanggal kuliah</strong>.</li>
+          <li>Selesaikan enrolment, ambil <strong>Student ID</strong>, dan akses <strong>email kampus</strong>.</li>
+          <li>Ikuti <strong>Orientasi Internasional</strong> serta orientasi <strong>Graduate School (S2/S3)</strong>.</li>
+          <li>Cek ulang ketentuan visa: <strong>masa berlaku, durasi studi, dan izin kerja</strong>.</li>
+          <li>Aktifkan asuransi kesehatan <strong>StudentSafe</strong> sesuai rekomendasi universitas.</li>
+        </ul>
+
+        <h3>Dokumen akademik yang wajib dibawa</h3>
+        <ul>
+          <li><strong>Ijazah, transkrip, dan LOA</strong> (Letter of Acceptance / Offer).</li>
+          <li><strong>Paspor &amp; visa</strong> — cetak salinan fisik.</li>
+          <li><strong>Bukti dana &amp; asuransi</strong>, serta <strong>bukti tempat tinggal</strong>.</li>
+          <li><strong>SIM Indonesia berlaku 1 tahun</strong> — relevan untuk urusan kampus dan transportasi awal.</li>
+        </ul>
+
+        <div class="note">
+          <strong>Catatan jujur</strong>
+          PDF ini tidak menyebut nama mata kuliah, jadwal semester/kuliah, nama kampus/fakultas secara spesifik, maupun besaran biaya kuliah. Untuk detail MDRR/UC, lihat halaman <a href="../panduan-kuliah-mdrr-uc/">Panduan Kuliah MDRR UC</a> — jangan campur isinya ke bagian ini tanpa verifikasi.
+        </div>
+      </section>
+
+      <!-- ============ BAGIAN 02: KEHIDUPAN ============ -->
+      <section class="part life" id="kehidupan">
+        <span class="tag tag-hidup">Bagian 02 · Kehidupan</span>
+        <h2><span class="no">02 — KEHIDUPAN</span>Hidup sehari-hari di Christchurch</h2>
+        <p class="sub">Dari sebelum berangkat sampai sudah menetap: barang bawaan, kedatangan, rumah, uang, cuaca, transport, dan komunitas.</p>
+
+        <h3>Sebelum berangkat — barang bawaan wajib</h3>
+        <ul>
+          <li><strong>Dokumen:</strong> paspor &amp; visa (cetak salinan fisik), ijazah, transkrip, LOA, bukti dana &amp; asuransi, bukti tempat tinggal.</li>
+          <li><strong>Perangkat:</strong> colokan <strong>Tipe I</strong> (standar NZ), kabel rol, <strong>bidet portabel</strong> — toilet di NZ umumnya kering, kacamata cadangan.</li>
+          <li><strong>Pakaian &amp; kesehatan:</strong> lapisan hangat <strong>Heattech / termal</strong>, jaket tahan air &amp; batik, obat pribadi dengan <strong>resep berbahasa Inggris</strong>.</li>
+          <li><strong>Makanan bawaan:</strong> hindari <strong>daging, telur &amp; produk hewani</strong>.</li>
+        </ul>
+
+        <h3>Kedatangan &amp; bea cukai — NZTD</h3>
+        <ul>
+          <li>Isi <strong>NZTD online paling cepat 24 jam sebelum terbang</strong>, di travellerdeclaration.govt.nz.</li>
+          <li>Jawab jujur, catat semua bawaan; jika ragu, pilih <strong>Declare</strong>. Satukan barang yang dideklarasikan dalam <strong>satu tas</strong>.</li>
+          <li>Jalur hijau: aman, langsung keluar. Jalur kuning: pemeriksaan biosekuriti cepat. Jalur merah: bagasi dibuka, <strong>denda NZ$400</strong>.</li>
+        </ul>
+
+        <h3>Dari bandara ke tempat tinggal</h3>
+        <ul>
+          <li><strong>Bus umum: NZ$3–11</strong> — paling hemat, bayar kartu nirsentuh, cocok bila koper sedikit.</li>
+          <li><strong>Uber / DiDi: NZ$25+</strong> — praktis, bandingkan tarif aplikasi, lebih hemat bila patungan.</li>
+          <li><strong>Taksi / transfer: NZ$30–55</strong> — terbaik untuk koper banyak atau tiba larut malam.</li>
+          <li>Asrama kampus menyediakan <strong>shuttle</strong>. Sebelum terbang: unduh Uber &amp; DiDi, aktifkan SIM, simpan alamat pemilik rumah.</li>
+        </ul>
+
+        <h3>Akomodasi — mencari tempat tinggal</h3>
+        <ul>
+          <li>Kanal: <strong>Trade Me, NZflatmates, Roomgo, Airbnb (jangka pendek), Facebook Marketplace Christchurch, grup kampus, Komunitas RI</strong>.</li>
+          <li>Harga: <strong>kamar tunggal $200+ / minggu; kamar ganda $220+ / minggu</strong>. <strong>Bond minimal 2× tarif sewa</strong>.</li>
+          <li>Cek sebelum sewa: jarak ke kampus <strong>1–3 km sangat ideal</strong>, kondisi &amp; furnitur, listrik/air/internet sudah termasuk atau belum, durasi kontrak dan syarat pemberitahuan pindah.</li>
+        </ul>
+
+        <h3>Kartu SIM &amp; paket data</h3>
+        <p>Provider utama: <strong>Spark, One NZ, 2degrees, dan Skinny</strong>. Beli di supermarket dan toko lokal; kartu SIM gratis sering tersedia di kampus (asrama / IO).</p>
+        <table>
+          <tr><th>Paket</th><th>Harga</th><th>Kuota</th></tr>
+          <tr><td>Paket Dasar</td><td>NZ$8 / bln</td><td>150–250 MB — ideal pengguna Wi-Fi kampus</td></tr>
+          <tr><td>Standar Pelajar</td><td>NZ$13–15 / bln</td><td>1 GB — telepon &amp; SMS tak terbatas</td></tr>
+          <tr><td>Aktif Harian</td><td>NZ$17–20 / bln</td><td>2 GB — sisa kuota carry over</td></tr>
+          <tr><td>Kuota Besar</td><td>NZ$30–45 / bln</td><td>Kuota ekstra — mobilitas tinggi</td></tr>
+        </table>
+
+        <h3>Rekening bank lokal</h3>
+        <ul>
+          <li>Dokumen wajib: <strong>paspor, student visa, bukti alamat NZ</strong>. Opsional: nomor IRD &amp; SIM internasional.</li>
+          <li>Bank populer: <strong>ANZ, BNZ, Kiwibank, Westpac, ASB, TSB, SBS Bank, Co-operative Bank, HSBC</strong>.</li>
+          <li>Daftar daring lalu verifikasi di cabang, atau daftar luring setelah cek syarat di situs resmi. Mayoritas rekening harian <strong>bebas biaya admin</strong>; kartu <strong>EFTPOS gratis</strong> dan bisa langsung dipakai sebelum kartu fisik tiba.</li>
+        </ul>
+
+        <h3>Estimasi biaya hidup mingguan</h3>
+        <p>Total <strong>~NZ$317 / minggu</strong> untuk <strong>1 orang di rumah berbagi (flatting)</strong> — ≈ NZ$1.374 / bulan, ≈ NZ$16.484 / tahun.</p>
+        <table>
+          <tr><th>Komponen</th><th>Per minggu</th></tr>
+          <tr><td>Akomodasi (kamar tunggal)</td><td>NZ$220</td></tr>
+          <tr><td>Belanja bahan makanan</td><td>NZ$50</td></tr>
+          <tr><td>Transportasi (dewasa)</td><td>NZ$42</td></tr>
+          <tr><td>Internet / kartu SIM</td><td>NZ$5</td></tr>
+        </table>
+        <p>Pengeluaran lain: makan di luar (~NZ$20/kali), nongkrong, belanja, furnitur, peralatan dapur.</p>
+
+        <h3>Cuaca &amp; empat musim</h3>
+        <ul>
+          <li>Panas: Desember–Februari · Gugur: Maret–Mei · Dingin: Juni–Agustus · Semi: September–November.</li>
+          <li><strong>“4 musim dalam sehari”</strong> — cuaca cepat berubah, hujan bisa turun sepanjang tahun. Wajib: <strong>jaket ringan penahan angin</strong>. Pantau prakiraan harian di <strong>MetService</strong>.</li>
+          <li>Tiba bulan Februari? Itu akhir musim panas. Siapkan lapisan hangat untuk <strong>Maret–Mei</strong>.</li>
+        </ul>
+
+        <h3>Kejutan budaya sehari-hari</h3>
+        <ul>
+          <li>Mal, kafe, dan toko rata-rata tutup pukul <strong>17.00–18.00</strong>.</li>
+          <li>Tambahan sekitar <strong>15%</strong> saat makan di tempat pada hari libur nasional.</li>
+          <li>Porsi makanan restoran / takeaway umumnya sangat besar.</li>
+          <li>Bus umum terkadang datang lebih awal atau terlambat.</li>
+          <li>Sebagian besar kamar mandi hanya menyediakan tisu toilet — bawa bidet portabel.</li>
+        </ul>
+
+        <h3>Transportasi harian</h3>
+        <table>
+          <tr><th>Penumpang</th><th>Per perjalanan</th><th>Maks. / hari</th></tr>
+          <tr><td>Dewasa</td><td>NZ$3,00</td><td>NZ$6,00</td></tr>
+          <tr><td>Pemuda (19–24)</td><td>NZ$2,50</td><td>NZ$5,00</td></tr>
+          <tr><td>Anak (5–18)</td><td>NZ$1,50</td><td>NZ$3,00</td></tr>
+        </table>
+        <p>Bayar dengan Visa/Mastercard, Apple Pay, Google Pay, atau kartu prabayar <strong>Motu Move</strong>. Cek jadwal di <strong>MetroGo, Google Maps, dan Transit</strong>. Alternatif: sepeda, jalan kaki, Uber, DiDi, skuter Lime, bus hijau pusat kota.</p>
+
+        <h3>Belanja harian &amp; supermarket</h3>
+        <ul>
+          <li><strong>PAK'nSAVE</strong> — paling murah, sistem grosir. <strong>Woolworths</strong> — produk lokal &amp; impor. <strong>New World</strong> — variatif, premium.</li>
+          <li><strong>Asian Supermarket</strong> — bahan masakan Asia lengkap, bumbu khas Indonesia. <strong>Kmart</strong> — gaya hidup &amp; rumah tangga. <strong>The Warehouse</strong> — serba ada, hemat.</li>
+          <li><strong>Toko barang bekas</strong> — second-hand layak pakai, jaket hangat &amp; perabot. Tips hemat: cek harga di aplikasi, bandingkan harga per satuan, daftar kartu anggota.</li>
+        </ul>
+
+        <h3>Membeli mobil di NZ</h3>
+        <ul>
+          <li><strong>Registration (Rego):</strong> izin jalan rutin, diperpanjang per 1–12 bulan. <strong>Warrant of Fitness (WoF):</strong> uji kelayakan keselamatan berkala.</li>
+          <li>Asuransi kendaraan: pihak ketiga hingga penuh — <strong>Third Party, Fire &amp; Theft, atau Comprehensive</strong>.</li>
+          <li>Pantau harga bensin termurah lewat <strong>Gaspy</strong>. Siapkan anggaran parkir dan servis rutin.</li>
+        </ul>
+
+        <h3>Nomor IRD &amp; kerja paruh waktu</h3>
+        <ul>
+          <li><strong>Wajib IRD number</strong> — nomor identitas pajak NZ. Daftar dulu di ird.govt.nz.</li>
+          <li>Tipe pekerjaan: <strong>paruh waktu (part-time), tetap (permanent), atau lepas (casual)</strong>. Selalu patuhi batas jam kerja pada visa masing-masing — PDF ini tidak menyebut angka batas jam.</li>
+          <li>Cari kerja lewat <strong>Seek, Trade Me Jobs, Student Job Search</strong>, situs perusahaan, walk-in ke kafe/restoran/supermarket/ritel, dan referensi teman (“orang dalam”).</li>
+        </ul>
+
+        <h3>Komunitas Indonesia di Christchurch</h3>
+        <p><strong>PPIC</strong> — Perhimpunan Pelajar Indonesia Canterbury · <strong>CIC</strong> — Canterbury Indonesia Community · <strong>IFGF</strong> — International Full Gospel Fellowship · <strong>CIMC</strong> — Canterbury Indonesian Muslim Community · <strong>ICCC</strong> — Indonesia Canterbury Christian Community · <strong>KKIC</strong> — Keluarga Katolik Indonesia Christchurch.</p>
+
+        <h3>KBRI Wellington</h3>
+        <ul>
+          <li>Telepon: <strong>+64-4-4758 699</strong> · Alamat: <strong>70 Glen Road, Kelburn, Wellington, New Zealand</strong></li>
+          <li>Pertanyaan umum: wellington.kbri@kemlu.go.id · Layanan konsuler: konsuler.wellington@kemlu.go.id</li>
+        </ul>
+
+        <h3>Destinasi wisata Christchurch</h3>
+        <p><strong>Botanic Gardens, Hagley Park, Riverside Market, New Regent Street, Sumner Beach, Tram &amp; Gondola, Riccarton Sunday Market.</strong> Akhir pekan pertama? Mulai dari taman, pantai, dan pasar — dekat dan ramah kantong.</p>
+
+        <h3>Referensi resmi</h3>
+        <table>
+          <tr><th>Topik</th><th>Instansi / platform</th><th>Situs</th></tr>
+          <tr><td>Deklarasi perjalanan</td><td>NZ Traveller Declaration</td><td>travellerdeclaration.govt.nz</td></tr>
+          <tr><td>Nomor pajak (IRD)</td><td>Inland Revenue NZ</td><td>ird.govt.nz</td></tr>
+          <tr><td>Aturan mengemudi &amp; SIM</td><td>NZ Transport Agency (NZTA)</td><td>nzta.govt.nz</td></tr>
+          <tr><td>Akomodasi &amp; lowongan</td><td>Trade Me New Zealand</td><td>trademe.co.nz</td></tr>
+          <tr><td>Prakiraan cuaca</td><td>MetService</td><td>metservice.com</td></tr>
+          <tr><td>Bus kota Christchurch</td><td>Metro (Environment Canterbury)</td><td>metroinfo.co.nz</td></tr>
+        </table>
+      </section>
+
+      <footer>
+        <p>Sumber: <em>Hidup &amp; Studi di Christchurch — Panduan Mahasiswa Indonesia</em> (PDF, 21 hal). Halaman ini memisahkan Kuliah dan Kehidupan sesuai isi PDF — detail kuliah MDRR/UC ada di <a href="../panduan-kuliah-mdrr-uc/">Panduan Kuliah MDRR UC</a>.</p>
+        <p><a href="../">← Kembali ke Jafoam Muse</a></p>
+      </footer>
+    </div>
+
+    <script>
+      const btns = document.querySelectorAll('.filter button');
+      btns.forEach(b => b.addEventListener('click', () => {
+        btns.forEach(x => x.setAttribute('aria-pressed', 'false'));
+        b.setAttribute('aria-pressed', 'true');
+        document.body.classList.remove('show-kuliah', 'show-hidup');
+        if (b.dataset.filter === 'kuliah') document.body.classList.add('show-kuliah');
+        if (b.dataset.filter === 'hidup') document.body.classList.add('show-hidup');
+        const target = b.dataset.filter === 'hidup' ? document.getElementById('kehidupan') : b.dataset.filter === 'kuliah' ? document.getElementById('kuliah') : null;
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }));
+    </script>
+  </body>
+</html>
