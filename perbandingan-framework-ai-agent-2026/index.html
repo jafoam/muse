@@ -3,29 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:,">
 <title>Perbandingan Framework AI Agent 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#fbfbf9; --surface:#ffffff; --surface2:#f1f3f1; --ink:#141a17; --muted:#5c6a63; --line:#dde3de;
-  --accent:#0a6b5e; --accent-ink:#ffffff; --accent-soft:#e3efec; --warn:#b45309; --warn-bg:#fef3e2; --bad:#b42318; --bad-bg:#fdecea;
-  --chip:#eef1ee; --radius:14px;
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root{
-    --bg:#0d100f; --surface:#141817; --surface2:#1a1f1d; --ink:#edf2ef; --muted:#9aaba3; --line:#29312d;
-    --accent:#3ec9b0; --accent-ink:#06110e; --accent-soft:#17332e; --warn:#f5b86b; --warn-bg:#2b2113; --bad:#ff8a7a; --bad-bg:#2f1a17;
-    --chip:#1e2421; color-scheme:dark;
-  }
-}
+:root {
+    --bg: #0F0F0D; --surface: #1A1D24; --surface2: #21252F; --ink: #F5F5F1; --muted: #A9A9A2; --line: #2A2D36;
+    --accent: #4ADE80; --accent-ink:#06110e; --accent-soft: #17332A; --warn:#f5b86b; --warn-bg:#2b2113; --bad:#ff8a7a; --bad-bg:#2f1a17;
+    --chip:#1e2421; color-scheme: dark;
+  --grad: linear-gradient(90deg, #4ADE80, #22D3EE);
+  --radius: 16px;}
+@media (prefers-color-scheme: light) { :root {
+  --bg: #F7F3EE; --surface: #FFFFFF; --surface2: #F1EDE4; --ink: #1A1A1A; --muted: #4A443C; --line: #DDD3C2;
+  --accent: #0B6B4F; --accent-ink:#ffffff; --accent-soft: #D9F2E3; --warn:#b45309; --warn-bg:#fef3e2; --bad:#b42318; --bad-bg:#fdecea;
+  --chip:#eef1ee; --radius: 16px;
+  color-scheme: light;
+  --grad: linear-gradient(90deg, #4ADE80, #22D3EE);} }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:"Archivo",system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+body{margin:0;font-family:"Manrope",system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
 a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
 a:hover{text-decoration-thickness:2px}
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
@@ -186,7 +185,8 @@ footer{margin:36px 0 0;padding:22px 0 34px;border-top:1px solid var(--line);colo
   .tl-row{grid-template-columns:1fr;gap:2px}
 }
 @media print{ .controls{display:none} details.card{break-inside:avoid} }
-</style>
+.grad{background:linear-gradient(90deg,#4ADE80,#22D3EE);-webkit-background-clip:text;background-clip:text;color:transparent}
+  </style>
 </head>
 <body>
 <nav class="topbar" aria-label="Navigasi utama">
@@ -203,7 +203,7 @@ footer{margin:36px 0 0;padding:22px 0 34px;border-top:1px solid var(--line);colo
       <span class="pill">Versi per 7–10 Nov 2026, kecuali bertanggal lain</span>
       <span class="pill warnpill">Angka bintang/unduhan = snapshot, bukan skor kualitas</span>
     </div>
-    <h1>Framework AI Agent 2026: tahun <em>konsolidasi &amp; kematangan</em>, bukan ledakan baru</h1>
+    <h1><span class="grad">Framework AI Agent 2026</span>: tahun <em>konsolidasi &amp; kematangan</em>, bukan ledakan baru</h1>
     <p class="lede">Temuan utamanya jelas: <strong>AutoGen dan Semantic Kernel masuk mode maintenance dan dilebur ke Microsoft Agent Framework</strong>, gelombang rilis stabil 1.0 datang bertubi-tubi di kuartal II, <strong>eksekusi yang tahan crash (durable execution) jadi standar minimum</strong>, dan dua protokol — <strong>MCP untuk tools dan A2A untuk antar-agent</strong> — kini native di hampir semua framework besar. Halaman ini membandingkan <strong>16 framework</strong> dari hasil riset mendalam, lengkap dengan keunggulan, batasan, dan catatan yang belum terverifikasi.</p>
 
     <div class="stats">

@@ -3,51 +3,53 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"/>
+    <meta name="color-scheme" content="dark light" />
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="light dark" name="color-scheme"/>
 <link href="data:," rel="icon"/>
 <title>Panduan Kuliah MDRR UC</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&amp;family=Public+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <style>
       :root {
-        --bg: #f3f5f2;
-        --surface: #ffffff;
-        --surface-2: #e9ede7;
-        --ink: #16211b;
-        --ink-2: #43534a;
-        --ink-3: #68786e;
-        --line: #d3dcd2;
-        --accent: #0d5c46;
-        --accent-soft: #dcebe2;
-        --rust: #a44a21;
-        --rust-soft: #f6e3d8;
-        --amber: #8a5b12;
-        --amber-soft: #f3e8cd;
-        --blue: #24567d;
-        --blue-soft: #dde8f1;
-        --radius: 14px;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #0d130f;
-          --surface: #161e18;
-          --surface-2: #1e2921;
-          --ink: #e7ede8;
-          --ink-2: #b3c0b5;
-          --ink-3: #8b9a8d;
-          --line: #2c3a30;
-          --accent: #6fc7a5;
-          --accent-soft: #1d332a;
+          --bg: #0F0F0D;
+          --surface: #1A1D24;
+          --surface-2: #21252F;
+          --ink: #F5F5F1;
+          --ink-2: #A9A9A2;
+          --ink-3: #7C7C74;
+          --line: #2A2D36;
+          --accent: #4ADE80;
+          --accent-soft: #17332A;
           --rust: #e08a5f;
           --rust-soft: #3a271c;
           --amber: #e0b45c;
           --amber-soft: #38301c;
           --blue: #8fb8dd;
           --blue-soft: #1f2f40;
-        }
-      }
+  --grad: linear-gradient(90deg, #4ADE80, #22D3EE);
+  --radius: 16px;
+  color-scheme: dark;}
+      @media (prefers-color-scheme: light) { :root {
+        --bg: #F7F3EE;
+        --surface: #FFFFFF;
+        --surface-2: #F1EDE4;
+        --ink: #1A1A1A;
+        --ink-2: #4A443C;
+        --ink-3: #7A7264;
+        --line: #DDD3C2;
+        --accent: #0B6B4F;
+        --accent-soft: #D9F2E3;
+        --rust: #a44a21;
+        --rust-soft: #f6e3d8;
+        --amber: #8a5b12;
+        --amber-soft: #f3e8cd;
+        --blue: #24567d;
+        --blue-soft: #dde8f1;
+        --radius: 16px;
+  --grad: linear-gradient(90deg, #4ADE80, #22D3EE);
+  color-scheme: light;} }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
@@ -55,7 +57,7 @@
         margin: 0;
         background: var(--bg);
         color: var(--ink);
-        font-family: "Public Sans", system-ui, sans-serif;
+        font-family: "Manrope", system-ui, sans-serif;
         font-size: 16.5px;
         line-height: 1.62;
       }
@@ -135,7 +137,7 @@
       /* ---------- hero ---------- */
       header.hero { padding: 44px 0 8px; }
       .hero h1 {
-        font-family: "Newsreader", Georgia, serif;
+        font-family: "Manrope", sans-serif;
         font-size: clamp(34px, 5.6vw, 54px);
         line-height: 1.08; font-weight: 600; letter-spacing: -0.01em;
         margin: 0 0 14px; max-width: 20ch;
@@ -146,13 +148,13 @@
       figcaption { font-size: 13px; color: var(--ink-3); margin-top: 8px; }
       .statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 22px 0 6px; }
       .stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
-      .stat b { display: block; font-family: "Newsreader", serif; font-size: 24px; font-weight: 600; line-height: 1.15; }
+      .stat b { display: block; font-family: "Manrope", sans-serif; font-size: 24px; font-weight: 600; line-height: 1.15; }
       .stat span { font-size: 13px; color: var(--ink-2); line-height: 1.4; display: block; margin-top: 3px; }
 
       /* ---------- sections ---------- */
       section { padding: 40px 0 6px; scroll-margin-top: 66px; }
       h2 {
-        font-family: "Newsreader", Georgia, serif;
+        font-family: "Manrope", sans-serif;
         font-size: clamp(26px, 3.6vw, 34px); font-weight: 600; line-height: 1.15;
         margin: 0 0 6px; letter-spacing: -0.005em;
       }
@@ -220,7 +222,7 @@
       .calc input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 36px; }
       .calc select { font: inherit; font-size: 15px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); width: 100%; }
       .calc .total { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 16px; padding-top: 16px; border-top: 2px solid var(--line); }
-      .calc .total div b { font-family: "Newsreader", serif; font-size: 26px; font-weight: 600; display: block; line-height: 1.1; }
+      .calc .total div b { font-family: "Manrope", sans-serif; font-size: 26px; font-weight: 600; display: block; line-height: 1.1; }
       .calc .total div span { font-size: 13px; color: var(--ink-2); }
       @media (max-width: 640px) {
         .calc .row { grid-template-columns: 1fr 76px; }
@@ -231,7 +233,7 @@
       .chartbox { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; margin: 14px 0 20px; }
       .chartbox h3 { margin-top: 0; }
       .chartbox svg { width: 100%; height: auto; display: block; }
-      .chartbox text { font-family: "Public Sans", sans-serif; fill: var(--ink); }
+      .chartbox text { font-family: "Manrope", sans-serif; fill: var(--ink); }
       .chartbox .axis { fill: var(--ink-3); font-size: 11px; }
       .chartbox .val { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 500; }
       .chartbox .lbl { font-size: 13px; font-weight: 600; }
@@ -265,12 +267,14 @@
       .split-card { border-radius: var(--radius); padding: 18px 20px; border: 1px solid var(--line); text-decoration: none; color: var(--ink); display: block; }
       .split-card.kuliah { background: var(--accent-soft); }
       .split-card.hidup { background: var(--blue-soft); }
-      .split-card b { font-family: "Newsreader", serif; font-size: 22px; display: block; line-height: 1.2; margin-bottom: 4px; }
+      .split-card b { font-family: "Manrope", sans-serif; font-size: 22px; display: block; line-height: 1.2; margin-bottom: 4px; }
       .split-card span { color: var(--ink-2); font-size: 14.5px; }
       .part-tag { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; margin-bottom: 10px; }
-      .part-tag.kuliah { background: var(--accent); color: #fff; }
-      .part-tag.hidup { background: var(--blue); color: #fff; }
-    </style>
+      .part-tag.kuliah { background: var(--accent); color: #0F0F0D; }
+      .part-tag.hidup { background: var(--blue); color: #0F0F0D; }
+    .grad{background:linear-gradient(90deg,#4ADE80,#22D3EE);-webkit-background-clip:text;background-clip:text;color:transparent}
+  @media (prefers-color-scheme: light) { .part-tag.kuliah, .part-tag.hidup { color: #fff; } }
+  </style>
 </head>
 <body>
 <nav aria-label="Daftar isi" class="toc" id="tocNav">
@@ -289,7 +293,7 @@
 </nav>
 <header class="hero">
 <div class="wrap">
-<h1>Kuliah MDRR di University of Canterbury, dari Berangkat sampai Pulang</h1>
+<h1><span class="grad">Kuliah MDRR</span> di University of Canterbury, dari Berangkat sampai Pulang</h1>
 <p class="lede">Panduan Master of Disaster Risk and Resilience (MDRR) di Christchurch, Selandia Baru — untuk calon mahasiswa Indonesia penerima beasiswa Manaaki dengan rencana mulai <strong>Februari 2027</strong>. Halaman ini hanya soal kuliah: admisi, mata kuliah semester demi semester, proyek DRRE691, aturan akademik, dan wisuda. Untuk hidup sehari-hari, lihat <a href="../kehidupan-christchurch/">Kehidupan di Christchurch</a>.</p>
 
 

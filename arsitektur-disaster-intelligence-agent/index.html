@@ -3,65 +3,64 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="dark light" />
     <link rel="icon" href="data:," />
     <title>Arsitektur Disaster Intelligence Agent</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet" />
     <style>
       button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
       * { box-sizing: border-box; }
       :root {
-        --bg: #f4f5f2;
-        --surface: #ffffff;
-        --surface-2: #eceee9;
-        --ink: #181d1a;
-        --ink-2: #3d4741;
-        --muted: #68736b;
-        --line: #dde1da;
-        --accent: #bc4517;
-        --accent-ink: #9c370f;
-        --accent-soft: #fae9df;
-        --blue: #1d6fb8;
-        --blue-soft: #e2eef8;
-        --teal: #0c7a66;
-        --teal-soft: #ddf0ea;
-        --amber: #a86e08;
-        --amber-soft: #f7ecd2;
-        --code-bg: #0d130f;
-        --code-ink: #d9e2da;
-        --radius: 10px;
-        color-scheme: light;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #0d100e;
-          --surface: #151a17;
-          --surface-2: #1b211d;
-          --ink: #e9ede9;
-          --ink-2: #c3ccc4;
-          --muted: #93a096;
-          --line: #28312a;
-          --accent: #f07f4e;
-          --accent-ink: #f59a72;
-          --accent-soft: #2c1c13;
+          --bg: #0F0F0D;
+          --surface: #1A1D24;
+          --surface-2: #21252F;
+          --ink: #F5F5F1;
+          --ink-2: #A9A9A2;
+          --muted: #A9A9A2;
+          --line: #2A2D36;
+          --accent: #4ADE80;
+          --accent-ink: #4ADE80;
+          --accent-soft: #17332A;
           --blue: #6db2e8;
           --blue-soft: #16283a;
-          --teal: #4cc3ab;
+          --teal: #22D3EE;
           --teal-soft: #10302a;
           --amber: #e2b34a;
           --amber-soft: #322712;
           --code-bg: #090d0a;
           color-scheme: dark;
-        }
-      }
+  --grad: linear-gradient(90deg, #4ADE80, #22D3EE);
+  --radius: 16px;}
+      @media (prefers-color-scheme: light) { :root {
+        --bg: #F7F3EE;
+        --surface: #FFFFFF;
+        --surface-2: #F1EDE4;
+        --ink: #1A1A1A;
+        --ink-2: #4A443C;
+        --muted: #4A443C;
+        --line: #DDD3C2;
+        --accent: #0B6B4F;
+        --accent-ink: #0B6B4F;
+        --accent-soft: #D9F2E3;
+        --blue: #1d6fb8;
+        --blue-soft: #e2eef8;
+        --teal: #0E7490;
+        --teal-soft: #D6EEF5;
+        --amber: #a86e08;
+        --amber-soft: #f7ecd2;
+        --code-bg: #0d130f;
+        --code-ink: #d9e2da;
+        --radius: 16px;
+        color-scheme: light;
+  --grad: linear-gradient(90deg, #4ADE80, #22D3EE);} }
       html { scroll-behavior: smooth; }
       body {
         margin: 0;
         background: var(--bg);
         color: var(--ink);
-        font-family: "IBM Plex Sans", system-ui, sans-serif;
+        font-family: "Manrope", system-ui, sans-serif;
         font-size: 16px;
         line-height: 1.65;
         -webkit-font-smoothing: antialiased;
@@ -314,14 +313,15 @@
         html { scroll-behavior: auto; }
         * { transition: none !important; }
       }
-    </style>
+    .grad{background:linear-gradient(90deg,#4ADE80,#22D3EE);-webkit-background-clip:text;background-clip:text;color:transparent}
+  </style>
   </head>
   <body>
     <div class="wrap">
 
       <header class="doc-head">
         <div class="kicker">Dokumen Arsitektur Implementasi</div>
-        <h1>Disaster Intelligence Agent</h1>
+        <h1><span class="grad">Disaster Intelligence Agent</span></h1>
         <p class="lede">Sistem agen yang mengubah dokumen dan laporan kebencanaan mentah — siaran pers BNPB/BMKG, laporan lapangan, berita — menjadi laporan situasi (situation report) terstruktur dan terverifikasi. <b>LangGraph</b> bertindak sebagai orchestrator state-machine, <b>LlamaIndex Workflows</b> sebagai mesin ekstraksi dokumen, dan lapisan resilience khusus menangani timeout serta halusinasi LLM.</p>
         <div class="meta-row">
           <span class="chip"><span class="dot dot-blue"></span>LangGraph · orchestrator</span>

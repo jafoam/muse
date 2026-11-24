@@ -3,37 +3,40 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<meta name="color-scheme" content="light dark"/>
+<meta name="color-scheme" content="dark light"/>
 <link rel="icon" href="data:,"/>
 <title>DRRE691 Professional Project — Gambaran MDRR UC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f7f5f1; --surface:#ffffff; --surface2:#efece6; --ink:#1a2226; --muted:#5c6a6e; --line:#ddd8cf;
-  --teal:#0f4c4c; --teal2:#146666; --accent:#c2511b; --accent-soft:#fdeee6; --gold:#8a6d1b; --gold-soft:#fdf6d8;
+:root { --bg: #0F0F0D; --surface: #1A1D24; --surface2: #21252F; --ink: #F5F5F1; --muted: #A9A9A2; --line: #2A2D36;
+  --teal: #22D3EE; --teal2: #4ADE80; --accent: #4ADE80; --accent-soft: #17332A; --gold:#e6c95c; --gold-soft:#332d14;
+  --green:#7ed598; --green-soft:#173324; --red:#f19a9a; --red-soft:#3a1e1e; --shadow:0 10px 30px rgba(0,0,0,.35);
+  --grad: linear-gradient(90deg, #4ADE80, #22D3EE);
+  --radius: 16px;
+  color-scheme: dark;}
+@media (prefers-color-scheme: light) { :root {
+  --bg: #F7F3EE; --surface: #FFFFFF; --surface2: #F1EDE4; --ink: #1A1A1A; --muted: #4A443C; --line: #DDD3C2;
+  --teal: #0E7490; --teal2: #0B6B4F; --accent: #0B6B4F; --accent-soft: #D9F2E3; --gold:#8a6d1b; --gold-soft:#fdf6d8;
   --green:#1d6b3a; --green-soft:#e6f4ea; --red:#9b2c2c; --red-soft:#fdecec;
   --shadow:0 10px 30px rgba(20,30,30,.08);
-}
-@media (prefers-color-scheme: dark){
-  :root{ --bg:#101619; --surface:#182124; --surface2:#1f2a2d; --ink:#e8ecea; --muted:#a7b3b1; --line:#2e3c3f;
-  --teal:#7fcac6; --teal2:#9adbd7; --accent:#f08a54; --accent-soft:#3a2418; --gold:#e6c95c; --gold-soft:#332d14;
-  --green:#7ed598; --green-soft:#173324; --red:#f19a9a; --red-soft:#3a1e1e; --shadow:0 10px 30px rgba(0,0,0,.35);}
-}
+  --grad: linear-gradient(90deg, #4ADE80, #22D3EE);
+  --radius: 16px;
+  color-scheme: light;} }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Archivo",system-ui,sans-serif;line-height:1.65;font-size:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Manrope",system-ui,sans-serif;line-height:1.65;font-size:16px}
 a{color:var(--teal2);text-underline-offset:3px}
 button,summary{min-height:44px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px 64px}
-h1,h2,h3{font-family:"Spectral",Georgia,serif;line-height:1.15;margin:0}
+h1,h2,h3{font-family:"Manrope",Georgia,sans-serif;line-height:1.15;margin:0}
 h2{font-size:1.75rem;margin-bottom:10px}
 h3{font-size:1.18rem}
 p{margin:0 0 12px}
 .small{font-size:.88rem;color:var(--muted)}
-.mono{font-family:"JetBrains Mono",monospace;font-size:.82rem}
+.mono{font-family:"IBM Plex Mono",monospace;font-size:.82rem}
 
 /* Hero */
 .hero{padding:38px 0 8px}
@@ -43,11 +46,11 @@ p{margin:0 0 12px}
 .lede{font-size:1.13rem;max-width:68ch;margin-top:16px;color:var(--ink)}
 .lede strong{color:var(--teal)}
 .quote{border-left:4px solid var(--teal);background:var(--surface);padding:16px 18px;margin:22px 0;border-radius:0 12px 12px 0;box-shadow:var(--shadow)}
-.quote p{font-family:"Spectral",serif;font-style:italic;font-size:1.05rem;margin:0 0 6px}
+.quote p{font-family:"Manrope",sans-serif;font-style:italic;font-size:1.05rem;margin:0 0 6px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 8px}
 .stat{background:var(--teal);color:#fff;border-radius:14px;padding:18px 16px}
 @media (prefers-color-scheme: dark){ .stat{background:#0f3535} }
-.stat b{display:block;font-family:"Spectral",serif;font-size:1.9rem;line-height:1}
+.stat b{display:block;font-family:"Manrope",sans-serif;font-size:1.9rem;line-height:1}
 .stat span{font-size:.82rem;opacity:.9}
 @media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
 
@@ -122,8 +125,8 @@ tr:last-child td{border-bottom:none}
 .tl{position:relative;margin:20px 0 4px;padding-left:26px;border-left:3px solid var(--line)}
 .tl-item{position:relative;padding-bottom:22px}
 .tl-item::before{content:"";position:absolute;left:-35px;top:4px;width:15px;height:15px;border-radius:50%;background:var(--accent);border:3px solid var(--bg)}
-.tl-item b{font-family:"Spectral",serif;font-size:1.05rem}
-.tl-date{font-family:"JetBrains Mono",monospace;font-size:.78rem;color:var(--accent);font-weight:600}
+.tl-item b{font-family:"Manrope",sans-serif;font-size:1.05rem}
+.tl-date{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--accent);font-weight:600}
 
 /* case study */
 .case{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
@@ -167,7 +170,8 @@ details p{padding-bottom:12px}
 footer{border-top:1px solid var(--line);padding-top:20px;margin-top:48px}
 .src{font-size:.88rem} .src li{margin-bottom:8px;word-break:break-word}
 .verified-note{font-size:.85rem;color:var(--muted)}
-</style>
+.grad{background:linear-gradient(90deg,#4ADE80,#22D3EE);-webkit-background-clip:text;background-clip:text;color:transparent}
+  </style>
 </head>
 <body>
 <div class="wrap">
@@ -187,7 +191,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;margin-top:48px}
 
   <header class="hero">
     <div class="eyebrow">University of Canterbury · Selandia Baru · Riset 11 November 2026</div>
-    <h1>DRRE691: disertasi <em>60 poin</em> di jantung gelar MDRR-mu</h1>
+    <h1><span class="grad">DRRE691</span>: disertasi <em>60 poin</em> di jantung gelar MDRR-mu</h1>
     <p class="lede">Nanti di <strong>Master of Disaster Risk and Resilience (MDRR)</strong> — gelar profesional <strong>180 poin</strong> — komponen risetmu bukan tesis MSc yang besar, melainkan <strong>DRRE691 Professional Project in Disaster Risk and Resilience</strong>: proyek riset individual yang terfokus, dikerjakan dalam <strong>empat bulan</strong> di bawah supervisi anggota Disaster Risk and Resilience Group. Halaman ini merangkum gambaran lengkapnya dari sumber resmi UC — termasuk tiga koreksi penting atas asumsi awal, satu contoh proyek nyata, dan hal-hal yang memang <em>belum dipublikasikan</em> UC sampai sekarang.</p>
 
     <div class="quote">
