@@ -5,39 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="data:," />
-    <meta name="description" content="Koleksi panduan dan riset Scott untuk Master of Disaster Risk and Resilience (MDRR), University of Canterbury, plus riset AI Agent dan spatial regression." />
-    <title>Jafoam Muse Knowledge Hub</title>
+    <meta name="description" content="Portfolio dan perpustakaan pengetahuan Scott — Panduan Kuliah MDRR dan Kehidupan di Christchurch, University of Canterbury, plus riset AI Agent dan spatial regression." />
+    <title>Jafoam — Scott · MDRR UC &amp; Riset</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <style>
+      /* Inspirasi: "Portfolio Website Template" oleh Ivan Fadila, Figma Community
+         (file 1216228084915707510, CC BY 4.0) — dark mode, headline besar dengan
+         gradien hijau-mint ke cyan, kartu slate membulat, tanpa gambar hero. */
       :root {
-        --bg: #F7F3EE;
-        --bg-raised: #FDFBF7;
-        --ink: #1A1A1A;
-        --ink-soft: #4A443C;
-        --ink-faint: #7A7264;
-        --gold: #C4A96A;
-        --gold-deep: #9A7F45;
-        --line: #DDD3C2;
-        --line-soft: #E8E1D3;
-        --card-hover: #FBF8F1;
-        --serif: "Fraunces", "Playfair Display", Georgia, serif;
+        --bg: #0F0F0D;
+        --bg-raised: #1A1D24;
+        --bg-raised-2: #21252F;
+        --ink: #F5F5F1;
+        --ink-soft: #A9A9A2;
+        --ink-faint: #7C7C74;
+        --line: #2A2D36;
+        --line-soft: #23262E;
+        --accent: #4ADE80;
+        --accent-2: #22D3EE;
+        --grad: linear-gradient(90deg, #4ADE80, #22D3EE);
+        --chip: #F5F5F1;
         --sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
         --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
       }
-      @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: light) {
         :root {
-          --bg: #171410;
-          --bg-raised: #1E1A15;
-          --ink: #EFE8DB;
-          --ink-soft: #C9BFA9;
-          --ink-faint: #9A8F7A;
-          --gold: #C4A96A;
-          --gold-deep: #D8C08A;
-          --line: #3A332A;
-          --line-soft: #2C271F;
-          --card-hover: #211C16;
+          --bg: #F7F3EE;
+          --bg-raised: #FFFFFF;
+          --bg-raised-2: #F1EDE4;
+          --ink: #1A1A1A;
+          --ink-soft: #4A443C;
+          --ink-faint: #7A7264;
+          --line: #DDD3C2;
+          --line-soft: #E8E1D3;
+          --chip: #1A1A1A;
         }
       }
 
@@ -57,255 +60,368 @@
         -webkit-font-smoothing: antialiased;
       }
       a { color: inherit; }
-      ::selection { background: var(--gold); color: #1A1A1A; }
+      ::selection { background: var(--accent); color: #0F0F0D; }
 
       .wrap {
-        max-width: 1120px;
+        max-width: 1000px;
         margin: 0 auto;
         padding: 0 24px;
       }
 
-      /* ---------- Navigasi atas (satu-satunya elemen sticky) ---------- */
+      /* ---------- Navigasi ---------- */
       .topbar {
         position: sticky;
         top: 0;
         z-index: 50;
         background: var(--bg);
-        border-bottom: 1px solid var(--line);
+        border-bottom: 1px solid var(--line-soft);
       }
       .topbar-inner {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        height: 56px;
-        white-space: nowrap;
-        overflow: hidden;
+        height: 60px;
       }
       .brand {
-        font-family: var(--serif);
-        font-weight: 600;
-        font-size: 17px;
-        letter-spacing: 0.01em;
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: -0.01em;
         text-decoration: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
-      .brand em {
-        font-style: italic;
-        font-weight: 500;
-        color: var(--gold-deep);
+      .brand span {
+        background: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
       }
-      .topnav {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        flex-shrink: 0;
-      }
+      .topnav { display: flex; align-items: center; gap: 4px; }
       .topnav a {
-        font-family: var(--mono);
-        font-size: 11px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: 600;
         text-decoration: none;
         color: var(--ink-soft);
-        padding: 10px 10px;
-        min-height: 36px;
+        padding: 10px 12px;
+        min-height: 40px;
         display: inline-flex;
         align-items: center;
-        border-radius: 2px;
+        border-radius: 8px;
         transition: color 0.2s ease;
       }
-      .topnav a:hover { color: var(--gold-deep); }
+      .topnav a:hover { color: var(--ink); }
 
       /* ---------- Hero ---------- */
-      .hero {
-        padding: 72px 0 0;
-        text-align: left;
+      .hero { padding: 88px 0 0; }
+      .hero h1 {
+        font-weight: 800;
+        font-size: clamp(38px, 7vw, 68px);
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        margin: 0 0 40px;
+        max-width: 18ch;
       }
-      .eyebrow {
+      .hero h1 .grad {
+        background: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero-intro {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 48px;
+        padding-bottom: 72px;
+      }
+      .intro-label {
         font-family: var(--mono);
         font-size: 11px;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--gold-deep);
-        margin: 0 0 28px;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-      }
-      .eyebrow::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: var(--line);
-      }
-      .hero h1 {
-        font-family: var(--serif);
-        font-weight: 400;
-        font-size: clamp(44px, 8.5vw, 88px);
-        line-height: 1.04;
-        letter-spacing: -0.01em;
-        margin: 0 0 28px;
-        max-width: 12ch;
-      }
-      .hero h1 em {
-        font-style: italic;
-        font-weight: 500;
-        color: var(--gold-deep);
-      }
-      .hero .lead {
-        font-size: clamp(17px, 2.4vw, 20px);
-        line-height: 1.65;
-        color: var(--ink-soft);
-        max-width: 58ch;
-        margin: 0 0 40px;
-      }
-      .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 64px;
-      }
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        min-height: 48px;
-        padding: 12px 26px;
-        font-family: var(--sans);
-        font-size: 15px;
-        font-weight: 600;
-        text-decoration: none;
-        border-radius: 2px;
-        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-      }
-      .btn-solid {
-        background: var(--ink);
-        color: var(--bg);
-        border: 1px solid var(--ink);
-      }
-      .btn-solid:hover { background: var(--gold-deep); border-color: var(--gold-deep); color: #FFFDF8; }
-      .btn-outline {
-        background: transparent;
-        color: var(--ink);
-        border: 1px solid var(--ink);
-      }
-      .btn-outline:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
-      .btn .arr { font-family: var(--serif); font-style: italic; }
-
-      /* ---------- Strip statistik ---------- */
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        border-top: 1px solid var(--line);
-        border-bottom: 1px solid var(--line);
-      }
-      .stat {
-        padding: 26px 20px 24px;
-        text-align: left;
-      }
-      .stat + .stat { border-left: 1px solid var(--line-soft); }
-      .stat .num {
-        font-family: var(--serif);
-        font-size: clamp(32px, 4.5vw, 44px);
-        font-weight: 500;
-        line-height: 1;
-        display: block;
-        margin-bottom: 8px;
-      }
-      .stat .lbl {
-        font-family: var(--mono);
-        font-size: 10.5px;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
         color: var(--ink-faint);
+        margin: 0 0 16px;
       }
-
-      /* ---------- Bagian koleksi ---------- */
-      .section { padding: 76px 0 8px; }
-      .section-head {
+      .bio { display: flex; gap: 18px; align-items: flex-start; }
+      .avatar {
+        flex-shrink: 0;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
         display: flex;
-        align-items: baseline;
-        gap: 18px;
-        margin-bottom: 8px;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 24px;
+        color: #0F0F0D;
+        background: var(--grad);
+        box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--accent);
       }
-      .section-index {
+      .bio p { margin: 0; color: var(--ink-soft); font-size: 15.5px; line-height: 1.7; }
+      .bio p strong { color: var(--ink); }
+      .bio .hl {
+        background: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+      }
+      .start-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+      .start-list a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        text-decoration: none;
+        background: var(--bg-raised);
+        border: 1px solid var(--line-soft);
+        border-radius: 12px;
+        padding: 14px 16px;
+        font-weight: 700;
+        font-size: 15px;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+      .start-list a:hover { border-color: var(--accent); }
+      .start-list a span.meta {
         font-family: var(--mono);
-        font-size: 11px;
-        letter-spacing: 0.2em;
-        color: var(--gold-deep);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        font-weight: 400;
+        text-align: right;
       }
+      .start-list a .arr { color: var(--accent); font-weight: 800; }
+      .hero-stats {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        padding: 20px 0 0;
+        border-top: 1px solid var(--line-soft);
+      }
+      .hero-stats b { color: var(--ink-soft); font-weight: 500; }
+
+      /* ---------- Bagian ---------- */
+      .section { padding: 88px 0 0; }
       .section-head h2 {
-        font-family: var(--serif);
-        font-weight: 500;
-        font-size: clamp(26px, 4vw, 36px);
-        line-height: 1.15;
-        margin: 0;
+        font-weight: 800;
+        font-size: clamp(28px, 4.5vw, 40px);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin: 0 0 12px;
       }
       .section-note {
         color: var(--ink-soft);
-        max-width: 62ch;
-        margin: 6px 0 34px;
-        font-size: 15.5px;
+        max-width: 60ch;
+        margin: 0 0 40px;
+        font-size: 16px;
       }
 
+      /* ---------- Apa yang ada di sini (kartu layanan ala template) ---------- */
+      .focus-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .focus-card {
+        position: relative;
+        display: block;
+        text-decoration: none;
+        background: var(--bg-raised);
+        border: 1px solid var(--line-soft);
+        border-radius: 16px;
+        padding: 40px 22px 24px;
+        margin-top: 24px;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+      .focus-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+      .focus-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      .focus-badge {
+        position: absolute;
+        top: -24px;
+        left: 22px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 800;
+        color: #0F0F0D;
+        background: var(--grad);
+        box-shadow: 0 0 0 4px var(--bg);
+      }
+      .focus-card h3 {
+        font-weight: 800;
+        font-size: 19px;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+        margin: 0 0 10px;
+      }
+      .focus-card p {
+        color: var(--ink-soft);
+        font-size: 14.5px;
+        line-height: 1.65;
+        margin: 0 0 18px;
+      }
+      .focus-card .go { font-weight: 800; font-size: 14px; color: var(--accent); }
+
+      /* ---------- Karya unggulan ---------- */
+      .featured { display: grid; gap: 56px; }
+      .feat {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        align-items: center;
+        text-decoration: none;
+      }
+      .feat-visual {
+        position: relative;
+        border-radius: 16px;
+        min-height: 260px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: linear-gradient(135deg, #1E2A26, #16222E 60%, #1A1D24);
+        border: 1px solid var(--line);
+        overflow: hidden;
+      }
+      @media (prefers-color-scheme: light) {
+        .feat-visual { background: linear-gradient(135deg, #D9F2E3, #D6EEF5 60%, #EFE9DC); }
+      }
+      .feat-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+      .feat-chip {
+        background: var(--chip);
+        color: var(--bg);
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+      .feat-ext {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--bg);
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        font-weight: 800;
+      }
+      .feat-num {
+        font-weight: 800;
+        font-size: clamp(64px, 9vw, 96px);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        color: var(--ink);
+        opacity: 0.9;
+      }
+      .feat-num small {
+        font-size: 18px;
+        letter-spacing: 0;
+        color: var(--ink-soft);
+        display: block;
+        margin-top: 8px;
+      }
+      .feat-body .cat {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin: 0 0 14px;
+      }
+      .feat-body h3 {
+        font-weight: 800;
+        font-size: clamp(26px, 3.6vw, 36px);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        margin: 0 0 14px;
+      }
+      .feat-body p { color: var(--ink-soft); font-size: 15.5px; line-height: 1.7; margin: 0 0 20px; }
+      .feat-body .go { font-weight: 800; font-size: 15px; color: var(--accent); }
+      .feat:hover .feat-body h3 { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+      .see-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 44px;
+        background: var(--bg-raised);
+        border: 1px solid var(--line);
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 12px 22px;
+        font-weight: 700;
+        font-size: 14.5px;
+        text-decoration: none;
+        transition: border-color 0.2s ease;
+      }
+      .see-more:hover { border-color: var(--accent); }
+
+      /* ---------- Koleksi lengkap ---------- */
       .grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 0;
-        border-top: 1px solid var(--line);
-        border-left: 1px solid var(--line);
+        gap: 20px;
       }
       .card {
-        position: relative;
         display: flex;
         flex-direction: column;
         text-decoration: none;
         background: var(--bg-raised);
-        border-right: 1px solid var(--line);
-        border-bottom: 1px solid var(--line);
-        padding: 30px 28px 26px;
-        min-height: 300px;
-        transition: background 0.25s ease;
+        border: 1px solid var(--line-soft);
+        border-radius: 16px;
+        padding: 26px 24px 22px;
+        min-height: 240px;
+        transition: border-color 0.2s ease, transform 0.2s ease;
       }
-      .card:hover { background: var(--card-hover); }
-      .card:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: -2px; }
+      .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+      .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       .card-top {
         display: flex;
         align-items: baseline;
         justify-content: space-between;
         gap: 12px;
-        margin-bottom: 22px;
+        margin-bottom: 18px;
       }
       .card-num {
-        font-family: var(--serif);
-        font-style: italic;
-        font-size: 30px;
-        font-weight: 400;
-        color: var(--gold);
+        font-weight: 800;
+        font-size: 26px;
         line-height: 1;
+        background: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
       }
       .card-tag {
         font-family: var(--mono);
         font-size: 10px;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--ink-faint);
         text-align: right;
       }
       .card h3 {
-        font-family: var(--serif);
-        font-weight: 500;
-        font-size: 23px;
-        line-height: 1.25;
-        margin: 0 0 12px;
+        font-weight: 800;
+        font-size: 20px;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+        margin: 0 0 10px;
       }
       .card p {
         color: var(--ink-soft);
         font-size: 14.5px;
         line-height: 1.65;
-        margin: 0 0 24px;
+        margin: 0 0 20px;
         flex: 1;
       }
       .card-foot {
@@ -314,7 +430,7 @@
         justify-content: space-between;
         gap: 12px;
         border-top: 1px solid var(--line-soft);
-        padding-top: 16px;
+        padding-top: 14px;
       }
       .card-meta {
         font-family: var(--mono);
@@ -323,34 +439,24 @@
         text-transform: uppercase;
         color: var(--ink-faint);
       }
-      .card-open {
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--gold-deep);
-        white-space: nowrap;
-      }
-      .card-open .arr {
-        display: inline-block;
-        transition: transform 0.25s ease;
-      }
+      .card-open { font-size: 14px; font-weight: 800; color: var(--accent); white-space: nowrap; }
+      .card-open .arr { display: inline-block; transition: transform 0.25s ease; }
       .card:hover .card-open .arr { transform: translateX(4px); }
 
       /* ---------- Tentang ---------- */
-      .about {
-        padding: 84px 0 88px;
-      }
+      .about { padding: 88px 0 96px; }
       .about-grid {
         display: grid;
         grid-template-columns: 1fr 2fr;
         gap: 48px;
-        border-top: 1px solid var(--line);
         padding-top: 44px;
+        border-top: 1px solid var(--line-soft);
       }
       .about h2 {
-        font-family: var(--serif);
-        font-weight: 500;
+        font-weight: 800;
         font-size: clamp(26px, 4vw, 34px);
         line-height: 1.2;
+        letter-spacing: -0.02em;
         margin: 0;
       }
       .about-body p {
@@ -361,12 +467,12 @@
         max-width: 62ch;
       }
       .about-body p:last-child { margin-bottom: 0; }
-      .about-body strong { color: var(--ink); font-weight: 700; }
+      .about-body strong { color: var(--ink); }
 
       /* ---------- Footer ---------- */
       footer {
-        border-top: 1px solid var(--line);
-        padding: 34px 0 44px;
+        border-top: 1px solid var(--line-soft);
+        padding: 40px 0 48px;
       }
       .foot-inner {
         display: flex;
@@ -375,12 +481,13 @@
         justify-content: space-between;
         gap: 10px 28px;
       }
-      .foot-brand {
-        font-family: var(--serif);
-        font-size: 16px;
-        font-weight: 600;
+      .foot-brand { font-weight: 800; font-size: 16px; }
+      .foot-brand span {
+        background: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
       }
-      .foot-brand em { font-style: italic; font-weight: 500; color: var(--gold-deep); }
       .foot-meta {
         font-family: var(--mono);
         font-size: 10.5px;
@@ -388,27 +495,34 @@
         text-transform: uppercase;
         color: var(--ink-faint);
       }
+      .foot-links { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+      .foot-links a {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink-soft);
+        text-decoration: none;
+      }
+      .foot-links a:hover { color: var(--ink); }
 
       /* ---------- Responsif ---------- */
       @media (max-width: 900px) {
+        .focus-grid { grid-template-columns: 1fr; }
+        .focus-card { margin-top: 28px; }
         .grid { grid-template-columns: repeat(2, 1fr); }
-        .card { min-height: 280px; }
+        .feat { grid-template-columns: 1fr; gap: 20px; }
+        .feat-visual { min-height: 200px; }
       }
       @media (max-width: 640px) {
         .wrap { padding: 0 18px; }
-        .hero { padding-top: 48px; }
-        .hero-actions { margin-bottom: 48px; }
-        .btn { flex: 1 1 auto; justify-content: center; }
-        .stats { grid-template-columns: repeat(2, 1fr); }
-        .stat:nth-child(3) { border-left: none; }
-        .stat:nth-child(n+3) { border-top: 1px solid var(--line-soft); }
+        .hero { padding-top: 56px; }
+        .hero-intro { grid-template-columns: 1fr; gap: 32px; padding-bottom: 56px; }
         .grid { grid-template-columns: 1fr; }
-        .card { min-height: 0; padding: 26px 22px 22px; }
-        .section { padding-top: 56px; }
-        .about { padding: 64px 0 68px; }
+        .card { min-height: 0; }
+        .section { padding-top: 64px; }
+        .about { padding: 64px 0 72px; }
         .about-grid { grid-template-columns: 1fr; gap: 20px; }
-        .topnav a { padding: 10px 5px; font-size: 10.5px; letter-spacing: 0.1em; }
-        .brand { font-size: 14px; letter-spacing: 0; }
+        .topnav a { padding: 10px 7px; font-size: 13px; }
+        .brand { font-size: 16px; }
       }
     </style>
   </head>
@@ -416,9 +530,11 @@
 
     <header class="topbar">
       <div class="wrap topbar-inner">
-        <a class="brand" href="./">Jafoam Muse <em>Knowledge Hub</em></a>
+        <a class="brand" href="./">Jafoam<span>.</span></a>
         <nav class="topnav" aria-label="Navigasi utama">
+          <a href="./">Home</a>
           <a href="#koleksi">Koleksi</a>
+          <a href="#riset">Riset</a>
           <a href="#tentang">Tentang</a>
         </nav>
       </div>
@@ -428,46 +544,115 @@
       <!-- Hero -->
       <section class="hero">
         <div class="wrap">
-          <p class="eyebrow">Perpustakaan Pengetahuan &bull; Scott &bull; 2026</p>
-          <h1>Jafoam Muse <em>Knowledge Hub</em></h1>
-          <p class="lead">Koleksi panduan dan riset untuk Master of Disaster Risk and Resilience (MDRR), University of Canterbury &mdash; plus riset AI Agent dan spatial regression, dikumpulkan dalam satu tempat.</p>
-          <div class="hero-actions">
-            <a class="btn btn-solid" href="#koleksi">Jelajahi Koleksi <span class="arr">&rarr;</span></a>
-            <a class="btn btn-outline" href="panduan-kuliah-mdrr-uc/">Panduan MDRR</a>
+          <h1>Hi, saya Scott — calon mahasiswa <span class="grad">MDRR</span> yang suka belajar, mendokumentasi, dan berbagi bekal studi.</h1>
+          <div class="hero-intro">
+            <div>
+              <p class="intro-label">Biography</p>
+              <div class="bio">
+                <div class="avatar" aria-hidden="true">S</div>
+                <p>Buff +1 buat belajar, +2 buat dokumentasi, dan buff tambahan buat kerja bareng tim. Saya sedang menyiapkan studi <strong>Master of Disaster Risk and Resilience (MDRR)</strong> di University of Canterbury, Christchurch — dan menuliskan semua bekalnya di sini, dari panduan kuliah sampai hidup sehari-hari di NZ. Yang saya sorot: <span class="hl">MDRR</span>, <span class="hl">Christchurch</span>, dan <span class="hl">riset bencana</span>.</p>
+              </div>
+            </div>
+            <div>
+              <p class="intro-label">Mulai dari sini</p>
+              <ul class="start-list">
+                <li><a href="panduan-kuliah-mdrr-uc/">Panduan Kuliah MDRR <span class="meta">11 bagian</span> <span class="arr">&rarr;</span></a></li>
+                <li><a href="kehidupan-christchurch/">Kehidupan di Christchurch <span class="meta">10 bagian</span> <span class="arr">&rarr;</span></a></li>
+              </ul>
+            </div>
           </div>
-          <div class="stats" role="list" aria-label="Ringkasan koleksi">
-            <div class="stat" role="listitem"><span class="num">6</span><span class="lbl">Halaman</span></div>
-            <div class="stat" role="listitem"><span class="num">40</span><span class="lbl">Tesis UC</span></div>
-            <div class="stat" role="listitem"><span class="num">16</span><span class="lbl">Framework</span></div>
-            <div class="stat" role="listitem"><span class="num">3</span><span class="lbl">Bidang</span></div>
+          <p class="hero-stats"><b>7</b> halaman &nbsp;·&nbsp; <b>40</b> tesis UC &nbsp;·&nbsp; <b>16</b> framework &nbsp;·&nbsp; <b>3</b> bidang &nbsp;·&nbsp; berangkat <b>Feb 2027</b></p>
+        </div>
+      </section>
+
+      <!-- Apa yang ada di sini -->
+      <section class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Apa yang ada di sini</h2>
+          </div>
+          <p class="section-note">Tiga hal yang saya kerjakan di hub ini: menyiapkan kuliah MDRR, menyiapkan hidup di Christchurch, dan meriset cara data dan AI membantu mengurangi risiko bencana.</p>
+          <div class="focus-grid">
+            <a class="focus-card" href="panduan-kuliah-mdrr-uc/">
+              <span class="focus-badge" aria-hidden="true">01</span>
+              <h3>Panduan Kuliah MDRR</h3>
+              <p>Dari lolos seleksi sampai wisuda: mata kuliah, DRRE691, dan dokumen resmi Manaaki.</p>
+              <span class="go">Buka panduan &rarr;</span>
+            </a>
+            <a class="focus-card" href="kehidupan-christchurch/">
+              <span class="focus-badge" aria-hidden="true">02</span>
+              <h3>Hidup di Christchurch</h3>
+              <p>Akomodasi, anggaran, NZTD, bank, IRD, dan komunitas Indonesia — bekal hidup sehari-hari.</p>
+              <span class="go">Buka panduan &rarr;</span>
+            </a>
+            <a class="focus-card" href="#riset">
+              <span class="focus-badge" aria-hidden="true">03</span>
+              <h3>Riset &amp; AI</h3>
+              <p>Framework AI Agent, arsitektur disaster intelligence, dan metode spatial regression.</p>
+              <span class="go">Lihat riset &rarr;</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <!-- Koleksi: MDRR -->
+      <!-- Karya unggulan -->
       <section class="section" id="koleksi">
         <div class="wrap">
           <div class="section-head">
-            <span class="section-index">Bagian I</span>
-            <h2>MDRR &mdash; University of Canterbury</h2>
+            <h2>Karya unggulan</h2>
           </div>
-          <p class="section-note">Panduan kuliah dan bahan persiapan untuk program Master of Disaster Risk and Resilience di University of Canterbury, Christchurch.</p>
-          <div class="grid">
-            <a class="card" href="panduan-kuliah-mdrr-uc/">
-              <div class="card-top">
-                <span class="card-num">01</span>
-                <span class="card-tag">MDRR &middot; Panduan</span>
+          <p class="section-note">Dua panduan utama untuk persiapan studi di Christchurch — kuliahnya sendiri, hidupnya sendiri.</p>
+          <div class="featured">
+            <a class="feat" href="panduan-kuliah-mdrr-uc/">
+              <div class="feat-visual" aria-hidden="true">
+                <div class="feat-chips">
+                  <span class="feat-chip">MDRR</span>
+                  <span class="feat-chip">Manaaki</span>
+                  <span class="feat-chip">UC</span>
+                </div>
+                <span class="feat-ext">&nearr;</span>
+                <span class="feat-num">01<small>11 bagian</small></span>
               </div>
-              <h3>Panduan Kuliah MDRR UC</h3>
-              <p>Panduan lengkap kuliah MDRR dari awal sampai akhir: persiapan, mata kuliah, DRRE691, akomodasi Ilam, anggaran, hidup di Christchurch, dan dokumen resmi Manaaki.</p>
-              <div class="card-foot">
-                <span class="card-meta">MDRR &middot; Manaaki</span>
-                <span class="card-open">Buka <span class="arr">&rarr;</span></span>
+              <div class="feat-body">
+                <p class="cat">Panduan Kuliah</p>
+                <h3>Panduan Kuliah MDRR UC</h3>
+                <p>Panduan lengkap kuliah MDRR dari awal sampai akhir: persiapan, mata kuliah, DRRE691, dan dokumen resmi Manaaki — diklasifikasikan ulang khusus soal kuliah.</p>
+                <span class="go">Buka panduan &rarr;</span>
               </div>
             </a>
+            <a class="feat" href="kehidupan-christchurch/">
+              <div class="feat-visual" aria-hidden="true">
+                <div class="feat-chips">
+                  <span class="feat-chip">Christchurch</span>
+                  <span class="feat-chip">NZTD</span>
+                  <span class="feat-chip">PPI</span>
+                </div>
+                <span class="feat-ext">&nearr;</span>
+                <span class="feat-num">02<small>10 bagian</small></span>
+              </div>
+              <div class="feat-body">
+                <p class="cat">Panduan Hidup</p>
+                <h3>Kehidupan di Christchurch</h3>
+                <p>Semua soal hidup di luar kuliah: akomodasi, anggaran sekitar NZ$317/minggu, transportasi, cuaca empat musim, dan komunitas Indonesia di Christchurch.</p>
+                <span class="go">Buka panduan &rarr;</span>
+              </div>
+            </a>
+          </div>
+          <a class="see-more" href="#riset">Lihat semua koleksi &darr;</a>
+        </div>
+      </section>
+
+      <!-- Koleksi lengkap / riset -->
+      <section class="section" id="riset">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Riset &amp; catatan</h2>
+          </div>
+          <p class="section-note">Riset terapan di persimpangan kecerdasan buatan dan kebencanaan, plus katalog tesis para pendahulu MDRR.</p>
+          <div class="grid">
             <a class="card" href="drre691-professional-project/">
               <div class="card-top">
-                <span class="card-num">02</span>
+                <span class="card-num">03</span>
                 <span class="card-tag">MDRR &middot; Disertasi</span>
               </div>
               <h3>DRRE691 Professional Project</h3>
@@ -479,7 +664,7 @@
             </a>
             <a class="card" href="thesis-mdrr/">
               <div class="card-top">
-                <span class="card-num">03</span>
+                <span class="card-num">04</span>
                 <span class="card-tag">MDRR &middot; Katalog</span>
               </div>
               <h3>Thesis MDRR</h3>
@@ -489,22 +674,9 @@
                 <span class="card-open">Buka <span class="arr">&rarr;</span></span>
               </div>
             </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Koleksi: Riset & AI -->
-      <section class="section">
-        <div class="wrap">
-          <div class="section-head">
-            <span class="section-index">Bagian II</span>
-            <h2>Riset &amp; AI</h2>
-          </div>
-          <p class="section-note">Riset terapan di persimpangan kecerdasan buatan dan kebencanaan: framework AI Agent, arsitektur disaster intelligence, dan metode spatial regression.</p>
-          <div class="grid">
             <a class="card" href="perbandingan-framework-ai-agent-2026/">
               <div class="card-top">
-                <span class="card-num">04</span>
+                <span class="card-num">05</span>
                 <span class="card-tag">AI &middot; Perbandingan</span>
               </div>
               <h3>Perbandingan Framework AI Agent 2026</h3>
@@ -516,7 +688,7 @@
             </a>
             <a class="card" href="arsitektur-disaster-intelligence-agent/">
               <div class="card-top">
-                <span class="card-num">05</span>
+                <span class="card-num">06</span>
                 <span class="card-tag">AI &middot; Arsitektur</span>
               </div>
               <h3>Arsitektur Disaster Intelligence Agent</h3>
@@ -528,7 +700,7 @@
             </a>
             <a class="card" href="perbandingan-spatial-regression-sem-sar-dan-gwr/">
               <div class="card-top">
-                <span class="card-num">06</span>
+                <span class="card-num">07</span>
                 <span class="card-tag">Riset &middot; Statistik Spasial</span>
               </div>
               <h3>Perbandingan Spatial Regression: SEM, SAR, dan GWR</h3>
@@ -558,8 +730,14 @@
 
     <footer>
       <div class="wrap foot-inner">
-        <span class="foot-brand">Jafoam Muse <em>Knowledge Hub</em></span>
-        <span class="foot-meta">Scott &middot; Diperbarui 11 November 2026</span>
+        <span class="foot-brand">Jafoam<span>.</span></span>
+        <nav class="foot-links" aria-label="Tautan footer">
+          <a href="panduan-kuliah-mdrr-uc/">Panduan Kuliah</a>
+          <a href="kehidupan-christchurch/">Kehidupan di Christchurch</a>
+          <a href="thesis-mdrr/">Thesis MDRR</a>
+          <a href="#tentang">Tentang</a>
+        </nav>
+        <span class="foot-meta">Scott &middot; Diperbarui 24 November 2026</span>
       </div>
     </footer>
 
